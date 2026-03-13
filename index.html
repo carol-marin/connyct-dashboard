@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connyct · Metrics Dashboard</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:sans-serif;color:#111;padding:1.5rem;background:#f9f9f9;min-height:100vh}
+    .header{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+    .logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#DB335A,#625BF8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+    h1{font-size:20px;font-weight:600;color:#111}
+    .sub{font-size:13px;color:#888;margin-bottom:1.25rem;padding-left:44px}
+    .tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+    .tab{padding:6px 16px;font-size:13px;border:1px solid #e0e0e0;border-radius:20px;cursor:pointer;background:#fff;color:#666;transition:all .15s}
+    .tab:hover{border-color:#DB335A;color:#DB335A}
+    .tab.active{background:#DB335A;color:#fff;border-color:#DB335A;font-weight:500}
+    .filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;padding:10px 14px;background:#fff;border:1px solid #eee;border-radius:10px}
+    .filter-bar label{font-size:12px;color:#888;white-space:nowrap}
+    .filter-bar input[type=date]{font-size:12px;padding:5px 8px;border:1px solid #ddd;border-radius:6px;color:#111;background:#f9f9f9;cursor:pointer}
+    .filter-bar input[type=date]:focus{outline:none;border-color:#DB335A}
+    .filter-sep{font-size:12px;color:#aaa}
+    .filter-btns{display:flex;gap:6px;margin-left:auto}
+    .fbtn{font-size:11px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#f5f5f5;color:#555;transition:all .15s}
+    .fbtn:hover{border-color:#DB335A;color:#DB335A}
+    .filter-info{font-size:11px;color:#aaa;width:100%}
+    .insights{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+    .insight{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.5}
+    .insight.good{background:#f0fdf7;border:1px solid #9fe1cb}
+    .insight.bad{background:#fff5f7;border:1px solid #f5c4d0}
+    .insight.neutral{background:#f5f5ff;border:1px solid #c5c3f8}
+    .insight-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+    .insight-text{color:#333}
+    .insight-text strong{font-weight:600}
+    .section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#aaa;margin:1.25rem 0 .75rem}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:1.25rem}
+    .card{background:#fff;border:1px solid #eee;border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent,#DB335A)}
+    .card-label{font-size:11px;color:#999;margin-bottom:6px;line-height:1.4}
+    .card-val{font-size:24px;font-weight:600;color:#111;letter-spacing:-0.5px}
+    .card-delta{font-size:12px;margin-top:4px;min-height:16px}
+    .card-desc{font-size:11px;color:#bbb;margin-top:8px;line-height:1.5;border-top:1px solid #f0f0f0;padding-top:7px}
+    .up{color:#1D9E75;font-weight:500}.dn{color:#DB335A;font-weight:500}.neu{color:#aaa}
+    .chart-wrap{background:#fff;border:1px solid #eee;border-radius:12px;padding:18px;margin-bottom:1.25rem}
+    .chart-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .chart-title{font-size:13px;font-weight:600;color:#333;margin-bottom:3px}
+    .chart-desc{font-size:11px;color:#bbb;margin-bottom:10px;line-height:1.5}
+    .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:#777;margin-bottom:10px}
+    .dot{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+    .funnel{display:flex;flex-direction:column;gap:0;margin:12px 0 4px}
+    .funnel-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+    .funnel-bar-wrap{flex:1;background:#f5f5f5;border-radius:6px;height:36px;overflow:hidden;position:relative}
+    .funnel-bar{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;transition:width .6s ease}
+    .funnel-label{font-size:12px;color:#fff;font-weight:500;white-space:nowrap}
+    .funnel-meta{min-width:90px;text-align:right}
+    .funnel-val{font-size:14px;font-weight:600;color:#111}
+    .funnel-pct{font-size:11px;color:#aaa;margin-top:1px}
+    .funnel-arrow{font-size:11px;color:#ccc;text-align:center;margin:2px 0 4px 0;padding-left:4px}
+    .upload-area{border:2px dashed #e0e0e0;border-radius:12px;padding:40px 24px;text-align:center;cursor:pointer;transition:all .2s}
+    .upload-area:hover,.upload-area.drag{border-color:#DB335A;background:#fff5f7}
+    .upload-area input{display:none}
+    .upload-icon{font-size:28px;margin-bottom:10px}
+    .upload-title{font-size:14px;font-weight:600;margin-bottom:5px;color:#333}
+    .upload-sub{font-size:12px;color:#aaa;margin-bottom:16px}
+    .upload-btn{display:inline-block;padding:8px 20px;border-radius:20px;border:none;background:#DB335A;cursor:pointer;font-size:13px;color:#fff;font-weight:500}
+    .upload-log{margin-top:14px;font-size:12px;color:#555;background:#f9f9f9;border:1px solid #eee;border-radius:8px;padding:12px;text-align:left;min-height:40px;white-space:pre-wrap;line-height:1.6}
+    .no-data{text-align:center;padding:40px;color:#bbb;font-size:13px}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">C</div>
+  <h1>Connyct · Metrics Dashboard</h1>
+</div>
+<p class="sub">Daily performance comparison</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="setView('overview')">Overview</button>
+  <button class="tab" onclick="setView('engagement')">Engagement</button>
+  <button class="tab" onclick="setView('retention')">Retention</button>
+  <button class="tab" onclick="setView('growth')">Growth</button>
+  <button class="tab" onclick="setView('funnel')">Funnel</button>
+  <button class="tab" onclick="setView('add')">+ Add Data</button>
+</div>
+
+<div id="filter-block">
+  <div class="filter-bar">
+    <label>From</label>
+    <input type="date" id="f-from" onchange="applyFilter()">
+    <span class="filter-sep">→</span>
+    <label>To</label>
+    <input type="date" id="f-to" onchange="applyFilter()">
+    <div class="filter-btns">
+      <button class="fbtn" onclick="setPreset('all')">All</button>
+      <button class="fbtn" onclick="setPreset('7d')">Last 7d</button>
+      <button class="fbtn" onclick="setPreset('today')">Latest</button>
+    </div>
+    <div class="filter-info" id="filter-info"></div>
+  </div>
+</div>
+
+<div id="view-overview"></div>
+<div id="view-engagement" style="display:none"></div>
+<div id="view-retention" style="display:none"></div>
+<div id="view-growth" style="display:none"></div>
+<div id="view-funnel" style="display:none"></div>
+<div id="view-add" style="display:none">
+  <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()"
+    ondragover="event.preventDefault();this.classList.add('drag')"
+    ondragleave="this.classList.remove('drag')"
+    ondrop="handleDrop(event)">
+    <input type="file" id="file-input" accept=".docx,.csv,.xlsx,.xls,.pdf" onchange="handleFile(this.files[0])">
+    <div class="upload-icon">📄</div>
+    <div class="upload-title">Drop your file here or click to browse</div>
+    <div class="upload-sub">Supports .docx, .csv, .xlsx, .xls, .pdf</div>
+    <span class="upload-btn">Choose file</span>
+  </div>
+  <div class="upload-log" id="upload-log">Waiting for file…</div>
+  <p style="font-size:11px;color:#ccc;margin-top:8px">File is parsed locally — metrics are added to the dashboard automatically.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+var C={primary:'#DB335A',s1:'#625BF8',s2:'#4360F3',green:'#1D9E75',amber:'#BA7517'};
+var DESCS={
+  profiles:'Every account ever created on Connyct — the total size of our user base.',
+  active30:'Unique users who did something in the app at least once in the past 30 days. Our core measure of whether people are actually using the product.',
+  mau:'Monthly Active Users: unique users who took any action in the current calendar month. A high MAU relative to total profiles means most users are sticking around.',
+  wau:'Weekly Active Users: unique users who took any action this calendar week. Shows short-term momentum.',
+  dau:'Daily Active Users: unique users who took any action on a given day. A healthy app sees consistent daily activity even outside of campaigns.',
+  newUsers30:'How many people created an account in the last 30 days — our monthly acquisition rate.',
+  d7:'Of users who joined 1–2 weeks ago, how many returned within 7 days. Tells us whether new users find enough value to come back.',
+  d30:'Of users who joined 1–2 months ago, how many are still active. The strongest signal of long-term product-market fit.',
+  wow:'Of users active last week, how many came back this week. A high number means we have a habit-forming product.',
+  churn:'Percentage of users lost each month. Lower is better.',
+  content30:'Posts published in the last 30 days. Strong content creation keeps the platform alive.',
+  onboard:'Percentage of new users who completed onboarding. Tells us whether our signup flow is working.'
+};
+var allData=[
+  {date:'2026-03-09',label:'Mar 9', profiles:7125,active30:1146,mau:249, wau:34, dau:11,newUsers30:1163,d7:17.1,d30:15.1,wow:22.0,churn:75.6,content30:906,onboard:86.1,newUsers7:108,reachedHome:93},
+  {date:'2026-03-10',label:'Mar 10',profiles:7136,active30:1156,mau:277, wau:72, dau:14,newUsers30:1170,d7:14.7,d30:14.3,wow:21.3,churn:75.5,content30:908,onboard:84.8,newUsers7:79, reachedHome:67},
+  {date:'2026-03-11',label:'Mar 11',profiles:7210,active30:1208,mau:337, wau:141,dau:14,newUsers30:1240,d7:9.7, d30:13.8,wow:15.7,churn:75.7,content30:911,onboard:88.5,newUsers7:122,reachedHome:108},
+  {date:'2026-03-12',label:'Mar 12',profiles:7245,active30:1231,mau:371, wau:178,dau:18,newUsers30:1266,d7:9.3, d30:14.5,wow:14.2,churn:74.9,content30:916,onboard:89.0,newUsers7:145,reachedHome:129}
+];
+var filtered=allData.slice(),charts={},currentView='overview';
+
+function initFilter(){
+  var dates=allData.map(function(d){return d.date;}).sort();
+  document.getElementById('f-from').value=dates[0];
+  document.getElementById('f-to').value=dates[dates.length-1];
+  applyFilter(true);
+}
+function applyFilter(silent){
+  var from=document.getElementById('f-from').value,to=document.getElementById('f-to').value;
+  filtered=allData.filter(function(d){return(!from||d.date>=from)&&(!to||d.date<=to);});
+  filtered.sort(function(a,b){return a.date.localeCompare(b.date);});
+  var info=filtered.length===0?'No data for selected range.':filtered.length===1?'Showing 1 day: '+filtered[0].label:'Showing '+filtered.length+' days: '+filtered[0].label+' – '+filtered[filtered.length-1].label;
+  document.getElementById('filter-info').textContent=info;
+  if(!silent)rerender();
+}
+function setPreset(p){
+  var dates=allData.map(function(d){return d.date;}).sort(),last=dates[dates.length-1];
+  if(p==='all'){document.getElementById('f-from').value=dates[0];document.getElementById('f-to').value=last;}
+  else if(p==='today'){document.getElementById('f-from').value=last;document.getElementById('f-to').value=last;}
+  else if(p==='7d'){var d=new Date(last);d.setDate(d.getDate()-6);document.getElementById('f-from').value=d.toISOString().slice(0,10);document.getElementById('f-to').value=last;}
+  applyFilter();
+}
+function rerender(){
+  Object.values(charts).forEach(function(c){c.destroy();});charts={};
+  if(currentView==='overview')renderOverview();
+  else if(currentView==='engagement')renderEngagement();
+  else if(currentView==='retention')renderRetention();
+  else if(currentView==='growth')renderGrowth();
+  else if(currentView==='funnel')renderFunnel();
+}
+function fmt(n,dec){dec=dec===undefined?0:dec;if(n==null)return'—';return Number(n).toLocaleString('en-US',{maximumFractionDigits:dec,minimumFractionDigits:dec});}
+function delta(curr,prev,higherBetter,pct){
+  if(prev==null)return'';
+  var d=curr-prev,better=higherBetter!==false?d>0:d<0,cls=d===0?'neu':(better?'up':'dn'),sign=d>0?'▲ +':'▼ ';
+  return '<span class="'+cls+'">'+sign+fmt(Math.abs(d),pct?1:0)+(pct?'%':'')+'</span>';
+}
+function card(label,key,val,d,suffix,accent){
+  suffix=suffix||'';d=d||'';accent=accent||C.primary;
+  var pctSpan=suffix==='%'?'<span style="font-size:14px;font-weight:400;color:#aaa">%</span>':'';
+  var desc=DESCS[key]?'<div class="card-desc">'+DESCS[key]+'</div>':'';
+  return '<div class="card" style="--accent:'+accent+'"><div class="card-label">'+label+'</div><div class="card-val">'+fmt(val)+pctSpan+'</div><div class="card-delta">'+d+'</div>'+desc+'</div>';
+}
+function noData(){return '<div class="no-data">No data for the selected date range.</div>';}
+function destroyChart(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+function makeChart(id,type,labels,datasets,opts){
+  destroyChart(id);
+  var ctx=document.getElementById(id);if(!ctx)return;
+  var scaleY={grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11},color:'#aaa'}};
+  var scaleX={grid:{display:false},ticks:{font:{size:11},color:'#aaa'}};
+  if(opts&&opts.yMin!==undefined)scaleY.min=opts.yMin;
+  if(opts&&opts.yMax!==undefined)scaleY.max=opts.yMax;
+  var dlPlugin={id:'dl',afterDatasetsDraw:function(chart){var ctx2=chart.ctx;chart.data.datasets.forEach(function(ds,i){var meta=chart.getDatasetMeta(i);meta.data.forEach(function(pt,j){var val=ds.data[j];if(val==null)return;var lbl=opts&&opts.pct?val.toFixed(1)+'%':val.toLocaleString('en-US');ctx2.save();ctx2.font='bold 11px sans-serif';ctx2.fillStyle='#555';ctx2.textAlign='center';ctx2.textBaseline='bottom';ctx2.fillText(lbl,pt.x,pt.y-6);ctx2.restore();});});}};
+  charts[id]=new Chart(ctx,{type:type,data:{labels:labels,datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',titleColor:'#333',bodyColor:'#666',borderColor:'#eee',borderWidth:1,padding:10}},scales:(type==='line'||type==='bar')?{x:scaleX,y:scaleY}:{}},plugins:[dlPlugin]});
+}
+function lineDs(key,color){return{data:filtered.map(function(d){return d[key];}),borderColor:color,backgroundColor:color+'18',tension:0.35,pointRadius:6,pointBackgroundColor:'#fff',pointBorderColor:color,pointBorderWidth:2.5,fill:true,borderWidth:2.5};}
+function barDs(key,color){return{data:filtered.map(function(d){return d[key];}),backgroundColor:color+'cc',borderColor:color,borderWidth:0,borderRadius:5,borderSkipped:false};}
+function getLabels(){return filtered.map(function(d){return d.label;});}
+function chartBox(id,title,desc,height,extra,pct){var d2=desc?'<div class="chart-desc">'+desc+'</div>':'';return'<div class="chart-wrap"><div class="chart-title">'+title+'</div>'+d2+(extra||'')+'<div style="height:'+height+'px;position:relative;margin-top:10px"><canvas id="'+id+'"></canvas></div></div>';}
+
+function buildInsights(last,prev,view){
+  var items=[];if(!last||!prev)return'';
+  if(view==='overview'){var mauD=last.mau-prev.mau,mauPct=((mauD/prev.mau)*100).toFixed(1);if(mauD>0)items.push({type:'good',icon:'📈',text:'<strong>MAU grew '+mauPct+'%</strong> from '+fmt(prev.mau)+' to '+fmt(last.mau)+' — strong monthly momentum.'});else if(mauD<0)items.push({type:'bad',icon:'📉',text:'<strong>MAU dropped '+Math.abs(mauPct)+'%</strong> from '+fmt(prev.mau)+' to '+fmt(last.mau)+'.'});var dauD=last.dau-prev.dau;if(dauD>0)items.push({type:'good',icon:'✅',text:'<strong>DAU up '+dauD+'</strong> vs prior day ('+fmt(prev.dau)+' → '+fmt(last.dau)+').'});}
+  if(view==='retention'){var d7D=last.d7-prev.d7;if(d7D<-2)items.push({type:'bad',icon:'⚠️',text:'<strong>D7 retention fell '+Math.abs(d7D.toFixed(1))+'pp</strong> ('+prev.d7.toFixed(1)+'% → '+last.d7.toFixed(1)+'%). New users are churning faster — worth investigating onboarding quality.'});else if(d7D>1)items.push({type:'good',icon:'✅',text:'<strong>D7 retention improved '+d7D.toFixed(1)+'pp</strong> ('+prev.d7.toFixed(1)+'% → '+last.d7.toFixed(1)+'%).'});var cD=last.churn-prev.churn;if(cD<0)items.push({type:'good',icon:'📉',text:'<strong>Churn dropped '+Math.abs(cD.toFixed(1))+'pp</strong> — fewer users going quiet this month.'});else if(cD>0.5)items.push({type:'bad',icon:'⚠️',text:'<strong>Churn increased '+cD.toFixed(1)+'pp</strong> to '+last.churn.toFixed(1)+'%. Over 3 in 4 monthly users are not returning.'});}
+  if(view==='engagement'){var wD=last.wau-prev.wau;if(wD>0)items.push({type:'good',icon:'📊',text:'<strong>WAU up '+wD+'</strong> this week ('+fmt(prev.wau)+' → '+fmt(last.wau)+').'});var coD=last.content30-prev.content30;if(coD>0)items.push({type:'neutral',icon:'✍️',text:'<strong>'+coD+' more posts</strong> published in the last 30 days vs prior snapshot.'});}
+  if(view==='growth'){var oD=last.onboard-prev.onboard;if(oD>1)items.push({type:'good',icon:'🚀',text:'<strong>Onboarding conversion up '+oD.toFixed(1)+'pp</strong> — more new users are reaching the core product.'});else if(oD<-1)items.push({type:'bad',icon:'⚠️',text:'<strong>Onboarding conversion dropped '+Math.abs(oD).toFixed(1)+'pp</strong> — users dropping off before seeing the product.'});}
+  if(!items.length)return'';
+  return'<div class="insights">'+items.map(function(it){return'<div class="insight '+it.type+'"><span class="insight-icon">'+it.icon+'</span><span class="insight-text">'+it.text+'</span></div>';}).join('')+'</div>';
+}
+
+function renderOverview(){
+  var el=document.getElementById('view-overview');if(!filtered.length){el.innerHTML=noData();return;}
+  var last=filtered[filtered.length-1],prev=filtered.length>1?filtered[filtered.length-2]:null;
+  el.innerHTML=buildInsights(last,prev,'overview')+'<div class="section-label">Latest snapshot · '+last.label+'</div><div class="cards">'+card('Total Profiles','profiles',last.profiles,prev?delta(last.profiles,prev.profiles):'','',C.primary)+card('Active Users (30d)','active30',last.active30,prev?delta(last.active30,prev.active30):'','',C.s1)+card('MAU','mau',last.mau,prev?delta(last.mau,prev.mau):'','',C.s2)+card('DAU','dau',last.dau,prev?delta(last.dau,prev.dau):'','',C.primary)+card('New Users (30d)','newUsers30',last.newUsers30,prev?delta(last.newUsers30,prev.newUsers30):'','',C.s1)+card('Onboarding','onboard',last.onboard,prev?delta(last.onboard,prev.onboard,true,true):'','%',C.s2)+'</div><div class="chart-row">'+chartBox('ch-prof','Total profiles over time','',190)+chartBox('ch-act','Active users (30d)','',190)+'</div>';
+  setTimeout(function(){makeChart('ch-prof','line',getLabels(),[lineDs('profiles',C.primary)]);makeChart('ch-act','line',getLabels(),[lineDs('active30',C.s1)]);},50);
+}
+function renderEngagement(){
+  var el=document.getElementById('view-engagement');if(!filtered.length){el.innerHTML=noData();return;}
+  var last=filtered[filtered.length-1],prev=filtered.length>1?filtered[filtered.length-2]:null;
+  var leg='<div class="legend"><span><span class="dot" style="background:'+C.primary+'"></span>MAU</span><span><span class="dot" style="background:'+C.s1+'"></span>WAU</span><span><span class="dot" style="background:'+C.s2+'"></span>DAU</span></div>';
+  el.innerHTML=buildInsights(last,prev,'engagement')+'<div class="section-label">Engagement</div><div class="cards">'+card('MAU','mau',last.mau,prev?delta(last.mau,prev.mau):'','',C.primary)+card('WAU','wau',last.wau,prev?delta(last.wau,prev.wau):'','',C.s1)+card('DAU','dau',last.dau,prev?delta(last.dau,prev.dau):'','',C.s2)+card('Content (30d)','content30',last.content30,prev?delta(last.content30,prev.content30):'','',C.primary)+'</div>'+chartBox('ch-eng','MAU / WAU / DAU over time','',230,leg)+chartBox('ch-con','Content published (30d)','',170);
+  setTimeout(function(){makeChart('ch-eng','line',getLabels(),[lineDs('mau',C.primary),lineDs('wau',C.s1),lineDs('dau',C.s2)]);makeChart('ch-con','bar',getLabels(),[barDs('content30',C.s1)]);},50);
+}
+function renderRetention(){
+  var el=document.getElementById('view-retention');if(!filtered.length){el.innerHTML=noData();return;}
+  var last=filtered[filtered.length-1],prev=filtered.length>1?filtered[filtered.length-2]:null;
+  var leg='<div class="legend"><span><span class="dot" style="background:'+C.primary+'"></span>D7</span><span><span class="dot" style="background:'+C.s1+'"></span>D30</span><span><span class="dot" style="background:'+C.s2+'"></span>WoW</span></div>';
+  el.innerHTML=buildInsights(last,prev,'retention')+'<div class="section-label">Retention</div><div class="cards">'+card('D7 Retention','d7',last.d7,prev?delta(last.d7,prev.d7,true,true):'','%',C.primary)+card('D30 Retention','d30',last.d30,prev?delta(last.d30,prev.d30,true,true):'','%',C.s1)+card('WoW Retention','wow',last.wow,prev?delta(last.wow,prev.wow,true,true):'','%',C.s2)+card('30d Churn','churn',last.churn,prev?delta(last.churn,prev.churn,false,true):'','%',C.primary)+'</div>'+chartBox('ch-ret','Retention rates (%)','',230,leg,true)+chartBox('ch-churn','30-day churn rate (%)','',170,'',true);
+  setTimeout(function(){makeChart('ch-ret','line',getLabels(),[lineDs('d7',C.primary),lineDs('d30',C.s1),lineDs('wow',C.s2)],{pct:true});makeChart('ch-churn','line',getLabels(),[lineDs('churn',C.primary)],{pct:true});},50);
+}
+function renderGrowth(){
+  var el=document.getElementById('view-growth');if(!filtered.length){el.innerHTML=noData();return;}
+  var last=filtered[filtered.length-1],prev=filtered.length>1?filtered[filtered.length-2]:null;
+  el.innerHTML=buildInsights(last,prev,'growth')+'<div class="section-label">Growth</div><div class="cards">'+card('New Users (30d)','newUsers30',last.newUsers30,prev?delta(last.newUsers30,prev.newUsers30):'','',C.primary)+card('Total Profiles','profiles',last.profiles,prev?delta(last.profiles,prev.profiles):'','',C.s1)+card('Onboarding','onboard',last.onboard,prev?delta(last.onboard,prev.onboard,true,true):'','%',C.s2)+'</div>'+chartBox('ch-grow','Total profiles (cumulative)','',210)+chartBox('ch-onb','Onboarding conversion (%)','',170,'',true);
+  setTimeout(function(){makeChart('ch-grow','line',getLabels(),[lineDs('profiles',C.primary)]);makeChart('ch-onb','bar',getLabels(),[barDs('onboard',C.s2)],{yMin:80,yMax:95,pct:true});},50);
+}
+function renderFunnel(){
+  var el=document.getElementById('view-funnel');if(!filtered.length){el.innerHTML=noData();return;}
+  var last=filtered[filtered.length-1],prev=filtered.length>1?filtered[filtered.length-2]:null;
+  var steps=[{label:'New signups (7d)',val:last.newUsers7,color:C.s2},{label:'Reached home feed',val:last.reachedHome,color:C.s1},{label:'Active in 30d',val:last.active30,color:C.primary},{label:'Still active (D30)',val:Math.round(last.active30*(last.d30/100)),color:'#BA7517'}];
+  var max=steps[0].val||1;
+  var rows=steps.map(function(s,i){var pct=((s.val/max)*100).toFixed(0);var convPct=i===0?null:((s.val/(steps[i-1].val||1))*100).toFixed(1);var arrow=i>0?'<div class="funnel-arrow">▼ '+convPct+'% conversion from previous step</div>':'';return arrow+'<div class="funnel-row"><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+pct+'%;background:'+s.color+'"><span class="funnel-label">'+s.label+'</span></div></div><div class="funnel-meta"><div class="funnel-val">'+fmt(s.val)+'</div><div class="funnel-pct">'+pct+'% of top</div></div></div>';}).join('');
+  var prevRows='';
+  if(prev&&prev.newUsers7){var pS=[{label:'New signups (7d)',val:prev.newUsers7},{label:'Reached home feed',val:prev.reachedHome},{label:'Active in 30d',val:prev.active30},{label:'Still active (D30)',val:Math.round(prev.active30*(prev.d30/100))}];prevRows='<div class="section-label" style="margin-top:1.5rem">Previous snapshot · '+prev.label+'</div><div class="funnel" style="opacity:.55">'+pS.map(function(s){var p=((s.val/(pS[0].val||1))*100).toFixed(0);return'<div class="funnel-row"><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+p+'%;background:#aaa"><span class="funnel-label">'+s.label+'</span></div></div><div class="funnel-meta"><div class="funnel-val">'+fmt(s.val)+'</div><div class="funnel-pct">'+p+'% of top</div></div></div>';}).join('')+'</div>';}
+  var dropOff=last.newUsers7&&last.reachedHome?last.newUsers7-last.reachedHome:0;
+  var insightHtml='';
+  if(last.newUsers7){var lost=((dropOff/last.newUsers7)*100).toFixed(1);insightHtml='<div class="insights"><div class="insight '+(dropOff>10?'bad':'good')+'"><span class="insight-icon">'+(dropOff>10?'⚠️':'✅')+'</span><span class="insight-text"><strong>'+dropOff+' users ('+lost+'%) dropped off during onboarding</strong> — they signed up but never reached the home feed.</span></div></div>';}
+  el.innerHTML=insightHtml+'<div class="section-label">Acquisition funnel · '+last.label+'</div><div class="chart-wrap"><div class="chart-desc">Tracks users from signup through to retained activity. Each step shows how many users made it to the next stage.</div><div class="funnel">'+rows+'</div></div>'+prevRows;
+}
+function setView(v){
+  currentView=v;
+  var views=['overview','engagement','retention','growth','funnel','add'];
+  views.forEach(function(n,i){document.getElementById('view-'+n).style.display=n===v?'block':'none';document.querySelectorAll('.tab')[i].classList.toggle('active',n===v);});
+  document.getElementById('filter-block').style.display=v==='add'?'none':'block';
+  rerender();
+}
+function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('drag');var f=e.dataTransfer.files[0];if(f)handleFile(f);}
+function log(msg){document.getElementById('upload-log').textContent=msg;}
+function parseNum(s){if(!s)return null;var n=parseFloat(String(s).replace(/[^0-9.\-]/g,''));return isNaN(n)?null:n;}
+function extractFromText(text,filename){
+  log('Parsing: '+filename+'\nAnalyzing…');var entry={};
+  var alt=text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s\-,]+(\d{1,2})[\s,]+(\d{4})/i);
+  var dateRaw=text.match(/(\d{2})[\/\-](\d{2})[\/\-](\d{4})/);
+  if(alt){var mm={jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};entry.date=alt[3]+'-'+mm[alt[1].toLowerCase().slice(0,3)]+'-'+(alt[2].length===1?'0':'')+alt[2];entry.label=alt[1].slice(0,3)+' '+alt[2];}
+  else if(dateRaw){entry.date='2026-'+dateRaw[1]+'-'+dateRaw[2];entry.label=dateRaw[1]+'/'+dateRaw[2];}
+  function grab(pats){for(var i=0;i<pats.length;i++){var m=text.match(pats[i]);if(m)return parseNum(m[1]);}return null;}
+  entry.profiles=grab([/Total Profiles[\s\S]{0,60}?\*\*?([\d,]+)\*\*?/i,/Total Profiles[^\d]+([\d,]+)/i]);
+  entry.active30=grab([/Active Users \(Last 30[^\d]+([\d,]+)/i]);
+  entry.mau=grab([/MAU[^\d*]+([\d,]+)/i]);
+  entry.wau=grab([/WAU[^\d*]+([\d,]+)/i]);
+  entry.dau=grab([/DAU[^\d*]+\*\*?([\d,]+)\*\*?/i,/DAU[^\d]+([\d]+)/i]);
+  entry.newUsers30=grab([/New Users[\s\S]{0,60}?Last 30[\s\S]{0,60}?\*\*?([\d,]+)/i,/New Users[^\d]+([\d,]+)/i]);
+  entry.newUsers7=grab([/Last 7[\s\S]{0,80}?New Users[^\d]+([\d,]+)/i]);
+  entry.reachedHome=grab([/Users Reached HOME[^\d]+([\d,]+)/i]);
+  entry.d7=grab([/D7 Retention[^\d]+([\d.]+)/i]);
+  entry.d30=grab([/D30 Retention[^\d]+([\d.]+)/i]);
+  entry.wow=grab([/Week-over-Week Retention[^\d]+([\d.]+)/i]);
+  entry.churn=grab([/30-Day Churn Rate[^\d]+([\d.]+)/i]);
+  entry.content30=grab([/New Content Published[^\d]+([\d,]+)/i]);
+  entry.onboard=grab([/Onboarding Conversion[^\d]+([\d.]+)/i]);
+  var found=Object.keys(entry).filter(function(k){return k!=='date'&&k!=='label'&&entry[k]!=null;});
+  if(!found.length){log('Could not extract metrics. Check the file format.');return;}
+  if(!entry.date)entry.date=new Date().toISOString().slice(0,10);
+  if(!entry.label)entry.label=new Date(entry.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  var idx=allData.findIndex(function(d){return d.date===entry.date;});
+  if(idx>=0){allData[idx]=Object.assign(allData[idx],entry);log('Updated entry for '+entry.label+'.\nExtracted: '+found.join(', '));}
+  else{allData.push(entry);allData.sort(function(a,b){return a.date.localeCompare(b.date);});log('Added entry for '+entry.label+'.\nExtracted: '+found.join(', '));}
+  initFilter();
+}
+function handleFile(file){
+  if(!file)return;var name=file.name.toLowerCase();log('Reading '+file.name+'…');
+  if(name.endsWith('.docx')){var r=new FileReader();r.onload=function(e){mammoth.extractRawText({arrayBuffer:e.target.result}).then(function(res){extractFromText(res.value,file.name);}).catch(function(){log('Error reading .docx');});};r.readAsArrayBuffer(file);}
+  else if(name.endsWith('.xlsx')||name.endsWith('.xls')||name.endsWith('.csv')){var r2=new FileReader();r2.onload=function(e){try{var wb=XLSX.read(e.target.result,{type:'array'});extractFromText(XLSX.utils.sheet_to_csv(wb.Sheets[wb.SheetNames[0]]),file.name);}catch(err){log('Error: '+err.message);}};r2.readAsArrayBuffer(file);}
+  else if(name.endsWith('.pdf')){var r3=new FileReader();r3.onload=function(e){var b=new Uint8Array(e.target.result),t='';for(var i=0;i<b.length;i++)t+=String.fromCharCode(b[i]);extractFromText(t.replace(/[^\x20-\x7E\n]/g,' '),file.name);};r3.readAsArrayBuffer(file);}
+  else log('Unsupported file type.');
+}
+initFilter();
+setView('overview');
+</script>
+</body>
+</html>
