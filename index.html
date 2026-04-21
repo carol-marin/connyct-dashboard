@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Connyct — Product Backlog</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:       #EEEEF2;
+  --surface:  #FFFFFF;
+  --surface2: #F7F7FA;
+  --surface3: #EFEFF4;
+  --border:   #E4E4EC;
+  --border2:  #D0D0DC;
+  --text:     #111118;
+  --text2:    #6B6B82;
+  --text3:    #A0A0B8;
+  --accent:   #FF5C35;
+  --accent-bg:#FFF0EC;
+  --green:    #12B76A;
+  --green-bg: #ECFDF3;
+  --amber:    #F59E0B;
+  --amber-bg: #FFFBEB;
+  --purple:   #7C3AED;
+  --purple-bg:#F5F3FF;
+  --blue:     #2563EB;
+  --blue-bg:  #EFF6FF;
+  --rose:     #E11D48;
+  --rose-bg:  #FFF1F2;
+  --slate:    #64748B;
+  --slate-bg: #F8FAFC;
+  --r:        14px;
+  --r-sm:     8px;
+  --r-lg:     20px;
+  --shadow:   0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Geist', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── GLOBAL NAV ── */
+.global-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  padding: 0 32px;
+}
+.global-nav-inner {
+  max-width: 1160px; margin: 0 auto;
+  display: flex; align-items: center; gap: 2px; height: 56px;
+}
+.nav-brand {
+  font-size: 15px; font-weight: 700; color: var(--text);
+  margin-right: 24px; letter-spacing: -.02em; flex-shrink: 0;
+}
+.nav-tab {
+  padding: 6px 14px; border-radius: var(--r-sm);
+  border: none; background: transparent;
+  font-size: 13.5px; font-weight: 500; color: var(--text2);
+  cursor: pointer; font-family: inherit; transition: all .15s;
+}
+.nav-tab:hover { background: var(--surface3); color: var(--text); }
+.nav-tab.active {
+  background: var(--text); color: #fff;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; padding: 32px; max-width: 1160px; margin: 0 auto; }
+.screen.active { display: block; }
+
+/* ── TOP HEADER ── */
+.top-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; flex-wrap: wrap;
+  gap: 12px; margin-bottom: 24px;
+}
+h1 {
+  font-size: 26px; font-weight: 700; color: var(--text);
+  letter-spacing: -.03em; line-height: 1.2;
+}
+.top-sub { color: var(--text2); font-size: 13.5px; margin-top: 4px; font-weight: 400; }
+
+/* ── VIEW TOGGLE ── */
+.view-toggle {
+  display: flex; gap: 2px;
+  background: var(--surface3); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 3px; flex-shrink: 0;
+}
+.vtb {
+  padding: 5px 12px; border-radius: 6px; border: none;
+  background: transparent; color: var(--text2);
+  font-size: 12.5px; cursor: pointer; font-family: inherit;
+  transition: all .15s; font-weight: 500;
+}
+.vtb.active {
+  background: var(--surface); color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── SUMMARY CARDS ── */
+.summary-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.sum-card {
+  flex: 1 1 100px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .15s;
+}
+.sum-card:hover { box-shadow: var(--shadow); }
+.sum-val {
+  font-size: 22px; font-weight: 700;
+  font-family: 'Geist Mono', monospace;
+  color: var(--text); letter-spacing: -.02em;
+}
+.sum-lbl {
+  font-size: 11px; color: var(--text3); margin-top: 3px;
+  font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
+}
+
+/* ── TOOLBAR ── */
+.toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.filter-row { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; flex: 1; }
+.filter-btn {
+  padding: 5px 13px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface); color: var(--text2);
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: inherit; transition: all .15s;
+  box-shadow: var(--shadow-sm);
+}
+.filter-btn:hover { border-color: var(--border2); color: var(--text); }
+.filter-btn.active {
+  background: var(--text); border-color: var(--text); color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+/* ── SAVE BANNER ── */
+.save-banner {
+  display: none; position: sticky; top: 64px; z-index: 100;
+  margin-bottom: 20px; background: var(--text);
+  border-radius: var(--r); padding: 12px 20px;
+  align-items: center; gap: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+}
+.save-banner.visible { display: flex; }
+.save-banner-msg { font-size: 13px; color: rgba(255,255,255,.6); flex: 1; }
+.save-banner-msg strong { color: #fff; }
+.save-btn {
+  padding: 7px 18px; border-radius: var(--r-sm); border: none;
+  background: var(--accent); color: #fff;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: inherit; white-space: nowrap; transition: opacity .15s;
+}
+.save-btn:hover { opacity: .88; }
+.discard-btn {
+  padding: 7px 14px; border-radius: var(--r-sm);
+  border: 1px solid rgba(255,255,255,.2); background: transparent;
+  color: rgba(255,255,255,.5); font-size: 13px; font-weight: 500;
+  cursor: pointer; font-family: inherit; white-space: nowrap; transition: all .15s;
+}
+.discard-btn:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+
+/* ── STATUS BADGES ── */
+.status-badge {
+  font-size: 11px; font-weight: 600; border-radius: 20px;
+  padding: 2px 9px; white-space: nowrap; flex-shrink: 0;
+  cursor: pointer; transition: opacity .15s;
+}
+.status-badge:hover { opacity: .75; }
+.s-backlog    { background: var(--slate-bg); color: var(--slate); border: 1px solid #E2E8F0; }
+.s-planned    { background: var(--purple-bg); color: var(--purple); border: 1px solid #DDD6FE; }
+.s-inprogress { background: var(--amber-bg); color: #B45309; border: 1px solid #FDE68A; }
+.s-done       { background: var(--green-bg); color: var(--green); border: 1px solid #A7F3D0; }
+.s-deprecated { background: var(--slate-bg); color: var(--text3); border: 1px solid var(--border); text-decoration: line-through; }
+.s-paused     { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; }
+
+/* ── STATUS DROPDOWN ── */
+.status-dropdown {
+  position: fixed; z-index: 9999; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--r);
+  box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: 4px; min-width: 148px; display: none;
+}
+.status-dropdown.open { display: block; }
+.status-opt {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: var(--r-sm);
+  cursor: pointer; font-size: 12.5px; font-weight: 500; color: var(--text);
+  transition: background .1s;
+}
+.status-opt:hover { background: var(--surface3); }
+.status-opt-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── EPIC CARDS (Card View) ── */
+.epics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+.epic-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); border-top-width: 2.5px;
+  box-shadow: var(--shadow-sm); transition: box-shadow .15s, border-color .15s;
+}
+.epic-card:hover { box-shadow: var(--shadow); border-color: var(--border2); }
+.epic-hdr {
+  padding: 14px 16px; display: flex; align-items: center;
+  gap: 10px; border-bottom: 1px solid var(--border);
+}
+.epic-icon { font-size: 18px; flex-shrink: 0; }
+.epic-title { font-size: 13.5px; font-weight: 600; color: var(--text); }
+.epic-count {
+  margin-left: auto; font-size: 11px; font-weight: 500;
+  color: var(--text3); background: var(--surface3);
+  padding: 2px 8px; border-radius: 20px; flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.epic-body { padding: 0 16px 8px; display: flex; flex-direction: column; }
+/* ── FEATURE ROWS (shared) ── */
+.feature-row,
+.list-feature-row {
+  display: flex; align-items: center;
+  gap: 8px; min-height: 40px;
+  border-bottom: 1px solid var(--surface2);
+}
+.feature-row { padding: 0 4px; }
+.list-feature-row { padding: 0 16px; }
+.feature-row:last-child,
+.list-feature-row:last-child { border-bottom: none; }
+
+.feature-name {
+  flex: 1; min-width: 0;
+  font-size: 12.5px; color: var(--text2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.row-badges {
+  display: flex; align-items: center; gap: 5px;
+  flex-shrink: 0;
+}
+
+.feature-hrs {
+  font-size: 10px; color: var(--text3); font-weight: 500;
+  white-space: nowrap; flex-shrink: 0;
+  background: var(--surface3); border: 1px solid var(--border);
+  border-radius: 5px; padding: 1px 7px;
+  font-family: 'Geist Mono', monospace;
+}
+
+.detail-btn {
+  font-size: 11px; font-weight: 600; color: var(--accent);
+  background: var(--accent-bg); border: none;
+  border-radius: var(--r-sm); padding: 3px 10px; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0; transition: opacity .15s;
+  font-family: inherit; display: none;
+}
+.detail-btn:hover { opacity: .8; }
+.feature-row:hover .detail-btn,
+.list-feature-row:hover .detail-btn { display: inline-block; }
+.add-feature-input {
+  flex: 1; font-size: 12.5px; padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  outline: none; font-family: inherit; background: var(--surface3); color: var(--text);
+  transition: border-color .15s;
+}
+.add-feature-input::placeholder { color: var(--text3); }
+.add-feature-input:focus { border-color: var(--accent); background: var(--surface); }
+.add-feature-btn {
+  font-size: 11.5px; font-weight: 600; color: #fff;
+  background: var(--text); border: none; border-radius: var(--r-sm);
+  padding: 6px 12px; cursor: pointer; font-family: inherit; transition: opacity .15s;
+}
+.add-feature-btn:hover { opacity: .8; }
+.add-epic-card {
+  background: var(--surface); border: 1.5px dashed var(--border);
+  border-radius: var(--r-lg); display: flex; align-items: center;
+  justify-content: center; min-height: 100px; cursor: pointer;
+  flex-direction: column; gap: 8px; transition: all .15s;
+  box-shadow: var(--shadow-sm);
+}
+.add-epic-card:hover { border-color: var(--accent); background: var(--accent-bg); }
+.add-epic-label { font-size: 13px; font-weight: 500; color: var(--text3); }
+.add-epic-card:hover .add-epic-label { color: var(--accent); }
+
+.feature-row:hover .detail-btn,
+.list-feature-row:hover .detail-btn { display: inline-block; }
+
+.epic-tag {
+  font-size: 10px; font-weight: 600;
+  background: var(--amber-bg); color: #92400E;
+  border: 1px solid #FDE68A; border-radius: 5px;
+  padding: 1px 6px; flex-shrink: 0; white-space: nowrap;
+}
+.tbd-msg { font-size: 12px; color: var(--text3); font-style: italic; padding: 8px 0; }
+.add-feature-row {
+  display: flex; gap: 6px; padding: 8px 0 6px;
+  border-top: 1px dashed var(--border); margin-top: 2px;
+}
+
+/* ── LIST VIEW ── */
+.epics-list { display: flex; flex-direction: column; gap: 6px; }
+.list-group {
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); background: var(--surface);
+  overflow: hidden;
+}
+.list-epic-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 16px; background: var(--surface);
+  border-left: 3px solid #ccc; cursor: pointer; user-select: none;
+  transition: background .1s; min-height: 44px;
+}
+.list-epic-hdr:hover { background: var(--surface2); }
+.list-collapse-icon {
+  font-size: 9px; color: var(--text3); margin-left: auto;
+  transition: transform .2s; flex-shrink: 0;
+}
+.list-features-body {
+  background: var(--surface); border-top: 1px solid var(--surface2);
+}
+.list-features-body.collapsed { display: none; }
+.list-tbd {
+  font-size: 12px; color: var(--text3); font-style: italic;
+  padding: 10px 16px;
+}
+.list-add-row {
+  display: flex; gap: 6px;
+  padding: 8px 16px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.35); z-index: 200;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--surface); border-radius: var(--r-lg);
+  padding: 28px; width: 90%; max-width: 420px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.15);
+  border: 1px solid var(--border);
+}
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; letter-spacing: -.01em; }
+.modal-field { margin-bottom: 16px; }
+.modal-label {
+  font-size: 11px; font-weight: 600; color: var(--text2);
+  margin-bottom: 6px; display: block;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.modal-input {
+  width: 100%; font-size: 13.5px; padding: 9px 12px;
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  outline: none; font-family: inherit; background: var(--surface3); color: var(--text);
+  transition: border-color .15s;
+}
+.modal-input:focus { border-color: var(--accent); background: var(--surface); }
+.emoji-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.emoji-opt {
+  font-size: 18px; width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-sm); border: 1.5px solid transparent;
+  cursor: pointer; background: var(--surface3); transition: all .1s;
+}
+.emoji-opt:hover { background: var(--surface2); }
+.emoji-opt.selected { border-color: var(--accent); background: var(--accent-bg); }
+.color-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.color-opt {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2.5px solid transparent; cursor: pointer; transition: transform .1s;
+}
+.color-opt:hover { transform: scale(1.15); }
+.color-opt.selected { border-color: var(--text); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+.btn-cancel {
+  padding: 8px 18px; border-radius: var(--r-sm);
+  border: 1px solid var(--border); background: var(--surface3);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  color: var(--text2); font-family: inherit; transition: all .15s;
+}
+.btn-cancel:hover { color: var(--text); border-color: var(--border2); }
+.btn-create {
+  padding: 8px 18px; border-radius: var(--r-sm); border: none;
+  background: var(--text); color: #fff;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: inherit; transition: opacity .15s;
+}
+.btn-create:hover { opacity: .85; }
+
+/* ── ROADMAP ── */
+.breadcrumb {
+  font-size: 12px; color: var(--text3); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.breadcrumb-link { color: var(--accent); font-weight: 500; cursor: pointer; }
+.breadcrumb-link:hover { text-decoration: underline; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tab {
+  padding: 7px 16px; border-radius: var(--r-sm);
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text2); font-weight: 500; font-size: 13px; cursor: pointer;
+  font-family: inherit; transition: all .15s; box-shadow: var(--shadow-sm);
+}
+.tab:hover { color: var(--text); border-color: var(--border2); }
+.tab.active { background: var(--text); color: #fff; border-color: var(--text); }
+.kpi-bar {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px 20px; margin-bottom: 16px;
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+.kpi-item { display: flex; flex-direction: column; gap: 2px; min-width: 80px; }
+.kpi-val { font-size: 20px; font-weight: 700; font-family: 'Geist Mono', monospace; letter-spacing: -.02em; }
+.kpi-lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; }
+.kpi-divider { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
+.kpi-progress { flex: 1; min-width: 200px; }
+.kpi-progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-bottom: 6px; }
+.kpi-track { background: var(--surface3); border-radius: 99px; height: 8px; overflow: hidden; display: flex; }
+.sprint-banner {
+  background: var(--amber-bg); border: 1px solid #FDE68A;
+  border-radius: var(--r); padding: 16px 20px; margin-bottom: 16px;
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start;
+}
+.sprint-banner-title { font-size: 13px; font-weight: 700; color: #92400E; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.sprint-banner-sub { font-size: 11px; color: #B45309; }
+.sprint-items { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.sprint-chip { font-size: 11px; font-weight: 600; border-radius: var(--r-sm); padding: 3px 10px; border: 1px solid; }
+.sprint-chip-chat { background: #FFF7ED; color: #C2410C; border-color: #FED7AA; }
+.sprint-chip-bug { background: var(--rose-bg); color: var(--rose); border-color: #FECDD3; }
+.tl-box { background: var(--surface); border-radius: var(--r); border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+.tl-scroll { overflow-x: auto; }
+.tl-inner { min-width: 900px; }
+.cov-summary { background: var(--surface); border-radius: var(--r); border: 1px solid var(--border); padding: 20px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-label { width: 130px; font-size: 11px; font-weight: 600; color: var(--text2); flex-shrink: 0; }
+.bar-track2 { flex: 1; background: var(--surface3); border-radius: 6px; height: 8px; overflow: hidden; display: flex; }
+.bar-fill { height: 100%; }
+.bar-count { width: 90px; font-size: 11px; color: var(--text2); text-align: right; flex-shrink: 0; }
+.rd-filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.rd-filter-btn {
+  padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text2); font-size: 12px; font-weight: 500; cursor: pointer;
+  font-family: inherit; box-shadow: var(--shadow-sm); transition: all .15s;
+}
+.rd-filter-btn.active { background: var(--text); border-color: var(--text); color: #fff; }
+.phase-card { background: var(--surface); border-radius: var(--r); overflow: hidden; margin-bottom: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.phase-hdr { padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+.phase-hdr-num { width: 34px; height: 34px; border-radius: var(--r-sm); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+.pills { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
+.pill { font-size: 11px; border-radius: var(--r-sm); padding: 2px 10px; font-weight: 600; color: #fff; }
+.pill-gray { font-size: 11px; border-radius: var(--r-sm); padding: 2px 8px; background: var(--surface3); color: var(--text2); }
+.section-title { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 7px; }
+.story-card { border-radius: var(--r-sm); overflow: hidden; border-style: solid; border-width: 1px; border-left-width: 3px; }
+.story-card.done       { background: var(--green-bg); border-color: #A7F3D0; border-left-color: var(--green); }
+.story-card.inprogress { background: var(--amber-bg); border-color: #FDE68A; border-left-color: var(--amber); }
+.story-card.testing    { background: var(--blue-bg); border-color: #BFDBFE; border-left-color: var(--blue); }
+.story-card.todo       { background: var(--slate-bg); border-color: var(--border); border-left-color: #CBD5E1; }
+.story-card.bug        { background: var(--rose-bg); border-color: #FECDD3; border-left-color: var(--rose); }
+.story-card.other      { background: var(--purple-bg); border-color: #DDD6FE; border-left-color: var(--purple); }
+.story-card.hidden { display: none; }
+.story-body { padding: 10px 12px; }
+.story-meta { display: flex; justify-content: space-between; margin-bottom: 3px; align-items: center; gap: 4px; flex-wrap: wrap; }
+.story-id { font-size: 10px; font-family: 'Geist Mono', monospace; font-weight: 500; color: var(--text3); }
+.story-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.badge { font-size: 10px; border-radius: 20px; padding: 1px 7px; font-weight: 600; }
+.badge-native     { background: var(--green-bg); color: var(--green); }
+.badge-custom     { background: var(--amber-bg); color: #854D0E; }
+.badge-done       { background: var(--green-bg); color: var(--green); }
+.badge-inprogress { background: var(--amber-bg); color: #92400E; }
+.badge-testing    { background: var(--blue-bg); color: var(--blue); }
+.badge-todo       { background: var(--slate-bg); color: var(--slate); }
+.badge-bug        { background: var(--rose-bg); color: var(--rose); }
+.badge-other      { background: var(--purple-bg); color: var(--purple); }
+.story-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.story-foot { display: flex; justify-content: space-between; margin-top: 2px; }
+.story-frame { font-size: 10px; color: var(--text3); }
+.story-hrs2 { font-size: 10px; color: var(--text3); font-weight: 600; font-family: 'Geist Mono', monospace; }
+.rd-view { display: none; } .rd-view.active { display: block; }
+.sections-wrap { padding: 12px 20px; display: flex; flex-direction: column; gap: 14px; }
+.footer {
+  background: var(--text); border-radius: var(--r-lg);
+  padding: 18px 24px; display: flex; flex-wrap: wrap; gap: 16px;
+  align-items: center; justify-content: space-between; margin-top: 24px;
+}
+.footer-title { font-size: 17px; font-weight: 700; color: #fff; }
+.footer-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 2px; }
+/* ── KPI DRAWER ── */
+.sum-card {
+  cursor: pointer;
+}
+.sum-card:hover .sum-lbl { color: var(--text2); }
+
+.kpi-drawer-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.25); z-index: 300;
+  backdrop-filter: blur(2px);
+  animation: fadeIn .2s ease;
+}
+.kpi-drawer-overlay.open { display: block; }
+
+.kpi-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 420px; max-width: 95vw;
+  background: var(--surface); z-index: 301;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .28s cubic-bezier(.4,0,.2,1);
+  box-shadow: -8px 0 40px rgba(0,0,0,.12);
+  border-left: 1px solid var(--border);
+}
+.kpi-drawer.open { transform: translateX(0); }
+
+.kpi-drawer-hdr {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 24px 24px 16px; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.kpi-drawer-label {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text3); margin-bottom: 4px;
+}
+.kpi-drawer-count {
+  font-size: 22px; font-weight: 700; color: var(--text);
+  font-family: 'Geist Mono', monospace; letter-spacing: -.02em;
+}
+.kpi-drawer-close {
+  width: 30px; height: 30px; border-radius: var(--r-sm);
+  border: 1px solid var(--border); background: var(--surface3);
+  color: var(--text2); font-size: 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .15s; font-family: inherit;
+}
+.kpi-drawer-close:hover { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+
+.kpi-drawer-body {
+  flex: 1; overflow-y: auto; padding: 16px 24px 24px;
+  display: flex; flex-direction: column;
+}
+.kpi-drawer-body::-webkit-scrollbar { width: 4px; }
+.kpi-drawer-body::-webkit-scrollbar-track { background: transparent; }
+.kpi-drawer-body::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+.kpi-item-group {
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--surface);
+  margin-bottom: 8px;
+  display: flex; flex-direction: column;
+}
+.kpi-item-group:last-child { margin-bottom: 0; }
+.kpi-item-group-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--r) var(--r) 0 0;
+  font-size: 12px; font-weight: 600; color: var(--text);
+  flex-shrink: 0;
+}
+.kpi-item-group-hdr .epic-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.kpi-item-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 14px; min-height: 40px;
+  border-bottom: 1px solid var(--surface2);
+  flex-shrink: 0;
+}
+.kpi-item-row:last-child { border-bottom: none; }
+.kpi-item-name {
+  flex: 1; min-width: 0; color: var(--text);
+  font-size: 12.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.kpi-item-hrs {
+  font-size: 10px; color: var(--text3); font-weight: 500;
+  background: var(--surface3); border: 1px solid var(--border);
+  border-radius: 5px; padding: 1px 7px; flex-shrink: 0;
+  font-family: 'Geist Mono', monospace;
+}
+.kpi-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 48px 24px; text-align: center;
+  color: var(--text3); gap: 12px;
+}
+.kpi-empty-icon {
+  font-size: 32px; width: 56px; height: 56px;
+  background: var(--surface3); border: 1px solid var(--border);
+  border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── DRAG & DROP ── */
+.drag-handle {
+  cursor: grab; color: var(--text3); font-size: 13px;
+  flex-shrink: 0; user-select: none;
+  opacity: 0; transition: opacity .15s;
+  line-height: 1; width: 16px; text-align: center;
+}
+.drag-handle:active { cursor: grabbing; }
+.feature-row:hover .drag-handle,
+.list-feature-row:hover .drag-handle { opacity: 1; }
+.epic-hdr:hover .epic-drag-handle,
+.list-epic-hdr:hover .epic-drag-handle { opacity: 1; }
+.epic-drag-handle { font-size: 14px; }
+
+.dragging-epic  { opacity: .4; transform: scale(.98); box-shadow: 0 8px 32px rgba(0,0,0,.12) !important; }
+.dragging-feature { opacity: .4; background: var(--surface3) !important; }
+
+.drop-indicator {
+  height: 2px; background: var(--accent);
+  border-radius: 99px; margin: 2px 0;
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(255,92,53,.4);
+  animation: dropPulse .6s ease infinite alternate;
+}
+@keyframes dropPulse { from { opacity: .7; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+<!-- GLOBAL NAV -->
+<nav class="global-nav">
+  <div class="global-nav-inner">
+    <span class="nav-brand">Connyct</span>
+    <button class="nav-tab active" id="nav-backlog" onclick="switchScreen('backlog')">📋 Backlog</button>
+  </div>
+</nav>
+
+<!-- STATUS DROPDOWN -->
+<div class="status-dropdown" id="status-dropdown">
+  <div class="status-opt" onclick="applyStatus('backlog')"><span class="status-opt-dot" style="background:#94a3b8"></span>Backlog</div>
+  <div class="status-opt" onclick="applyStatus('planned')"><span class="status-opt-dot" style="background:#6d28d9"></span>Planned</div>
+  <div class="status-opt" onclick="applyStatus('inprogress')"><span class="status-opt-dot" style="background:#f59e0b"></span>In Progress</div>
+  <div class="status-opt" onclick="applyStatus('done')"><span class="status-opt-dot" style="background:#22c55e"></span>Done</div>
+  <div class="status-opt" onclick="applyStatus('deprecated')"><span class="status-opt-dot" style="background:#cbd5e1"></span>Deprecated</div>
+  <div class="status-opt" onclick="applyStatus('paused')"><span class="status-opt-dot" style="background:#f97316"></span>Paused</div>
+</div>
+
+<!-- BACKLOG -->
+<div class="screen active" id="screen-backlog">
+  <!-- SAVE BANNER -->
+  <div class="save-banner" id="save-banner">
+    <div class="save-banner-msg"><strong>Unsaved changes</strong> — your edits haven't been saved yet.</div>
+    <button class="discard-btn" onclick="discardChanges()">Discard</button>
+    <button class="save-btn" onclick="saveChanges()">💾 Save changes</button>
+  </div>
+  <div class="top-header">
+    <div>
+      <h1>Product Backlog</h1>
+      <p class="top-sub">All epics, feature sets and prioritization status</p>
+    </div>
+    <div class="view-toggle">
+      <button class="vtb" id="btn-cards" onclick="setView('cards')">⊞ Cards</button>
+      <button class="vtb active" id="btn-list" onclick="setView('list')">☰ List</button>
+    </div>
+  </div>
+  <div class="summary-row" id="summary-row"></div>
+  <div class="toolbar">
+    <div class="filter-row">
+      <span style="font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-right:4px">Filter:</span>
+      <button class="filter-btn active" data-key="all" onclick="filterEpics('all',this)">All</button>
+      <button class="filter-btn" data-key="backlog" onclick="filterEpics('backlog',this)">📋 Backlog</button>
+      <button class="filter-btn" data-key="planned" onclick="filterEpics('planned',this)">🗓 Planned</button>
+      <button class="filter-btn" data-key="inprogress" onclick="filterEpics('inprogress',this)">🔄 In Progress</button>
+      <button class="filter-btn" data-key="done" onclick="filterEpics('done',this)">✅ Done</button>
+      <button class="filter-btn" data-key="paused" onclick="filterEpics('paused',this)">⏸ Paused</button>
+      <button class="filter-btn" data-key="deprecated" onclick="filterEpics('deprecated',this)">🚫 Deprecated</button>
+    </div>
+  </div>
+  <div class="epics-grid" id="epics-grid"></div>
+  <div class="epics-list" id="epics-list" style="display:none"></div>
+  <div class="footer">
+    <div><div class="footer-title">Connyct Product Backlog</div><div class="footer-sub">Click "View Plan →" on any feature to see its full implementation plan</div></div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="screen" id="screen-roadmap">
+  <div class="breadcrumb">
+    <span class="breadcrumb-link" onclick="goBack()">← Product Backlog</span>
+    <span>›</span><span id="bc-epic" style="color:#94a3b8"></span>
+    <span>›</span><span id="bc-feature" style="color:#0f172a;font-weight:600"></span>
+  </div>
+  <div class="top-header">
+    <div>
+      <div class="top-label">Implementation Plan</div>
+      <h1 id="rd-title">Chat / SubChats</h1>
+      <p class="top-sub">5 Phases · 5 devs · 7 Weekly Sprints</p>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchRdTab('timeline',event)">📅 Timeline</button>
+      <button class="tab" onclick="switchRdTab('coverage',event)">📋 Breakdown</button>
+      <button class="tab" onclick="switchRdTab('beta',event)">🧪 Beta — Available for Testing</button>
+    </div>
+  </div>
+  <div class="kpi-bar" id="kpi-bar"></div>
+  <div class="sprint-banner" id="sprint-banner">
+    <div style="flex:1;min-width:200px">
+      <div class="sprint-banner-title">🔄 Sprint 4 — In Progress <span style="font-size:11px;font-weight:600;background:#fde68a;color:#92400e;padding:2px 8px;border-radius:6px;">Mar 25 – Mar 31, 2026</span></div>
+      <div class="sprint-banner-sub">Currently active sprint · 7 items in progress</div>
+      <div class="sprint-items">
+        <span class="sprint-chip sprint-chip-chat">4.1.6 Add Members</span>
+        <span class="sprint-chip sprint-chip-chat">4.1.7 Redirection after creation</span>
+        <span class="sprint-chip sprint-chip-chat">Organization Icon</span>
+        <span class="sprint-chip sprint-chip-chat">Delete Account</span>
+        <span class="sprint-chip sprint-chip-bug">🔴 "Chat Not Found" Error</span>
+        <span class="sprint-chip sprint-chip-bug">🔴 Error Updating Profile</span>
+        <span class="sprint-chip sprint-chip-bug">🔴 Profile Edits Not Saved</span>
+      </div>
+    </div>
+    <div style="text-align:right;flex-shrink:0">
+      <div style="font-size:11px;color:#b45309;font-weight:600;margin-bottom:4px">Up next — Sprint 5</div>
+      <div style="font-size:11px;color:#92400e">To be defined</div>
+    </div>
+  </div>
+  <div id="rd-view-timeline" class="rd-view active"><div class="tl-box"><div class="tl-scroll"><div class="tl-inner" id="tl-inner"></div></div></div></div>
+  <div id="rd-view-coverage" class="rd-view"><div class="cov-summary"><div id="phase-bars"></div></div><div class="rd-filter-row" id="rd-filter-row"></div><div id="phase-cards"></div></div>
+  <div id="rd-view-beta" class="rd-view"></div>
+  <div class="footer">
+    <div><div class="footer-title">Chat / SubChats — Implementation Plan</div><div class="footer-sub">Mar 4 – Apr 21, 2026 · 7 sprints · 612h estimated</div></div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-size:11px;color:#64748b;margin-bottom:2px">Kickoff</div><div style="font-size:13px;font-weight:700;color:#e2e8f0">Mar 4, 2026</div></div>
+      <div style="text-align:center"><div style="font-size:11px;color:#64748b;margin-bottom:2px">Full Delivery</div><div style="font-size:13px;font-weight:700;color:#e2e8f0">Apr 21, 2026</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- KPI DRAWER -->
+<div class="kpi-drawer-overlay" id="kpi-drawer-overlay" onclick="closeKpiDrawer()"></div>
+<div class="kpi-drawer" id="kpi-drawer">
+  <div class="kpi-drawer-hdr">
+    <div>
+      <div class="kpi-drawer-label" id="kpi-drawer-label"></div>
+      <div class="kpi-drawer-count" id="kpi-drawer-count"></div>
+    </div>
+    <button class="kpi-drawer-close" onclick="closeKpiDrawer()">✕</button>
+  </div>
+  <div class="kpi-drawer-body" id="kpi-drawer-body"></div>
+</div>
+
+<!-- EPIC MODAL -->
+<div class="modal-overlay" id="epic-modal" onclick="if(event.target===this)closeEpicModal()">
+  <div class="modal-box">
+    <div class="modal-title">✨ New Epic</div>
+    <div class="modal-field"><label class="modal-label">Title</label><input class="modal-input" id="epic-name" placeholder="e.g. Notifications" maxlength="40"/></div>
+    <div class="modal-field"><label class="modal-label">Icon</label><div class="emoji-grid" id="emoji-grid"></div></div>
+    <div class="modal-field"><label class="modal-label">Color</label><div class="color-grid" id="color-grid"></div></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEpicModal()">Cancel</button>
+      <button class="btn-create" onclick="createEpic()">Create Epic</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const BSTATUS={
+  backlog:{label:"Backlog",cls:"s-backlog"},
+  planned:{label:"Planned",cls:"s-planned"},
+  inprogress:{label:"In Progress",cls:"s-inprogress"},
+  done:{label:"Done",cls:"s-done"},
+  deprecated:{label:"Deprecated",cls:"s-deprecated"},
+  paused:{label:"Paused",cls:"s-paused"}
+};
+const EMOJIS=["🎥","🎵","🎟","🏢","🤖","📺","📱","💰","📣","👤","🛠","🪙","📡","💘","🏠","🔍","🚀","🔔","💬","🌍","🎮","📊","🧩","⚡","🎨","🔐","🌟","❤️","🏆","🎯"];
+const COLORS=["#6366f1","#ec4899","#f59e0b","#10b981","#8b5cf6","#0ea5e9","#64748b","#f43f5e","#f97316","#06b6d4","#ca8a04","#475569","#ef4444","#22c55e","#3b82f6"];
+let selEmoji=EMOJIS[0],selColor=COLORS[0],curFilters=new Set(),curView="list";
+
+const EPICS=[
+  {id:"msfv",icon:"🎥",title:"MSFV",color:"#6366f1",features:[
+    {name:"1.5X / 2X Video Speed",status:"backlog",hours:null},
+    {name:"Record Style / Snap vs tapping w/ pictures",status:"backlog",hours:null},
+    {name:"Algorithm",status:"backlog",hours:null},
+    {name:"Libraries — all videos by school / same music",status:"backlog",hours:null},
+    {name:"Icon to 'Use' Song",status:"backlog",hours:null},
+    {name:"Recording seconds indicator (red box)",status:"backlog",hours:null},
+  ]},
+  {id:"music",icon:"🎵",title:"Music",color:"#ec4899",features:[
+    {name:"Original Video Sound (user sound shows as theirs)",status:"backlog",hours:null},
+    {name:"Trending Musics",status:"backlog",hours:null},
+  ]},
+  {id:"events",icon:"🎟",title:"Events",color:"#f59e0b",features:[
+    {name:"Venue Page for Venues",status:"backlog",hours:null},
+    {name:"Enable third-party non-students to create org accounts",status:"backlog",hours:null},
+    {name:"Aftermath",status:"backlog",hours:null},
+    {name:"Barcode / 4-digit pin to get into events",status:"backlog",hours:null},
+  ]},
+  {id:"orgs",icon:"🏢",title:"Orgs",color:"#10b981",features:[
+    {name:"Create Events",status:"done",hours:null},
+    {name:"Publish Content",status:"done",hours:null},
+    {name:"View Organization Profile Page",status:"done",hours:null},
+    {name:"Discover Organizations",status:"done",hours:null},
+    {name:"Calendar",status:"done",hours:null},
+    {name:"Chat / SubChats",status:"inprogress",hours:612,detail:"chat"},
+    {name:"Privacy Settings",status:"backlog",hours:null},
+    {name:"Announcements",status:"backlog",hours:null},
+  ]},
+  {id:"campusai",icon:"🤖",title:"CampusAI",color:"#8b5cf6",features:[
+    {name:"Design",status:"backlog",hours:null},
+    {name:"Integration",status:"backlog",hours:null},
+    {name:"Expansion",status:"backlog",hours:null},
+    {name:"Events Integration",status:"backlog",hours:null},
+  ]},
+  {id:"channels",icon:"📺",title:"Channels",color:"#0ea5e9",features:[
+    {name:"Post College",status:"backlog",hours:null},
+    {name:"High School",status:"backlog",hours:null},
+    {name:"Other Channels (News / Comedy)",status:"backlog",hours:null},
+    {name:"Create your own Channel",status:"backlog",hours:null},
+  ]},
+  {id:"android",icon:"📱",title:"Android / International",color:"#64748b",features:[
+    {name:"Android",status:"planned",hours:null},
+    {name:"India Requirements",status:"planned",hours:null},
+  ]},
+  {id:"revenue",icon:"💰",title:"Revenue Models",color:"#f43f5e",features:[
+    {name:"Social Commerce",status:"backlog",hours:null},
+    {name:"Venue Sponsorships",status:"backlog",hours:null},
+    {name:"Ads / Streaming Ads",status:"backlog",hours:null},
+  ]},
+  {id:"marketing",icon:"📣",title:"Marketing",color:"#f97316",features:[
+    {name:"Apps Flyer",status:"planned",hours:null},
+    {name:"Restore Meta Ads Tracking",status:"planned",hours:null},
+  ]},
+  {id:"profile",icon:"👤",title:"Profile",color:"#06b6d4",features:[
+    {name:"Edit Email",status:"backlog",hours:null},
+    {name:"Verify Email",status:"backlog",hours:null},
+    {name:"Remove 'Add Friend' feature",status:"backlog",hours:null},
+    {name:"Connyct Finder",status:"backlog",hours:null},
+  ]},
+  {id:"admin",icon:"🛠",title:"Admin Panel",color:"#475569",features:[
+    {name:"Automate Push Notifications",status:"backlog",hours:null},
+    {name:"Manage / Update Trending Musics",status:"backlog",hours:null},
+    {name:"Create University Accounts",status:"backlog",hours:null},
+  ]},
+  {id:"tokens",icon:"🪙",title:"Tokens",color:"#ca8a04",features:[]},
+  {id:"livestream",icon:"📡",title:"Live Streaming",color:"#ef4444",features:[]},
+  {id:"dating",icon:"💘",title:"Dating",color:"#f43f5e",features:[]},
+  {id:"walkmehome",icon:"🏠",title:"Walk me Home",color:"#10b981",features:[]},
+  {id:"friendfinder",icon:"🔍",title:"FriendFinder",color:"#6366f1",features:[]},
+  {id:"shippable",icon:"🚀",title:"Shippable",color:"#0ea5e9",features:[]},
+  {id:"bugs",icon:"🔴",title:"Bugs",color:"#f43f5e",isBugEpic:true,features:[
+    {name:"Shared Event Link Does Not Display Video for External Users",status:"backlog",hours:null,epic:"Events"},
+    {name:"Followed users appear as unfollowed",status:"backlog",hours:null,epic:"Profile"},
+    {name:"Scrolling through profile videos does not maintain list order and jumps to first video",status:"backlog",hours:null,epic:"Profile"},
+    {name:"Profiles are automatically skipped in the Following tab (Beta)",status:"backlog",hours:null,epic:"Profile"},
+    {name:"Unable to edit event picture/video",status:"backlog",hours:null,epic:"Events"},
+  ]},
+];
+
+// ── SUMMARY ───────────────────────────────────────────────────────────────────
+function buildSummary(){
+  const bugEpic=EPICS.find(e=>e.isBugEpic);
+  const allF=EPICS.flatMap(e=>e.features);
+  const features=EPICS.filter(e=>!e.isBugEpic).flatMap(e=>e.features);
+  const epicsCount=EPICS.filter(e=>!e.isBugEpic).length;
+  const inprogress=allF.filter(f=>f.status==="inprogress");
+  const done=allF.filter(f=>f.status==="done");
+  const bugs=bugEpic?bugEpic.features:[];
+  document.getElementById("summary-row").innerHTML=`
+    <div class="sum-card" onclick="openKpiDrawer('epics')" title="View all epics">
+      <div class="sum-val">${epicsCount}</div><div class="sum-lbl">Epics</div>
+    </div>
+    <div class="sum-card" onclick="openKpiDrawer('features')" title="View all features">
+      <div class="sum-val">${features.length}</div><div class="sum-lbl">Feature Sets</div>
+    </div>
+    <div class="sum-card" onclick="openKpiDrawer('inprogress')" title="View in-progress items">
+      <div class="sum-val" style="color:var(--amber)">${inprogress.length}</div><div class="sum-lbl">🔄 In Progress</div>
+    </div>
+    <div class="sum-card" onclick="openKpiDrawer('done')" title="View completed items">
+      <div class="sum-val" style="color:var(--green)">${done.length}</div><div class="sum-lbl">✅ Done</div>
+    </div>
+    <div class="sum-card" onclick="openKpiDrawer('bugs')" title="View all bugs">
+      <div class="sum-val" style="color:var(--rose)">${bugs.length}</div><div class="sum-lbl">🔴 Bugs</div>
+    </div>`;
+}
+
+// ── FEATURE ROW HTML ──────────────────────────────────────────────────────────
+function featureRowHTML(f,ei,fi){
+  const st=BSTATUS[f.status]||BSTATUS.backlog;
+  const epicTag=f.epic?`<span class="epic-tag">${f.epic}</span>`:"";
+  const hrs=f.hours!=null?`<span class="feature-hrs">${f.hours}h</span>`:"";
+  const detailBtn=f.detail?`<button class="detail-btn" onclick="openRoadmap('${f.detail}','${EPICS[ei].title}','${f.name}')">View Plan →</button>`:"";
+  return `<span class="drag-handle feature-drag-handle">⠿</span><span class="feature-name">${f.name}</span><span class="row-badges">${epicTag}${hrs}<span class="status-badge ${st.cls}" onclick="openStatusDropdown(event,${ei},${fi})">${st.label} ▾</span>${detailBtn}</span>`;
+}
+
+// ── BUILD CARDS ───────────────────────────────────────────────────────────────
+function buildEpics(){
+  const grid=document.getElementById("epics-grid");
+  grid.innerHTML="";
+  EPICS.forEach((epic,ei)=>{
+    const statuses=[...new Set(epic.features.map(f=>f.status))];
+    const card=document.createElement("div");
+    card.className="epic-card";
+    card.dataset.epicIndex=ei;
+    card.dataset.statuses=JSON.stringify(statuses);
+    card.style.borderTopColor=epic.color;
+    card.draggable=true;
+    const label=epic.isBugEpic?"bugs":"features";
+    const ph=epic.isBugEpic?"+ Add bug...":"+ Add feature...";
+    const rows=epic.features.length===0
+      ?`<div class="tbd-msg">TBD — No features mapped yet</div>`
+      :epic.features.map((f,fi)=>`<div class="feature-row" draggable="true" data-ei="${ei}" data-fi="${fi}">${featureRowHTML(f,ei,fi)}</div>`).join("");
+    card.innerHTML=`
+      <div class="epic-hdr">
+        <span class="drag-handle epic-drag-handle" title="Drag to reorder epics">⠿</span>
+        <span class="epic-icon">${epic.icon}</span>
+        <span class="epic-title">${epic.title}</span>
+        <span class="epic-count">${epic.features.length} ${label}</span>
+      </div>
+      <div class="epic-body" data-drop-zone="features" data-ei="${ei}">
+        ${rows}
+        <div class="add-feature-row">
+          <input class="add-feature-input" placeholder="${ph}" maxlength="60" onkeydown="if(event.key==='Enter')addFeature(${ei},this)"/>
+          <button class="add-feature-btn" onclick="addFeature(${ei},this.previousElementSibling)">Add</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  const addCard=document.createElement("div");
+  addCard.className="add-epic-card";
+  addCard.onclick=openEpicModal;
+  addCard.innerHTML=`<span style="font-size:28px;color:#cbd5e1">+</span><span class="add-epic-label">New Epic</span>`;
+  grid.appendChild(addCard);
+  initEpicDrag(grid,'cards');
+}
+
+// ── BUILD LIST ────────────────────────────────────────────────────────────────
+function buildList(){
+  const container=document.getElementById("epics-list");
+  container.innerHTML="";
+  EPICS.forEach((epic,ei)=>{
+    const statuses=[...new Set(epic.features.map(f=>f.status))];
+    const group=document.createElement("div");
+    group.className="list-group";
+    group.dataset.epicIndex=ei;
+    group.dataset.statuses=JSON.stringify(statuses);
+    group.draggable=true;
+    const label=epic.isBugEpic?"bugs":"features";
+    const ph=epic.isBugEpic?"+ Add bug...":"+ Add feature...";
+    const rows=epic.features.length===0
+      ?`<div class="list-tbd">TBD — No features mapped yet</div>`
+      :epic.features.map((f,fi)=>`<div class="list-feature-row" draggable="true" data-ei="${ei}" data-fi="${fi}">${featureRowHTML(f,ei,fi)}</div>`).join("");
+    group.innerHTML=`
+      <div class="list-epic-hdr" style="border-left-color:${epic.color}" onclick="toggleListEpic(this)">
+        <span class="drag-handle epic-drag-handle" title="Drag to reorder epics" onclick="event.stopPropagation()">⠿</span>
+        <span style="font-size:18px">${epic.icon}</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text)">${epic.title}</span>
+        <span style="font-size:11px;font-weight:500;color:var(--text3);background:var(--surface3);padding:2px 8px;border-radius:20px;border:1px solid var(--border)">${epic.features.length} ${label}</span>
+        <span class="list-collapse-icon" style="margin-left:auto">▼</span>
+      </div>
+      <div class="list-features-body" data-drop-zone="features" data-ei="${ei}">
+        ${rows}
+        <div class="list-add-row">
+          <input class="add-feature-input" placeholder="${ph}" maxlength="60" onkeydown="if(event.key==='Enter')addFeature(${ei},this)"/>
+          <button class="add-feature-btn" onclick="addFeature(${ei},this.previousElementSibling)">Add</button>
+        </div>
+      </div>`;
+    container.appendChild(group);
+  });
+  initEpicDrag(container,'list');
+}
+
+function toggleListEpic(hdr){
+  const body=hdr.nextElementSibling;
+  const icon=hdr.querySelector(".list-collapse-icon");
+  body.classList.toggle("collapsed");
+  icon.style.transform=body.classList.contains("collapsed")?"rotate(-90deg)":"";
+}
+
+// ── ADD FEATURE ───────────────────────────────────────────────────────────────
+function addFeature(ei,input){
+  const name=input.value.trim();
+  if(!name)return;
+  EPICS[ei].features.push({name,status:"backlog",hours:null});
+  input.value="";
+  markDirty();
+  refresh();
+}
+
+// ── SAVE / DIRTY ──────────────────────────────────────────────────────────────
+const STORAGE_KEY="connyct_backlog_v1";
+let _dirty=false;
+let _savedSnapshot=null;
+
+function markDirty(){
+  _dirty=true;
+  document.getElementById("save-banner").classList.add("visible");
+}
+
+function saveChanges(){
+  const data=JSON.stringify(EPICS.map(e=>({id:e.id,features:e.features.map(f=>({name:f.name,status:f.status,hours:f.hours,detail:f.detail||null,epic:f.epic||null}))})));
+  localStorage.setItem(STORAGE_KEY,data);
+  _savedSnapshot=data;
+  _dirty=false;
+  const banner=document.getElementById("save-banner");
+  banner.innerHTML=`<div class="save-banner-msg"><strong>✅ Saved!</strong></div>`;
+  setTimeout(()=>{
+    banner.classList.remove("visible");
+    banner.innerHTML=`<div class="save-banner-msg"><strong>Unsaved changes</strong> — your edits haven't been saved yet.</div><button class="discard-btn" onclick="discardChanges()">Discard</button><button class="save-btn" onclick="saveChanges()">💾 Save changes</button>`;
+  },1800);
+}
+
+function discardChanges(){
+  if(!_savedSnapshot)return;
+  const saved=JSON.parse(_savedSnapshot);
+  saved.forEach(s=>{
+    const epic=EPICS.find(e=>e.id===s.id);
+    if(epic) epic.features=s.features;
+  });
+  _dirty=false;
+  document.getElementById("save-banner").classList.remove("visible");
+  refresh();
+}
+
+function loadSaved(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return;
+    const saved=JSON.parse(raw);
+    saved.forEach(s=>{
+      const epic=EPICS.find(e=>e.id===s.id);
+      if(epic) epic.features=s.features;
+    });
+    _savedSnapshot=raw;
+  }catch(e){}
+}
+
+function refresh(){
+  buildSummary();
+  buildEpics();
+  buildList();
+  applyFilter();
+}
+
+// ── VIEW TOGGLE ───────────────────────────────────────────────────────────────
+function setView(v){
+  curView=v;
+  document.getElementById("btn-cards").classList.toggle("active",v==="cards");
+  document.getElementById("btn-list").classList.toggle("active",v==="list");
+  document.getElementById("epics-grid").style.display=v==="cards"?"":"none";
+  document.getElementById("epics-list").style.display=v==="list"?"flex":"none";
+  applyFilter();
+}
+
+// ── FILTER ────────────────────────────────────────────────────────────────────
+function filterEpics(key,btn){
+  if(key==="all"){
+    curFilters.clear();
+    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+  } else {
+    // deactivate "All"
+    document.querySelector(".filter-btn[data-key='all']").classList.remove("active");
+    if(curFilters.has(key)){
+      curFilters.delete(key);
+      btn.classList.remove("active");
+    } else {
+      curFilters.add(key);
+      btn.classList.add("active");
+    }
+    // if nothing selected, reactivate All
+    if(curFilters.size===0){
+      document.querySelector(".filter-btn[data-key='all']").classList.add("active");
+    }
+  }
+  applyFilter();
+}
+
+function applyFilter(){
+  const sel=curView==="cards"?".epic-card[data-epic-index]":".list-group[data-epic-index]";
+  let visible=0;
+  document.querySelectorAll(sel).forEach(el=>{
+    if(curFilters.size===0){el.style.display="";visible++;return;}
+    const st=JSON.parse(el.dataset.statuses||"[]");
+    const show=[...curFilters].some(f=>st.includes(f));
+    el.style.display=show?"":"none";
+    if(show) visible++;
+  });
+  // empty state
+  const existing=document.getElementById("backlog-empty-state");
+  if(visible===0 && curFilters.size>0){
+    if(!existing){
+      const labels={backlog:"Backlog",planned:"Planned",inprogress:"In Progress",done:"Done",paused:"Paused",deprecated:"Deprecated"};
+      const names=[...curFilters].map(f=>labels[f]||f).join(", ");
+      const wrap=document.createElement("div");
+      wrap.id="backlog-empty-state";
+      wrap.innerHTML=`
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 24px;text-align:center">
+          <div style="width:64px;height:64px;border-radius:20px;background:var(--surface3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px">🔍</div>
+          <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;letter-spacing:-.01em">No items found</div>
+          <div style="font-size:13.5px;color:var(--text2);max-width:300px;line-height:1.6">None of your epics have features with status <strong style="color:var(--text)">${names}</strong>.</div>
+          <button onclick="clearFilters()" style="margin-top:24px;padding:8px 20px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s" onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--border2)'" onmouseout="this.style.color='var(--text2)';this.style.borderColor='var(--border)'">Clear filters</button>
+        </div>`;
+      const grid=document.getElementById("epics-grid");
+      const list=document.getElementById("epics-list");
+      if(curView==="cards") grid.after(wrap);
+      else list.after(wrap);
+    }
+  } else if(existing){
+    existing.remove();
+  }
+}
+
+function clearFilters(){
+  curFilters.clear();
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelector(".filter-btn[data-key='all']").classList.add("active");
+  applyFilter();
+}
+
+// ── EPIC MODAL ────────────────────────────────────────────────────────────────
+function openEpicModal(){
+  document.getElementById("emoji-grid").innerHTML=EMOJIS.map(e=>`<div class="emoji-opt${e===selEmoji?" selected":""}" onclick="pickEmoji('${e}',this)">${e}</div>`).join("");
+  document.getElementById("color-grid").innerHTML=COLORS.map(c=>`<div class="color-opt${c===selColor?" selected":""}" style="background:${c}" onclick="pickColor('${c}',this)"></div>`).join("");
+  document.getElementById("epic-name").value="";
+  document.getElementById("epic-modal").classList.add("open");
+}
+function closeEpicModal(){document.getElementById("epic-modal").classList.remove("open");}
+function pickEmoji(e,el){selEmoji=e;document.querySelectorAll(".emoji-opt").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");}
+function pickColor(c,el){selColor=c;document.querySelectorAll(".color-opt").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");}
+function createEpic(){
+  const name=document.getElementById("epic-name").value.trim();
+  if(!name)return;
+  EPICS.push({id:"epic_"+Date.now(),icon:selEmoji,title:name,color:selColor,features:[]});
+  closeEpicModal();refresh();
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function openRoadmap(id,epicTitle,featureName){
+  document.getElementById("screen-backlog").classList.remove("active");
+  document.getElementById("screen-roadmap").classList.add("active");
+  document.getElementById("bc-epic").textContent=epicTitle;
+  document.getElementById("bc-feature").textContent=featureName;
+  document.getElementById("rd-title").textContent=featureName;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelector(".tab").classList.add("active");
+  document.querySelectorAll(".rd-view").forEach(v=>v.classList.remove("active"));
+  document.getElementById("rd-view-timeline").classList.add("active");
+  document.getElementById("kpi-bar").style.display="";
+  document.getElementById("sprint-banner").style.display="";
+  buildKPI();buildTimeline();buildRdFilters();buildCoverage();buildBeta();
+  window.scrollTo(0,0);
+}
+function goBack(){
+  document.getElementById("screen-roadmap").classList.remove("active");
+  document.getElementById("screen-backlog").classList.add("active");
+  window.scrollTo(0,0);
+}
+function switchRdTab(tab,e){
+  document.querySelectorAll(".rd-view").forEach(v=>v.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("rd-view-"+tab).classList.add("active");
+  e.target.classList.add("active");
+  const beta=tab==="beta";
+  document.getElementById("kpi-bar").style.display=beta?"none":"";
+  document.getElementById("sprint-banner").style.display=beta?"none":"";
+}
+
+// ── ROADMAP DATA ──────────────────────────────────────────────────────────────
+const DAY_W=20,LABEL_W=190;
+function pd(s){const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);}
+const START=pd("2026-03-04");
+const TODAY=new Date(2026,2,27);
+function dOff(s){return Math.round((pd(s)-START)/86400000);}
+function dOffD(dt){return Math.round((dt-START)/86400000);}
+function fmt(s){return pd(s).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
+function fmtS(s){return pd(s).toLocaleDateString("en-US",{month:"short",day:"numeric"});}
+const PBL={1:"Core Chat",2:"SubChats - Core",3:"SubChats - Navigation",4:"Admin & Mod",5:"Other"};
+const SL={"done":"✅ Done · S1","done_s2":"✅ Done · S2","done_s2_beta":"✅ Done · S2 · 🧪 Beta","done_s2_pending":"✅ Done · S2 · ⏳ Pending Deploy","done_s3":"✅ Done · S3","inprogress_s4":"🔄 In Progress · S4","testing_s3":"🧪 Testing · S3","todo":"📋 To Do","bug":"🔴 Bug","other":"🔧 Other"};
+const SB={"done":"badge-done","done_s2":"badge-done","done_s2_beta":"badge-done","done_s2_pending":"badge-done","done_s3":"badge-done","inprogress_s4":"badge-inprogress","testing_s3":"badge-testing","todo":"badge-todo","bug":"badge-bug","other":"badge-other"};
+const SC={"done":"done","done_s2":"done","done_s2_beta":"done","done_s2_pending":"done","done_s3":"done","inprogress_s4":"inprogress","testing_s3":"testing","todo":"todo","bug":"bug","other":"other"};
+function isDone(s){return["done","done_s2","done_s2_beta","done_s2_pending","done_s3"].includes(s.status);}
+function isIP(s){return s.status==="inprogress_s4"||s.inprogress;}
+function isTest(s){return s.status==="testing_s3";}
+
+const ROADMAP_SPRINTS=[
+  {label:"Sprint 1",start:"2026-03-04",end:"2026-03-10"},{label:"Sprint 2",start:"2026-03-11",end:"2026-03-17"},
+  {label:"Sprint 3",start:"2026-03-18",end:"2026-03-24"},{label:"Sprint 4",start:"2026-03-25",end:"2026-03-31"},
+  {label:"Sprint 5",start:"2026-04-01",end:"2026-04-07"},{label:"Sprint 6",start:"2026-04-08",end:"2026-04-14"},
+  {label:"Sprint 7",start:"2026-04-15",end:"2026-04-21"},
+];
+const PHASES=[
+  {id:1,title:"Core Chat + Inbox",subtitle:"The baseline experience",color:"#6366f1",bg:"#eef2ff",border:"#c7d2fe",
+   sprints:["Sprint 1"],start:"2026-03-04",end:"2026-03-10",
+   goal:"Users can view their inbox, navigate chats, send messages and manage conversations.",
+   rows:["Inbox","Sending Messages","Chat Actions Menu"],
+   sections:[
+    {name:"📬 1.1 Inbox",stories:[
+      {id:"1.1.1",title:"Inbox — View",native:true,hours:12,frame:"Inbox",status:"done"},
+      {id:"1.1.2",title:"Inbox — Filter",native:false,hours:28,frame:"Inbox",status:"done"},
+      {id:"1.2.3",title:"Chat Items — Pinned Chats",native:false,hours:12,frame:"Inbox → Organizations",status:"done"},
+      {id:"1.2.4",title:"Chat Items — Muted Chats",native:false,hours:12,frame:"Inbox → Organizations",status:"done"},
+    ]},
+    {name:"💬 2.3 Sending Messages",stories:[
+      {id:"2.3.1",title:"Send Text Message",native:true,hours:0,frame:"Chats",status:"done"},
+      {id:"2.3.2",title:"Emoji Picker",native:true,hours:0,frame:"Chat Screen",status:"done"},
+    ]},
+    {name:"💬 2.2 Chat Actions Menu",stories:[
+      {id:"2.2.1",title:"Chat Action Menu",native:false,hours:24,frame:"Chat Action Menu",status:"done"},
+      {id:"2.2.2",title:"Pin Chat",native:true,hours:10,frame:"Pin a chat",status:"done"},
+      {id:"2.2.3",title:"Mute Chat",native:true,hours:4,frame:"Chat Action Menu",status:"done"},
+      {id:"2.2.4",title:"Mark as Unread",native:true,hours:2,frame:"Chat Action Menu",status:"done"},
+    ]},
+  ]},
+  {id:2,title:"SubChats — Core",subtitle:"Create, Join & Discover",color:"#10b981",bg:"#f0fdf4",border:"#bbf7d0",
+   sprints:["Sprint 2","Sprint 3"],start:"2026-03-11",end:"2026-03-24",
+   goal:"Users can create subchats, discover and join existing ones inside an org chat.",
+   rows:["Create Subchat Flow","Subchat Discovery","Open & View a Chat","Joining a Subchat","Chat Items","Bugs","Other"],
+   sections:[
+    {name:"✏️ 4.1 Create Subchat flow",stories:[
+      {id:"4.1.1",title:"Entry Points for Create Subchat",native:false,hours:22,frame:"Chat Action Menu",status:"done_s2"},
+      {id:"4.1.2",title:"Name the Subchat",native:true,hours:6,frame:"Create Subchat",status:"done_s2"},
+      {id:"4.1.3",title:"Add a Photo to Subchat",native:true,hours:6,frame:"Create Subchat",status:"done_s2"},
+      {id:"4.1.4",title:"Toggle Private / Public",native:true,hours:4,frame:"Create Subchat",status:"done_s2"},
+      {id:"4.1.5",title:"Set Intro Message",native:true,hours:8,frame:"Create Subchat",status:"done_s2"},
+    ]},
+    {name:"🔍 3.1 Subchat Discovery",stories:[
+      {id:"3.1.1",title:"Browse Available Subchats",native:false,hours:9,frame:"Available Subchats drawer",status:"testing_s3"},
+      {id:"3.1.2",title:"Subchat List Empty vs Joined States",native:false,hours:24,frame:"Available Subchats drawer",status:"todo"},
+    ]},
+    {name:"💬 2.1 Open & View a Chat",stories:[
+      {id:"2.1.2",title:"Subchat Dropdown from Header",native:false,hours:44,frame:"Chat Screen header",status:"testing_s3"},
+    ]},
+    {name:"🔍 3.2 Joining a Subchat",stories:[
+      {id:"3.2.1",title:"Join a Public Subchat",native:true,hours:6,frame:"Create / Join / Explore",status:"todo"},
+    ]},
+    {name:"📥 1.2 Chat Items",stories:[
+      {id:"1.2.2",title:"Subchat bottom-sheet from Inbox",native:false,hours:3,frame:"Available Subchats drawer",status:"testing_s3"},
+    ]},
+    {name:"🔴 Bugs — Sprint 2",stories:[
+      {id:"BUG-01",title:"Organization Events disappear after switching to org account",native:false,hours:0,frame:"—",status:"done_s2_beta"},
+      {id:"BUG-02",title:"Organization events not displayed on calendar",native:false,hours:0,frame:"—",status:"done_s2_pending"},
+    ]},
+    {name:"🔧 Other — Sprint 2",stories:[
+      {id:"OTH-01",title:"Support GZip Compression for 7Digital Events",native:false,hours:0,frame:"Not related to chat",status:"done_s2"},
+      {id:"OTH-02",title:"Organization Creation Spreadsheet",native:false,hours:0,frame:"Not related to chat",status:"done_s2"},
+    ]},
+  ]},
+  {id:3,title:"SubChats — Navigation",subtitle:"Inbox Items, Chat Views & Detail",color:"#f59e0b",bg:"#fffbeb",border:"#fde68a",
+   sprints:["Sprint 4","Sprint 5"],start:"2026-03-25",end:"2026-04-07",
+   goal:"Users can navigate subchats from the inbox, open chat screens and access detail views.",
+   rows:["Create Subchat (cont.)","Organizations","Profile","Bugs","Open & View a Chat","Chat Items","Subchat Detail View","Org Chat"],
+   sections:[
+    {name:"✏️ 4.1 Create Subchat flow (cont.)",stories:[
+      {id:"4.1.6",title:"Add Members",native:false,hours:24,frame:"Members e Request",status:"inprogress_s4"},
+      {id:"4.1.7",title:"Redirection after creation",native:false,hours:28,frame:"Create Subchat",status:"inprogress_s4"},
+    ]},
+    {name:"🏢 Organizations — Sprint 4",stories:[
+      {id:"ORG-01",title:"Organization Icon",native:false,hours:0,frame:"Organizations",status:"inprogress_s4"},
+    ]},
+    {name:"👤 Profile — Sprint 4",stories:[
+      {id:"ORG-02",title:"Delete Account",native:false,hours:0,frame:"Profile",status:"inprogress_s4"},
+    ]},
+    {name:"🔴 Bugs — Sprint 4",stories:[
+      {id:"BUG-S4-01",title:'"Chat Not Found" Error on Personal and Organization Accounts',native:false,hours:0,frame:"—",status:"bug",inprogress:true},
+      {id:"BUG-S4-02",title:'Error Message "There Was a Problem Updating Your Profile"',native:false,hours:0,frame:"—",status:"bug",inprogress:true},
+      {id:"BUG-S4-03",title:"Profile Edits Are Not Being Saved",native:false,hours:0,frame:"—",status:"bug",inprogress:true},
+    ]},
+    {name:"💬 2.1 Open & View a Chat",stories:[
+      {id:"2.1.1",title:"View Chat Screen",native:true,hours:12,frame:"Chats",status:"todo"},
+      {id:"2.1.3",title:"Welcome / Intro Message",native:true,hours:8,frame:"Chats",status:"todo"},
+    ]},
+    {name:"📥 1.2 Chat Items",stories:[
+      {id:"1.2.1",title:"Subchat Badge & Expand/Collapse",native:false,hours:64,frame:"Inbox → Organizations",status:"todo"},
+    ]},
+    {name:"📄 3.3 Subchat Detail View",stories:[
+      {id:"3.3.1",title:"Open a Subchat",native:true,hours:8,frame:"Joining a Subchat",status:"todo"},
+      {id:"3.3.2",title:"Private Subchat First Open",native:false,hours:12,frame:"Private Subchat",status:"todo"},
+    ]},
+    {name:"📄 6 Org Chat",stories:[
+      {id:"6.1.1",title:"Empty State — No Subchats",native:false,hours:6,frame:"Chats",status:"todo"},
+    ]},
+  ]},
+  {id:4,title:"Admin & Moderation",subtitle:"Members, Requests & Notifications",color:"#ec4899",bg:"#fdf4ff",border:"#f5d0fe",
+   sprints:["Sprint 6"],start:"2026-04-08",end:"2026-04-14",
+   goal:"Admins can manage members, approve join requests and act on notifications.",
+   rows:["Members List","Requests","Joining a Subchat","Notifications"],
+   sections:[
+    {name:"👥 5.1 Members List",stories:[
+      {id:"5.1.1",title:"View Members List",native:false,hours:28,frame:"Members e Request",status:"todo"},
+      {id:"5.1.2",title:"Accept or Ignore a Join Request",native:false,hours:52,frame:"Members e Request",status:"todo"},
+    ]},
+    {name:"👥 5.2 Requests",stories:[
+      {id:"5.2.1",title:"Full Requests Management Screen",native:false,hours:6,frame:"Requests tab",status:"todo"},
+    ]},
+    {name:"🔍 3.2 Joining a Subchat",stories:[
+      {id:"3.2.2",title:"Request to Join a Private Subchat",native:false,hours:44,frame:"Private Subchat",status:"todo"},
+    ]},
+    {name:"🔔 1.3 Notifications Tab",stories:[
+      {id:"1.3.2",title:"Join Request Notification",native:false,hours:28,frame:"Inbox → Requests tab",status:"todo"},
+    ]},
+  ]},
+  {id:5,title:"Other",subtitle:"Deferred enhancements",color:"#64748b",bg:"#f8fafc",border:"#e2e8f0",
+   sprints:["Sprint 7"],start:"2026-04-15",end:"2026-04-21",
+   goal:"Remaining enhancements: search, media bubbles, leave chat and archive chat.",
+   rows:["Enhancements"],
+   sections:[
+    {name:"🔧 Deferred Features",stories:[
+      {id:"1.1.3",title:"Inbox — Search",native:true,hours:12,frame:"Inbox",status:"todo"},
+      {id:"1.4.1",title:"Bubbles & Recent Media",native:false,hours:32,frame:"Inbox",status:"todo"},
+      {id:"2.2.5",title:"Archive Chat",native:true,hours:4,frame:"Chat Action Menu",status:"todo"},
+      {id:"2.2.6",title:"Leave Chat",native:false,hours:8,frame:"Leave Chat dialog",status:"todo"},
+    ]},
+  ]},
+];
+
+// ── KPI ───────────────────────────────────────────────────────────────────────
+function buildKPI(){
+  const all=PHASES.flatMap(p=>p.sections.flatMap(s=>s.stories));
+  const total=all.length,done=all.filter(isDone).length,testing=all.filter(isTest).length;
+  const inprog=all.filter(s=>isIP(s)&&s.status!=="bug"&&s.status!=="other").length;
+  const included=all.filter(s=>s.status==="bug"||s.status==="other"||["ORG-01","ORG-02"].includes(s.id)).length;
+  const todo=all.filter(s=>s.status==="todo").length;
+  const pct=total?Math.round(done/total*100):0;
+  const pctT=total?Math.round(testing/total*100):0;
+  const pctP=total?Math.round(inprog/total*100):0;
+  document.getElementById("kpi-bar").innerHTML=`
+    <div class="kpi-item"><div class="kpi-val" style="color:#0f172a">${total}</div><div class="kpi-lbl">Total Items</div></div>
+    <div class="kpi-divider"></div>
+    <div class="kpi-item"><div class="kpi-val" style="color:#22c55e">${done}</div><div class="kpi-lbl">✅ Done</div></div>
+    <div class="kpi-item"><div class="kpi-val" style="color:#3b82f6">${testing}</div><div class="kpi-lbl">🧪 Testing</div></div>
+    <div class="kpi-item"><div class="kpi-val" style="color:#f59e0b">${inprog}</div><div class="kpi-lbl">🔄 In Progress</div></div>
+    <div class="kpi-item"><div class="kpi-val" style="color:#8b5cf6">${included}</div><div class="kpi-lbl">➕ Included</div></div>
+    <div class="kpi-item"><div class="kpi-val" style="color:#94a3b8">${todo}</div><div class="kpi-lbl">📋 To Do</div></div>
+    <div class="kpi-divider"></div>
+    <div class="kpi-progress">
+      <div class="kpi-progress-label"><span style="font-weight:700;color:#0f172a">Overall Progress</span><span style="font-weight:700;color:#22c55e">${pct}% complete</span></div>
+      <div class="kpi-track"><div style="width:${pct}%;background:#22c55e;height:100%;"></div><div style="width:${pctT}%;background:#3b82f6;height:100%;"></div><div style="width:${pctP}%;background:#f59e0b;height:100%;"></div></div>
+    </div>`;
+}
+
+// ── TIMELINE ──────────────────────────────────────────────────────────────────
+function buildTimeline(){
+  const tl=document.getElementById("tl-inner");
+  const tlEnd=pd("2026-04-21");
+  const days=[];
+  let cur=new Date(START);
+  while(cur<=tlEnd){days.push(new Date(cur));cur.setDate(cur.getDate()+1);}
+  const totalW=days.length*DAY_W;
+  function mkrow(lc,ls,gc,gs,rs){return `<div style="display:flex;${rs||''}"><div style="width:${LABEL_W}px;flex-shrink:0;border-right:1px solid #e2e8f0;${ls||''}">${lc}</div><div style="width:${totalW}px;flex-shrink:0;position:relative;${gs||''}">${gc}</div></div>`;}
+  let months=[],mx=0,mH="";
+  days.forEach(d=>{const k=d.toLocaleDateString("en-US",{month:"long"});if(!months.length||months[months.length-1].label!==k)months.push({label:k,count:1});else months[months.length-1].count++;});
+  months.forEach(m=>{mH+=`<div style="position:absolute;left:${mx}px;width:${m.count*DAY_W}px;top:0;bottom:0;padding-left:8px;display:flex;align-items:center;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;border-right:1px solid #e2e8f0">${m.label}</div>`;mx+=m.count*DAY_W;});
+  const mRow=mkrow("","height:24px;background:#f8fafc;",mH,"height:24px;background:#f8fafc;","border-bottom:1px solid #e2e8f0;");
+  let sH="";
+  ROADMAP_SPRINTS.forEach((s,i)=>{const l=dOff(s.start)*DAY_W,w=(dOff(s.end)-dOff(s.start)+1)*DAY_W,act=i===3,dn=i<=2;const bg=act?"rgba(245,158,11,.10)":dn?"rgba(34,197,94,.08)":"transparent",c=act?"#f59e0b":dn?"#22c55e":"#6366f1";sH+=`<div style="position:absolute;left:${l}px;width:${w}px;top:0;bottom:0;border-right:1px dashed #cbd5e1;background:${bg};display:flex;align-items:center;padding-left:6px;"><span style="font-size:10px;font-weight:700;color:${c};white-space:nowrap;">${act?"🔄 ":dn?"✅ ":"◆ "}${s.label}${act?" (Now)":dn?" (Done)":""}</span></div>`;});
+  const sRow=mkrow(`<div style="display:flex;align-items:center;height:100%;padding:0 12px;font-size:11px;font-weight:600;color:#94a3b8;">Feature</div>`,"height:28px;background:#f8fafc;",sH,"height:28px;background:#f8fafc;","border-bottom:2px solid #e2e8f0;");
+  let dH="";
+  days.forEach((d,i)=>{const wk=d.getDay()===0||d.getDay()===6;dH+=`<div style="position:absolute;left:${i*DAY_W}px;width:${DAY_W}px;top:0;bottom:0;border-right:1px solid #f1f5f9;background:${wk?"#f8fafc":"transparent"};display:flex;align-items:center;justify-content:center;font-size:9px;color:${wk?"#e2e8f0":"#94a3b8"};">${d.getDate()}</div>`;});
+  const dRow=mkrow("","height:20px;background:#f8fafc;",dH,"height:20px;background:#f8fafc;","border-bottom:1px solid #e2e8f0;");
+  const tx=dOffD(TODAY)*DAY_W+DAY_W/2;
+  const tRow=mkrow("","height:18px;background:#fff;",`<div style="position:absolute;left:${tx-1}px;top:0;bottom:0;width:2px;background:#ef4444;"></div><div style="position:absolute;left:${tx-18}px;top:1px;background:#ef4444;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;white-space:nowrap;">Today</div>`,"height:18px;background:#fff;overflow:visible;","border-bottom:1px solid #f1f5f9;");
+  const RS={"Inbox":["📬 1.1 Inbox"],"Sending Messages":["💬 2.3 Sending Messages"],"Chat Actions Menu":["💬 2.2 Chat Actions Menu"],"Create Subchat Flow":["✏️ 4.1 Create Subchat flow"],"Subchat Discovery":["🔍 3.1 Subchat Discovery"],"Open & View a Chat":["💬 2.1 Open & View a Chat"],"Joining a Subchat":["🔍 3.2 Joining a Subchat"],"Chat Items":["📥 1.2 Chat Items"],"Bugs":["🔴 Bugs — Sprint 2","🔴 Bugs — Sprint 4"],"Other":["🔧 Other — Sprint 2"],"Create Subchat (cont.)":["✏️ 4.1 Create Subchat flow (cont.)"],"Organizations":["🏢 Organizations — Sprint 4"],"Profile":["👤 Profile — Sprint 4"],"Subchat Detail View":["📄 3.3 Subchat Detail View"],"Org Chat":["📄 6 Org Chat"],"Members List":["👥 5.1 Members List"],"Requests":["👥 5.2 Requests"],"Notifications":["🔔 1.3 Notifications Tab"],"Enhancements":["🔧 Deferred Features"]};
+  function getS(p,lb){return p.sections.filter(s=>(RS[lb]||[]).includes(s.name)).flatMap(s=>s.stories);}
+  function segBar(x,w,stories){
+    if(!stories.length)return`<div style="position:absolute;left:${x}px;width:${w}px;top:8px;height:20px;background:#cbd5e1;border-radius:5px;"></div>`;
+    const n=stories.length,dc=stories.filter(isDone).length,tc=stories.filter(isTest).length,ic=stories.filter(isIP).length,oc=n-dc-tc-ic;
+    const segs=[];if(dc)segs.push({c:"#22c55e",n:dc});if(tc)segs.push({c:"#3b82f6",n:tc});if(ic)segs.push({c:"#f59e0b",n:ic});if(oc)segs.push({c:"#cbd5e1",n:oc});
+    let h="",ox=0;segs.forEach((seg,i)=>{const sw=Math.max(2,Math.round(w*seg.n/n)),first=i===0,last=i===segs.length-1,r=first&&last?"5px":first?"5px 0 0 5px":last?"0 5px 5px 0":"0";h+=`<div style="position:absolute;left:${x+ox}px;width:${sw}px;top:8px;height:20px;background:${seg.c};border-radius:${r};"></div>`;ox+=sw;});
+    return h;
+  }
+  let phR="";
+  PHASES.forEach(p=>{
+    const ps=dOff(p.start),pe=dOff(p.end),pw=(pe-ps+1)*DAY_W,sp=p.sprints[0]+(p.sprints.length>1?` – ${p.sprints[p.sprints.length-1]}`:"");
+    const tl2=`<div style="position:absolute;left:${tx}px;top:0;bottom:0;width:2px;background:rgba(239,68,68,.3);"></div>`;
+    phR+=mkrow(`<div style="display:flex;align-items:center;gap:7px;padding:0 12px;height:100%;"><div style="width:22px;height:22px;border-radius:6px;background:${p.color};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;">${p.id}</div><div><div style="font-size:11px;font-weight:700;color:#0f172a;">${p.title}</div><div style="font-size:10px;color:#64748b;">${sp}</div></div></div>`,`height:36px;background:${p.bg};`,`<div style="position:absolute;left:${ps*DAY_W+2}px;width:${pw-4}px;top:6px;height:24px;background:${p.color};opacity:.12;border-radius:6px;"></div><div style="position:absolute;left:${ps*DAY_W+10}px;top:0;height:100%;display:flex;align-items:center;"><span style="font-size:11px;font-weight:700;color:${p.color};white-space:nowrap;">${fmtS(p.start)} → ${fmtS(p.end)}</span></div>${tl2}`,`height:36px;background:${p.bg};`,`border-top:2px solid ${p.color};border-bottom:1px solid ${p.border};`);
+    p.rows.forEach(lb=>{
+      const stories=getS(p,lb),wknd=days.map((d,i)=>(d.getDay()===0||d.getDay()===6)?`<div style="position:absolute;left:${i*DAY_W}px;width:${DAY_W}px;top:0;bottom:0;background:#f8fafc;"></div>`:"").join(""),bars=segBar(ps*DAY_W+2,pw-4,stories),lbl=`<div style="position:absolute;left:${ps*DAY_W+10}px;top:8px;height:20px;display:flex;align-items:center;pointer-events:none;"><span style="font-size:10px;font-weight:600;color:#fff;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.5);">${lb}</span></div>`;
+      phR+=mkrow(`<div style="display:flex;align-items:center;height:100%;padding:0 12px 0 32px;font-size:11px;color:#475569;">${lb}</div>`,"height:36px;",wknd+bars+lbl+tl2,"height:36px;","border-bottom:1px solid #f1f5f9;");
+    });
+  });
+  const legend=`<div style="display:flex;gap:16px;padding:8px 16px;background:#f8fafc;border-top:1px solid #e2e8f0;flex-wrap:wrap;"><div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b;"><div style="width:2px;height:12px;background:#ef4444;border-radius:1px;"></div>Today</div><div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b;"><div style="width:12px;height:12px;border-radius:3px;background:#22c55e;"></div>Done</div><div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b;"><div style="width:12px;height:12px;border-radius:3px;background:#3b82f6;"></div>Testing</div><div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b;"><div style="width:12px;height:12px;border-radius:3px;background:#f59e0b;"></div>In Progress</div><div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#64748b;"><div style="width:12px;height:12px;border-radius:3px;background:#cbd5e1;"></div>To Do</div></div>`;
+  tl.innerHTML=tRow+mRow+sRow+dRow+phR+legend;
+}
+
+// ── BREAKDOWN ─────────────────────────────────────────────────────────────────
+function buildRdFilters(){
+  const row=document.getElementById("rd-filter-row");
+  row.innerHTML="";
+  [{key:"all",label:"All"},{key:"done",label:"✅ Done"},{key:"inprogress",label:"🔄 In Progress"},{key:"testing",label:"🧪 Testing"},{key:"todo",label:"📋 To Do"},{key:"bug",label:"🔴 Bugs"},{key:"other",label:"🔧 Other"}].forEach((f,i)=>{
+    const btn=document.createElement("button");
+    btn.className="rd-filter-btn"+(i===0?" active":"");
+    btn.textContent=f.label;
+    btn.onclick=()=>{
+      document.querySelectorAll(".rd-filter-btn").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      document.querySelectorAll(".story-card[data-status]").forEach(card=>{
+        const st=card.dataset.status,ip=card.dataset.inprogress==="true";
+        const show=f.key==="all"||(f.key==="done"&&["done","done_s2","done_s2_beta","done_s2_pending","done_s3"].includes(st))||(f.key==="inprogress"&&(st==="inprogress_s4"||ip))||(f.key==="testing"&&st==="testing_s3")||st===f.key;
+        card.classList.toggle("hidden",!show);
+      });
+    };
+    row.appendChild(btn);
+  });
+}
+
+function buildCoverage(){
+  document.getElementById("phase-bars").innerHTML="";
+  document.getElementById("phase-cards").innerHTML="";
+  PHASES.forEach(p=>{
+    const all=p.sections.flatMap(s=>s.stories),total=all.length;
+    const dc=all.filter(isDone).length,ip=all.filter(s=>isIP(s)||isTest(s)).length;
+    const pctD=total?Math.round(dc/total*100):0,pctP=(total&&p.id!==3)?Math.round(ip/total*100):0;
+    document.getElementById("phase-bars").innerHTML+=`<div class="bar-row"><div class="bar-label">${PBL[p.id]}</div><div class="bar-track2"><div class="bar-fill" style="width:${pctD}%;background:${p.color};border-radius:6px;"></div><div class="bar-fill" style="width:${pctP}%;background:${p.color};opacity:.35;border-radius:6px;"></div></div><div class="bar-count">${dc}/${total} done${ip>0&&p.id!==3?" · 🔄 "+ip:""}</div></div>`;
+    const sp=p.sprints[0]+(p.sprints.length>1?` – ${p.sprints[p.sprints.length-1]}`:"");
+    let sHTML="";
+    p.sections.forEach(sec=>{
+      let stHTML="";
+      sec.stories.forEach(s=>{
+        const st=s.status||"todo";
+        stHTML+=`<div class="story-card ${SC[st]}" data-status="${st}" data-inprogress="${!!s.inprogress}"><div class="story-body"><div class="story-meta"><span class="story-id">${s.id}</span><div class="story-badges">${st!=="bug"&&st!=="other"?`<span class="badge ${s.native?"badge-native":"badge-custom"}">${s.native?"Native":"Custom"}</span>`:""}<span class="badge ${SB[st]}">${SL[st]}</span>${s.inprogress?`<span class="badge badge-inprogress">🔄 In Progress · S4</span>`:""}</div></div><div class="story-name">${s.title}</div><div class="story-foot"><span class="story-frame">${s.frame}</span>${s.hours>0?`<span class="story-hrs2">${s.hours}h</span>`:""}</div></div></div>`;
+      });
+      sHTML+=`<div><div class="section-title">${sec.name}</div><div class="stories-grid">${stHTML}</div></div>`;
+    });
+    document.getElementById("phase-cards").innerHTML+=`<div class="phase-card" style="border:1px solid ${p.border}"><div class="phase-hdr" style="background:${p.bg};border-bottom:1px solid ${p.border}"><div class="phase-hdr-num" style="background:${p.color}">${p.id}</div><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:15px;font-weight:700">${p.title}</span><span style="font-size:12px;color:#64748b">— ${p.subtitle}</span></div><div class="pills"><span class="pill" style="background:${p.color}">${fmt(p.start)} → ${fmt(p.end)}</span><span class="pill-gray">${sp}</span><span style="font-size:11px;color:#64748b">${total} items</span></div></div></div><div style="padding:8px 20px;border-bottom:1px solid ${p.border};font-size:12px;color:#475569">🎯 <strong>Goal:</strong> ${p.goal}</div><div class="sections-wrap">${sHTML}</div></div>`;
+  });
+}
+
+// ── BETA ──────────────────────────────────────────────────────────────────────
+const BETA={version:"2.0.52 (3)",date:"Mar 24, 2026",categories:[
+  {name:"🏢 Organizations",type:"feature",color:"#6366f1",bg:"#eef2ff",border:"#c7d2fe",items:[
+    {title:"Start organization setup — Unique URL"},{title:"Create an Organization profile"},{title:"View Organization profile page"},{title:"Join an Organization"},{title:"Create Events"},{title:"Publish Content"},{title:"Switching accounts"},{title:"Manage member's permissions"},{title:"Manage Requests to Join"},{title:"View All Upcoming Events"},{title:"Allow Organization Admin to Comment as the Organization"},{title:"Calendar"},{title:"See all organizations I'm part of on profile"},{title:"Discover Organizations"},
+    {title:"d1",divider:true,label:"💬 Core Chat + Inbox"},
+    {title:"1.1 Inbox: View, Filter"},{title:"2.3 Sending Messages"},{title:"2.2 Chat Actions Menu: Pin, Mute, Mark as Unread"},
+    {title:"d2",divider:true,label:"✏️ Subchat Creation Flow"},
+    {title:"4.1.1 Entry Points for Create Subchat",isNew:true},{title:"4.1.2 Name the Subchat",isNew:true},{title:"4.1.3 Add a Photo to Subchat",isNew:true},{title:"4.1.4 Toggle Private / Public",isNew:true},{title:"4.1.5 Set Intro Message",isNew:true},
+  ]},
+  {name:"🔴 Bug Fixes — Organizations",type:"bug",color:"#f43f5e",bg:"#fff1f2",border:"#fecdd3",items:[
+    {title:'"Edit Profile" Redirects to Personal Profile Instead of Organization'},{title:"Comment Counter Not Updating When Commenting as Organization"},{title:"Join Organization | Button state does not update correctly"},{title:"Filled Information Not Persisted After Avatar Upload"},{title:"Settings Button Appearing on New Organization Screen"},{title:"Profile Page | Edit Tab Should Not Exist"},{title:"Switch Accounts | Design Adjustments"},{title:"Unable to Change Organization Name"},{title:"Editing Group Chat Creates a New Chat Instead of Updating the Existing One"},{title:'Event Page Displays "Nothing Published" After Tapping on Organization'},
+  ]},
+  {name:"🔴 Bug Fixes — Feed Navigation",type:"bug",color:"#f43f5e",bg:"#fff1f2",border:"#fecdd3",items:[
+    {title:"Video starts frozen before auto-playing"},{title:"Videos Freeze or Flicker in the Feed"},{title:"Feed Videos Repeating After Scrolling"},
+  ]},
+  {name:"🔴 Bug Fixes — Connyct Quick",type:"bug",color:"#f43f5e",bg:"#fff1f2",border:"#fecdd3",items:[
+    {title:"Top 10 List Displays Only 7 Songs"},{title:"Keyboard Does Not Dismiss and Caption Persists Across Videos"},{title:"Keyboard overlaps message input when sharing content via inbox"},
+  ]},
+]};
+
+function buildBeta(){
+  const tf=BETA.categories.filter(c=>c.type==="feature").reduce((a,c)=>a+c.items.filter(i=>!i.divider).length,0);
+  const tb=BETA.categories.filter(c=>c.type==="bug").reduce((a,c)=>a+c.items.length,0);
+  const tn=BETA.categories.flatMap(c=>c.items).filter(i=>i.isNew&&!i.divider).length;
+  let html=`<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 24px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;"><div><div style="font-size:11px;font-weight:600;color:#6366f1;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Beta Release</div><div style="font-size:20px;font-weight:800">Version ${BETA.version}</div><div style="font-size:13px;color:#64748b;margin-top:2px">Deployed ${BETA.date}</div></div><div style="display:flex;gap:12px;flex-wrap:wrap"><div style="background:#eef2ff;border-radius:10px;padding:12px 20px;text-align:center"><div style="font-size:22px;font-weight:800;color:#6366f1">${tf}</div><div style="font-size:11px;color:#64748b">Features</div></div><div style="background:#fff1f2;border-radius:10px;padding:12px 20px;text-align:center"><div style="font-size:22px;font-weight:800;color:#f43f5e">${tb}</div><div style="font-size:11px;color:#64748b">Bug Fixes</div></div><div style="background:#fef9c3;border-radius:10px;padding:12px 20px;text-align:center"><div style="font-size:22px;font-weight:800;color:#ca8a04">${tn}</div><div style="font-size:11px;color:#64748b">🆕 New Mar 24</div></div></div></div>`;
+  html+=`<div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">✨ Features</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-bottom:20px">`;
+  BETA.categories.filter(c=>c.type==="feature").forEach(cat=>{
+    html+=`<div style="background:${cat.bg};border:1px solid ${cat.border};border-radius:12px;overflow:hidden;"><div style="padding:12px 16px;border-bottom:1px solid ${cat.border};display:flex;align-items:center;"><span style="font-size:13px;font-weight:700">${cat.name}</span><span style="margin-left:auto;font-size:11px;font-weight:600;background:#fff;border:1px solid ${cat.border};color:#64748b;padding:1px 8px;border-radius:20px">${cat.items.filter(i=>!i.divider).length} items</span></div><div style="padding:10px 16px;display:flex;flex-direction:column;gap:6px;">${cat.items.map(i=>i.divider?`<div style="font-size:10px;font-weight:700;color:${cat.color};text-transform:uppercase;letter-spacing:.08em;margin:6px 0 2px;padding-top:6px;border-top:1px solid ${cat.border}">${i.label||""}</div>`:`<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#1e293b;"><span style="color:${cat.color};flex-shrink:0">✓</span><span>${i.title}</span>${i.isNew?`<span style="margin-left:auto;font-size:10px;font-weight:700;background:#fef9c3;color:#ca8a04;padding:1px 7px;border-radius:20px;flex-shrink:0">NEW</span>`:""}</div>`).join("")}</div></div>`;
+  });
+  html+=`</div><div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">🔴 Bug Fixes</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;">`;
+  BETA.categories.filter(c=>c.type==="bug").forEach(cat=>{
+    html+=`<div style="background:${cat.bg};border:1px solid ${cat.border};border-radius:12px;overflow:hidden;"><div style="padding:12px 16px;border-bottom:1px solid ${cat.border};display:flex;align-items:center;"><span style="font-size:13px;font-weight:700">${cat.name}</span><span style="margin-left:auto;font-size:11px;font-weight:600;background:#fff;border:1px solid ${cat.border};color:#64748b;padding:1px 8px;border-radius:20px">${cat.items.length} fixes</span></div><div style="padding:10px 16px;display:flex;flex-direction:column;gap:6px;">${cat.items.map(i=>`<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#1e293b;"><span style="color:#f43f5e;flex-shrink:0">✓</span><span>${i.title}</span></div>`).join("")}</div></div>`;
+  });
+  html+=`</div>`;
+  document.getElementById("rd-view-beta").innerHTML=html;
+}
+
+// ── STATUS DROPDOWN ───────────────────────────────────────────────────────────
+let _ddEi=null,_ddFi=null;
+const _dd=()=>document.getElementById("status-dropdown");
+
+function openStatusDropdown(e,ei,fi){
+  e.stopPropagation();
+  _ddEi=ei; _ddFi=fi;
+  const d=_dd();
+  const r=e.target.getBoundingClientRect();
+  d.style.top=(r.bottom+4)+"px";
+  d.style.left=r.left+"px";
+  d.classList.add("open");
+}
+
+function applyStatus(newStatus){
+  if(_ddEi===null||_ddFi===null)return;
+  EPICS[_ddEi].features[_ddFi].status=newStatus;
+  _dd().classList.remove("open");
+  _ddEi=null; _ddFi=null;
+  markDirty();
+  refresh();
+}
+
+document.addEventListener("click",()=>_dd().classList.remove("open"));
+
+// ── SCREEN NAVIGATION ─────────────────────────────────────────────────────────
+function switchScreen(name){
+  document.getElementById('screen-backlog').classList.toggle('active',name==='backlog');
+  document.getElementById('nav-backlog').classList.toggle('active',name==='backlog');
+  document.getElementById('screen-roadmap').classList.remove('active');
+}
+
+// ── DRAG & DROP ───────────────────────────────────────────────────────────────
+let _dragEpicIdx=null, _dragFeat=null, _dragFeatEi=null, _dragFeatFi=null;
+
+function initEpicDrag(container, mode){
+  const epicSelector = mode==='cards' ? '.epic-card[data-epic-index]' : '.list-group[data-epic-index]';
+  const featureSelector = mode==='cards' ? '.feature-row[data-ei]' : '.list-feature-row[data-ei]';
+
+  // ── Epic drag ──
+  container.querySelectorAll(epicSelector).forEach(el=>{
+    el.draggable = false; // start disabled, enable only from handle
+    const handle = el.querySelector('.epic-drag-handle');
+    if(handle){
+      handle.addEventListener('mousedown', e=>{ e.stopPropagation(); el.draggable=true; });
+      handle.addEventListener('mouseup',   ()=>{ el.draggable=false; });
+    }
+    el.addEventListener('dragstart', e=>{
+      if(!el.draggable) { e.preventDefault(); return; }
+      _dragEpicIdx = parseInt(el.dataset.epicIndex);
+      setTimeout(()=>el.classList.add('dragging-epic'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', 'epic:'+_dragEpicIdx);
+    });
+    el.addEventListener('dragend', ()=>{
+      el.draggable = false;
+      el.classList.remove('dragging-epic');
+      document.querySelectorAll('.drop-indicator').forEach(d=>d.remove());
+      _dragEpicIdx = null;
+    });
+    el.addEventListener('dragover', e=>{
+      if(_dragEpicIdx === null || _dragFeat !== null) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const overIdx = parseInt(el.dataset.epicIndex);
+      if(overIdx === _dragEpicIdx) return;
+      document.querySelectorAll('.drop-indicator').forEach(d=>d.remove());
+      const ind = document.createElement('div');
+      ind.className = 'drop-indicator';
+      const half = (e.clientY - el.getBoundingClientRect().top) < el.getBoundingClientRect().height / 2;
+      if(half) el.before(ind); else el.after(ind);
+    });
+    el.addEventListener('dragleave', e=>{
+      if(!el.contains(e.relatedTarget))
+        document.querySelectorAll('.drop-indicator').forEach(d=>d.remove());
+    });
+    el.addEventListener('drop', e=>{
+      if(_dragEpicIdx === null || _dragFeat !== null) return;
+      e.preventDefault();
+      const overIdx = parseInt(el.dataset.epicIndex);
+      if(overIdx === _dragEpicIdx) return;
+      const half = (e.clientY - el.getBoundingClientRect().top) < el.getBoundingClientRect().height / 2;
+      const [moved] = EPICS.splice(_dragEpicIdx, 1);
+      let insertAt = overIdx > _dragEpicIdx ? overIdx - 1 : overIdx;
+      if(!half) insertAt++;
+      EPICS.splice(Math.max(0, Math.min(insertAt, EPICS.length)), 0, moved);
+      markDirty(); refresh();
+    });
+  });
+
+  // ── Feature drag ──
+  container.querySelectorAll(featureSelector).forEach(row=>{
+    row.draggable = false;
+    const handle = row.querySelector('.feature-drag-handle');
+    if(handle){
+      handle.addEventListener('mousedown', e=>{ e.stopPropagation(); row.draggable=true; });
+      handle.addEventListener('mouseup',   ()=>{ row.draggable=false; });
+    }
+    row.addEventListener('dragstart', e=>{
+      if(!row.draggable) { e.preventDefault(); return; }
+      e.stopPropagation();
+      _dragFeatEi = parseInt(row.dataset.ei);
+      _dragFeatFi = parseInt(row.dataset.fi);
+      _dragFeat   = EPICS[_dragFeatEi].features[_dragFeatFi];
+      setTimeout(()=>row.classList.add('dragging-feature'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', 'feat:'+_dragFeatEi+':'+_dragFeatFi);
+    });
+    row.addEventListener('dragend', ()=>{
+      row.draggable = false;
+      row.classList.remove('dragging-feature');
+      document.querySelectorAll('.drop-indicator').forEach(d=>d.remove());
+      _dragFeat=null; _dragFeatEi=null; _dragFeatFi=null;
+    });
+    row.addEventListener('dragover', e=>{
+      if(_dragFeat === null) return;
+      e.preventDefault(); e.stopPropagation();
+      e.dataTransfer.dropEffect = 'move';
+      const overEi = parseInt(row.dataset.ei);
+      const overFi = parseInt(row.dataset.fi);
+      if(overEi===_dragFeatEi && overFi===_dragFeatFi) return;
+      document.querySelectorAll('.drop-indicator').forEach(d=>d.remove());
+      const ind = document.createElement('div');
+      ind.className = 'drop-indicator';
+      const half = (e.clientY - row.getBoundingClientRect().top) < row.getBoundingClientRect().height / 2;
+      if(half) row.before(ind); else row.after(ind);
+    });
+    row.addEventListener('drop', e=>{
+      if(_dragFeat === null) return;
+      e.preventDefault(); e.stopPropagation();
+      const overEi = parseInt(row.dataset.ei);
+      const overFi = parseInt(row.dataset.fi);
+      if(overEi===_dragFeatEi && overFi===_dragFeatFi) return;
+      const feat = _dragFeat;
+      const srcEi = _dragFeatEi, srcFi = _dragFeatFi;
+      // remove from source
+      EPICS[srcEi].features.splice(srcFi, 1);
+      // recalculate target index after removal
+      let tgtFi = overFi;
+      if(overEi === srcEi && overFi > srcFi) tgtFi--;
+      const half = (e.clientY - row.getBoundingClientRect().top) < row.getBoundingClientRect().height / 2;
+      if(!half) tgtFi++;
+      tgtFi = Math.max(0, Math.min(tgtFi, EPICS[overEi].features.length));
+      EPICS[overEi].features.splice(tgtFi, 0, feat);
+      markDirty(); refresh();
+    });
+  });
+}
+
+// ── KPI DRAWER ────────────────────────────────────────────────────────────────
+function openKpiDrawer(type){
+  const overlay=document.getElementById('kpi-drawer-overlay');
+  const drawer=document.getElementById('kpi-drawer');
+  const label=document.getElementById('kpi-drawer-label');
+  const countEl=document.getElementById('kpi-drawer-count');
+  const body=document.getElementById('kpi-drawer-body');
+
+  const bugEpic=EPICS.find(e=>e.isBugEpic);
+  const allF=EPICS.flatMap(e=>e.features);
+
+  function badge(f){
+    const st=BSTATUS[f.status]||BSTATUS.backlog;
+    return `<span class="status-badge ${st.cls}" style="pointer-events:none;flex-shrink:0">${st.label}</span>`;
+  }
+  function hrsTag(f){
+    return f.hours!=null?`<span class="kpi-item-hrs">${f.hours}h</span>`:'';
+  }
+  function makeGroup(color, icon, title, count, rowsHtml){
+    return `<div class="kpi-item-group"><div class="kpi-item-group-hdr"><span class="epic-dot" style="background:${color}"></span><span>${icon} ${title}</span><span style="margin-left:auto;font-size:11px;color:var(--text3);font-weight:500">${count}</span></div>${rowsHtml}</div>`;
+  }
+  function makeRow(f){
+    return `<div class="kpi-item-row"><span class="kpi-item-name" title="${f.name}">${f.name}</span>${hrsTag(f)}${badge(f)}</div>`;
+  }
+  function emptyRow(){
+    return `<div class="kpi-item-row"><span style="color:var(--text3);font-style:italic;font-size:12px">No features mapped yet</span></div>`;
+  }
+
+  let title='', subtitle='', html='';
+
+  if(type==='epics'){
+    title='All Epics';
+    const epicList=EPICS.filter(e=>!e.isBugEpic);
+    subtitle=epicList.length+' epics';
+    html=epicList.map(epic=>makeGroup(
+      epic.color, epic.icon, epic.title,
+      epic.features.length+' features',
+      epic.features.length===0 ? emptyRow() : epic.features.map(f=>makeRow(f)).join('')
+    )).join('');
+  }
+  else if(type==='features'){
+    title='All Feature Sets';
+    const epicList=EPICS.filter(e=>!e.isBugEpic);
+    const total=epicList.reduce((a,e)=>a+e.features.length,0);
+    subtitle=total+' features';
+    const withFeatures=epicList.filter(e=>e.features.length>0);
+    html=withFeatures.length===0
+      ? `<div class="kpi-empty"><div class="kpi-empty-icon">📋</div><div style="font-size:14px;font-weight:600;color:var(--text)">No features yet</div></div>`
+      : withFeatures.map(epic=>makeGroup(
+          epic.color, epic.icon, epic.title,
+          epic.features.length,
+          epic.features.map(f=>makeRow(f)).join('')
+        )).join('');
+  }
+  else if(type==='inprogress'){
+    title='In Progress';
+    const items=allF.filter(f=>f.status==='inprogress');
+    subtitle=items.length+' items';
+    html=buildGroupedRows(items);
+  }
+  else if(type==='done'){
+    title='Done';
+    const items=allF.filter(f=>f.status==='done');
+    subtitle=items.length+' items';
+    html=buildGroupedRows(items);
+  }
+  else if(type==='bugs'){
+    title='Bugs';
+    const items=bugEpic?bugEpic.features:[];
+    subtitle=items.length+' bugs';
+    if(items.length===0){
+      html=`<div class="kpi-empty"><div class="kpi-empty-icon">🎉</div><div style="font-size:14px;font-weight:600;color:var(--text)">No bugs!</div><div style="font-size:13px">Nothing to fix right now.</div></div>`;
+    } else {
+      html=`<div class="kpi-item-group">${items.map(f=>{
+        const epicTag=f.epic?`<span class="epic-tag" style="flex-shrink:0">${f.epic}</span>`:'';
+        return `<div class="kpi-item-row"><span class="kpi-item-name" title="${f.name}">${f.name}</span>${epicTag}</div>`;
+      }).join('')}</div>`;
+    }
+  }
+
+  label.textContent=title;
+  countEl.textContent=subtitle;
+  body.innerHTML=html;
+  overlay.classList.add('open');
+  requestAnimationFrame(()=>drawer.classList.add('open'));
+}
+
+function buildGroupedRows(items){
+  if(items.length===0){
+    return `<div class="kpi-empty"><div class="kpi-empty-icon">🎉</div><div style="font-size:14px;font-weight:600;color:var(--text)">All clear!</div><div style="font-size:13px">No items in this category.</div></div>`;
+  }
+  const byEpic={};
+  items.forEach(f=>{
+    const epic=EPICS.find(e=>e.features.includes(f));
+    const key=epic?epic.id:'other';
+    if(!byEpic[key]) byEpic[key]={color:epic?epic.color:'#94a3b8',icon:epic?epic.icon:'📋',title:epic?epic.title:'Other',items:[]};
+    byEpic[key].items.push(f);
+  });
+  const BSTATUS_local=BSTATUS;
+  return Object.values(byEpic).map(g=>{
+    const rowsHtml=g.items.map(f=>{
+      const st=BSTATUS_local[f.status]||BSTATUS_local.backlog;
+      const hrsTag=f.hours!=null?`<span class="kpi-item-hrs">${f.hours}h</span>`:'';
+      return `<div class="kpi-item-row"><span class="kpi-item-name" title="${f.name}">${f.name}</span>${hrsTag}<span class="status-badge ${st.cls}" style="pointer-events:none;flex-shrink:0">${st.label}</span></div>`;
+    }).join('');
+    return `<div class="kpi-item-group"><div class="kpi-item-group-hdr"><span class="epic-dot" style="background:${g.color}"></span><span>${g.icon} ${g.title}</span><span style="margin-left:auto;font-size:11px;color:var(--text3);font-weight:500">${g.items.length}</span></div>${rowsHtml}</div>`;
+  }).join('');
+}
+
+function closeKpiDrawer(){
+  const overlay=document.getElementById('kpi-drawer-overlay');
+  const drawer=document.getElementById('kpi-drawer');
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadSaved();
+buildSummary();
+buildEpics();
+buildList();
+setView('list');
+_savedSnapshot=localStorage.getItem(STORAGE_KEY)||JSON.stringify(EPICS.map(e=>({id:e.id,features:e.features.map(f=>({name:f.name,status:f.status,hours:f.hours,detail:f.detail||null,epic:f.epic||null}))})));
+</script>
+</body>
+</html>
