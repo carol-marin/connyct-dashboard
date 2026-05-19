@@ -232,58 +232,67 @@ phases:[
 ]}
 ]}
 ]},
-{id:"deleteaccount",name:"Delete Account",icon:"🗑️",epic:"Profile",color:"#dc2626",desc:"Allow users to soft-delete their account with event/org handoff flows. 6 user stories across Sprints 92–94.",totalHours:0,
+{id:"deleteaccount",name:"Delete Account",icon:"🗑️",epic:"Profile",color:"#dc2626",desc:"Allow users to soft-delete their account with event/org handoff flows. 6 user stories across Sprints 92–95.",totalHours:0,
 phases:[
-{id:1,title:"Sprint 92",subtitle:"Core deletion + event handoff — initial development",color:"#dc2626",sprints:["Sprint 92"],start:"Apr 29",end:"May 5, 2026",goal:"Begin implementation of the core deletion flow and event handoff scenarios.",sections:[
+{id:1,title:"Sprint 92",subtitle:"Core deletion + event handoff — FE flows",color:"#059669",sprints:["Sprint 92"],start:"Apr 29",end:"May 5, 2026",goal:"Implement the frontend deletion flow, event handoff sheets and multi-event carousel.",sections:[
 {name:"CNR-1604 · US-01 — Delete my account (not a host)",stories:[
-{id:"CNCT-3115",title:"Delete account confirmation flow from Settings",type:"custom",hours:0,status:"code-review",sp:["S92"]},
-{id:"CNCT-3114",title:"Implement Soft Delete on Profile Domain",type:"custom",hours:0,status:"code-review",sp:["S92"]},
-{id:"CNCT-3126",title:"Block push notifications for deleted users",type:"custom",hours:0,status:"code-review",sp:["S92"]},
+{id:"CNCT-3115",title:"Delete account confirmation flow from Settings",type:"custom",hours:0,status:"done",sp:["S92"]},
+{id:"CNCT-3114",title:"Implement Soft Delete on Profile Domain",type:"custom",hours:0,status:"done",sp:["S92"]},
+{id:"CNCT-3126",title:"Block push notifications for deleted users",type:"custom",hours:0,status:"done",sp:["S92"]},
 ]},
 {name:"CNR-1605 · US-02 — Delete when hosting one event",stories:[
-{id:"CNCT-3117",title:"Single-event handoff sheet and picker",type:"custom",hours:0,status:"code-review",sp:["S92"]},
+{id:"CNCT-3117",title:"Single-event handoff sheet and picker",type:"custom",hours:0,status:"done",sp:["S92"]},
 ]},
 {name:"CNR-1606 · US-03 — Delete when hosting multiple events",stories:[
-{id:"CNCT-3119",title:"Multi-event handoff carousel with per-event assignment",type:"custom",hours:0,status:"code-review",sp:["S92"]},
+{id:"CNCT-3119",title:"Multi-event handoff carousel with per-event assignment",type:"custom",hours:0,status:"done",sp:["S92"]},
 ]}
 ]},
-{id:2,title:"Sprint 93",subtitle:"Core deletion + event handoff — completion",color:"#f59e0b",sprints:["Sprint 93"],start:"May 6",end:"May 12, 2026",goal:"Complete the remaining backend services, BFF endpoints and guards for all three downstream stories.",sections:[
+{id:2,title:"Sprint 93",subtitle:"Core deletion + event handoff — BE completion",color:"#059669",sprints:["Sprint 93"],start:"May 6",end:"May 12, 2026",goal:"Complete all backend services, BFF endpoints and guards for the three downstream stories.",sections:[
 {name:"CNR-1604 · US-01 — Delete my account (not a host)",stories:[
-{id:"CNCT-3127",title:"Create soft delete endpoint in BFF-CS",type:"custom",hours:0,status:"inprogress",sp:["S93"]},
-{id:"CNCT-3128",title:"Block soft deleted profile from re-authenticating",type:"custom",hours:0,status:"todo",sp:["S93"]},
-{id:"CNCT-3129",title:"Audit read queries to filter soft deletes",type:"custom",hours:0,status:"todo",sp:["S93"]},
+{id:"CNCT-3127",title:"Create soft delete endpoint in BFF-CS",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3128",title:"Block soft deleted profile from re-authenticating",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3129",title:"Audit read queries to filter soft deletes",type:"custom",hours:0,status:"done",sp:["S93"]},
 ]},
 {name:"CNR-1605 · US-02 — Delete when hosting one event",stories:[
-{id:"CNCT-3130",title:"Create service to transfer event ownership",type:"custom",hours:0,status:"inprogress",sp:["S93"]},
-{id:"CNCT-3116",title:"Create eligible-hosts service",type:"custom",hours:0,status:"todo",sp:["S93"]},
-{id:"CNCT-3131",title:"BFF endpoint to list eligible hosts",type:"custom",hours:0,status:"todo",sp:["S93"]},
+{id:"CNCT-3130",title:"Create service to transfer event ownership",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3116",title:"Create eligible-hosts service",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3131",title:"BFF endpoint to list eligible hosts",type:"custom",hours:0,status:"done",sp:["S93"]},
 ]},
 {name:"CNR-1606 · US-03 — Delete when hosting multiple events",stories:[
-{id:"CNCT-3132",title:"BFF endpoint to transfer events",type:"custom",hours:0,status:"todo",sp:["S93"]},
-{id:"CNCT-3133",title:"Guard softDeleteProfile against active hosts",type:"custom",hours:0,status:"todo",sp:["S93"]},
-{id:"CNCT-3134",title:"Service to list hosted events pending handoff",type:"custom",hours:0,status:"todo",sp:["S93"]},
-{id:"CNCT-3135",title:"BFF endpoint to list hosted events pending handoff",type:"custom",hours:0,status:"todo",sp:["S93"]},
+{id:"CNCT-3132",title:"BFF endpoint to transfer events",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3133",title:"Guard softDeleteProfile against active hosts",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3134",title:"Service to list hosted events pending handoff",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3135",title:"BFF endpoint to list hosted events pending handoff",type:"custom",hours:0,status:"done",sp:["S93"]},
 ]}
 ]},
-{id:3,title:"Sprint 94",subtitle:"Org handoff + account recovery",color:"#7c3aed",sprints:["Sprint 94"],start:"May 20",end:"May 26, 2026",goal:"Implement org admin handoff flows and account recovery for soft-deleted users.",sections:[
+{id:3,title:"Sprint 94",subtitle:"Org handoff + account recovery",color:"#7c3aed",sprints:["Sprint 94"],start:"May 20",end:"May 26, 2026",goal:"Implement org admin handoff flows (single + multiple) and begin account recovery.",sections:[
 {name:"CNR-1607 · US-04 — Admin of one org",stories:[
-{id:"TBD",title:"[FE] Single-org handoff sheet and admin picker",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Create eligible-admins service for org",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Create service to transfer org admin role",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] BFF endpoint to list eligible org admins",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] BFF endpoint to transfer org admin",type:"custom",hours:0,status:"todo",sp:["S94"]},
+{id:"CNCT-3121",title:"Single-org handoff sheet and admin picker",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3120",title:"Create eligible-admins service",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3141",title:"Create service to transfer organization admin",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3142",title:"BFF endpoint to list eligible admins",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3143",title:"BFF endpoint to transfer organization admin",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3140",title:"BFF endpoint to list admin orgs pending handoff",type:"custom",hours:0,status:"todo",sp:["S94"]},
 ]},
 {name:"CNR-1608 · US-05 — Admin of multiple orgs",stories:[
-{id:"TBD",title:"[FE] Multi-org handoff carousel with per-org assignment",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Service to list administered orgs pending handoff",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] BFF endpoint to list orgs pending handoff",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Guard softDeleteProfile against active org admins",type:"custom",hours:0,status:"todo",sp:["S94"]},
+{id:"CNCT-3123",title:"Multi-org handoff carousel with per-org assignment",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3145",title:"Service to list administered orgs pending handoff",type:"custom",hours:0,status:"code-review",sp:["S94"]},
+{id:"CNCT-3146",title:"BFF endpoint to list administered orgs pending handoff",type:"custom",hours:0,status:"inprogress",sp:["S94"]},
+{id:"CNCT-3144",title:"Guard deleteProfile_v2 against active org admins",type:"custom",hours:0,status:"inprogress",sp:["S94"]},
+{id:"CNCT-3122",title:"Multi-org handoff list and per-org eligibility filter",type:"custom",hours:0,status:"todo",sp:["S94"]},
 ]},
-{name:"CNR-1609 · US-06 — Recover my account",stories:[
-{id:"TBD",title:"[FE] Recovery flow — sign-in triggers restore instead of block",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Reverse soft-delete on successful OTP verification",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Restore profile visibility and re-index on Elasticsearch",type:"custom",hours:0,status:"todo",sp:["S94"]},
-{id:"TBD",title:"[BE] Inform user of handoffs that occurred during deletion",type:"custom",hours:0,status:"todo",sp:["S94"]},
+{name:"CNR-1609 · US-06 — Recover my account ⚠️ spillover → S95",stories:[
+{id:"CNCT-3125",title:"Account recovery welcome state and handoff notification",type:"custom",hours:0,status:"inprogress",sp:["S94"]},
+{id:"CNCT-3124",title:"Add RECOVERED status and lookup/restore helpers",type:"custom",hours:0,status:"todo",sp:["S94","S95"]},
+{id:"CNCT-3147",title:"Create restoreProfile service",type:"custom",hours:0,status:"todo",sp:["S94","S95"]},
+{id:"CNCT-3148",title:"Trigger profile recovery on phone sign-in flow",type:"custom",hours:0,status:"todo",sp:["S94","S95"]},
+]}
+]},
+{id:4,title:"Sprint 95",subtitle:"US-06 spillover + remaining items",color:"#f97316",sprints:["Sprint 95"],start:"May 27",end:"Jun 2, 2026",goal:"Complete account recovery tasks that spilled from Sprint 94 and wrap up remaining items.",sections:[
+{name:"CNR-1609 · US-06 — Recover my account (spillover)",stories:[
+{id:"CNCT-3124",title:"Add RECOVERED status and lookup/restore helpers",type:"custom",hours:0,status:"todo",sp:["S95"]},
+{id:"CNCT-3147",title:"Create restoreProfile service",type:"custom",hours:0,status:"todo",sp:["S95"]},
+{id:"CNCT-3148",title:"Trigger profile recovery on phone sign-in flow",type:"custom",hours:0,status:"todo",sp:["S95"]},
 ]}
 ]}
 ]}
@@ -362,26 +371,42 @@ const SPRINT92={name:"Sprint 92",date:"Apr 29 – May 5, 2026",focus:"Delete Acc
 ]};
 
 const SPRINT93={name:"Sprint 93",date:"May 6 – May 12, 2026",focus:"Delete Account",stories:[
-{key:"CNR-1604",name:"US-01 — Delete my account (not a host)",status:"In Progress",board:"Downstream",tasks:[
-{key:"CNCT-3127",name:"Create soft delete endpoint in BFF-CS",type:"BE",status:"In Progress",assignee:"Luís Felipe C."},
-{key:"CNCT-3128",name:"Block soft deleted profile from re-authenticating",type:"BE",status:"Ready for Dev",assignee:"Luís Felipe C."},
-{key:"CNCT-3129",name:"Audit read queries to filter soft deletes",type:"BE",status:"Ready for Dev",assignee:"Luís Felipe C."},
-]},{key:"CNR-1605",name:"US-02 — Delete when hosting one event",status:"In Progress",board:"Downstream",tasks:[
-{key:"CNCT-3130",name:"Create service to transfer event ownership",type:"BE",status:"In Progress",assignee:"leonardo.garcez"},
-{key:"CNCT-3116",name:"Create eligible-hosts service",type:"BE",status:"Ready for Dev",assignee:"leonardo.garcez"},
-{key:"CNCT-3131",name:"BFF endpoint to list eligible hosts",type:"BE",status:"Ready for Dev",assignee:"leonardo.garcez"},
-]},{key:"CNR-1606",name:"US-03 — Delete when hosting multiple events",status:"In Progress",board:"Downstream",tasks:[
-{key:"CNCT-3132",name:"BFF endpoint to transfer events",type:"BE",status:"Ready for Dev",assignee:"leonardo.garcez"},
-{key:"CNCT-3133",name:"Guard softDeleteProfile against active hosts",type:"BE",status:"Ready for Dev",assignee:"leonardo.garcez"},
-{key:"CNCT-3134",name:"Service to list hosted events pending handoff",type:"BE",status:"Ready for Dev",assignee:"leonardo.garcez"},
-{key:"CNCT-3135",name:"BFF endpoint to list hosted events pending handoff",type:"BE",status:"Ready for Dev",assignee:"leonardo.garcez"},
+{key:"CNR-1604",name:"US-01 — Delete my account (not a host)",status:"Done",tasks:[
+{key:"CNCT-3127",name:"Create soft delete endpoint in BFF-CS",type:"BE",status:"Done"},
+{key:"CNCT-3128",name:"Block soft deleted profile from re-authenticating",type:"BE",status:"Done"},
+{key:"CNCT-3129",name:"Audit read queries to filter soft deletes",type:"BE",status:"Done"},
+]},{key:"CNR-1605",name:"US-02 — Delete when hosting one event",status:"Done",tasks:[
+{key:"CNCT-3130",name:"Create service to transfer event ownership",type:"BE",status:"Done"},
+{key:"CNCT-3116",name:"Create eligible-hosts service",type:"BE",status:"Done"},
+{key:"CNCT-3131",name:"BFF endpoint to list eligible hosts",type:"BE",status:"Done"},
+]},{key:"CNR-1606",name:"US-03 — Delete when hosting multiple events",status:"Done",tasks:[
+{key:"CNCT-3132",name:"BFF endpoint to transfer events",type:"BE",status:"Done"},
+{key:"CNCT-3133",name:"Guard softDeleteProfile against active hosts",type:"BE",status:"Done"},
+{key:"CNCT-3134",name:"Service to list hosted events pending handoff",type:"BE",status:"Done"},
+{key:"CNCT-3135",name:"BFF endpoint to list hosted events pending handoff",type:"BE",status:"Done"},
 ]}
 ]};
 
 const SPRINT94={name:"Sprint 94",date:"May 20 – May 26, 2026",focus:"Delete Account",stories:[
-{key:"CNR-1607",name:"US-04 — Admin of one org",status:"To Do",board:"Upstream",tasks:[]},
-{key:"CNR-1608",name:"US-05 — Admin of multiple orgs",status:"To Do",board:"Upstream",tasks:[]},
-{key:"CNR-1609",name:"US-06 — Recover my account",status:"To Do",board:"Upstream",tasks:[]},
+{key:"CNR-1607",name:"US-04 — Admin of one org",status:"In Progress",tasks:[
+{key:"CNCT-3121",name:"Single-org handoff sheet and admin picker",type:"FE",status:"Code Review"},
+{key:"CNCT-3120",name:"Create eligible-admins service",type:"BE",status:"Code Review"},
+{key:"CNCT-3141",name:"Create service to transfer organization admin",type:"BE",status:"Code Review"},
+{key:"CNCT-3142",name:"BFF endpoint to list eligible admins",type:"BE",status:"Code Review"},
+{key:"CNCT-3143",name:"BFF endpoint to transfer organization admin",type:"BE",status:"Code Review"},
+{key:"CNCT-3140",name:"BFF endpoint to list admin orgs pending handoff",type:"BE",status:"Ready for Dev"},
+]},{key:"CNR-1608",name:"US-05 — Admin of multiple orgs",status:"In Progress",tasks:[
+{key:"CNCT-3123",name:"Multi-org handoff carousel with per-org assignment",type:"FE",status:"Code Review"},
+{key:"CNCT-3122",name:"Multi-org handoff list and per-org eligibility filter",type:"BE",status:"Ready for Dev"},
+{key:"CNCT-3144",name:"Guard deleteProfile_v2 against active org admins",type:"BE",status:"In Progress"},
+{key:"CNCT-3145",name:"Service to list administered orgs pending handoff",type:"BE",status:"Code Review"},
+{key:"CNCT-3146",name:"BFF endpoint to list administered orgs pending handoff",type:"BE",status:"In Progress"},
+]},{key:"CNR-1609",name:"US-06 — Recover my account",status:"In Progress",tasks:[
+{key:"CNCT-3125",name:"Account recovery welcome state and handoff notification",type:"FE",status:"In Progress"},
+{key:"CNCT-3124",name:"Add RECOVERED status and lookup/restore helpers",type:"BE",status:"Ready for Dev"},
+{key:"CNCT-3147",name:"Create restoreProfile service",type:"BE",status:"Ready for Dev"},
+{key:"CNCT-3148",name:"Trigger profile recovery on phone sign-in flow",type:"BE",status:"Ready for Dev"},
+]}
 ]};
 
 // ═══ RENDER BACKLOG ═══
@@ -460,28 +485,27 @@ const TIMELINE=[
 {num:90,date:"Apr 15–21",focus:"Organization Bugs",status:"done",items:"5 bugs fixed"},
 {num:91,date:"Apr 22–28",focus:"Organization Bugs",status:"done",items:"6 bugs fixed"},
 {num:92,date:"Apr 29–May 5",focus:"Delete Account",status:"done",items:"US-01, US-02, US-03 (FE)"},
-{num:93,date:"May 6–12",focus:"Delete Account",status:"active",items:"US-01, US-02, US-03 (BE)"},
-{num:94,date:"May 20–26",focus:"Delete Account",status:"upcoming",items:"US-04, US-05, US-06"},
-{num:95,date:"May 27–Jun 2",focus:"TBD",status:"empty",items:"To be planned"},
+{num:93,date:"May 6–12",focus:"Delete Account",status:"done",items:"US-01, US-02, US-03 (BE)"},
+{num:94,date:"May 20–26",focus:"Delete Account",status:"active",items:"US-04, US-05, US-06"},
+{num:95,date:"May 27–Jun 2",focus:"Delete Account",status:"upcoming",items:"US-06 spillover + TBD"},
 ];
 
 // Feature lanes for timeline
 const LANES=[
 {name:"Chat / SubChats",color:"#10b981",spans:[{start:84,end:87,label:"Core → Navigation",status:"done"}]},
 {name:"Org Bugs",color:"#dc2626",spans:[{start:88,end:91,label:"26 bugs fixed",status:"done"}]},
-{name:"Delete Account",color:"#f59e0b",spans:[{start:92,end:93,label:"US-01 to US-03",status:"active"},{start:94,end:94,label:"US-04 to US-06",status:"upcoming"}]},
-{name:"Sprint 95",color:"#7c3aed",spans:[{start:95,end:95,label:"To be planned",status:"empty"}]},
+{name:"Delete Account",color:"#f59e0b",spans:[{start:92,end:93,label:"US-01 to US-03",status:"done"},{start:94,end:94,label:"US-04, US-05, US-06",status:"active"}]},
+{name:"Spillover (US-06)",color:"#f97316",spans:[{start:94,end:95,label:"Recover my account",status:"upcoming"}]},
 ];
 
 (function(){
-  document.getElementById('home-sprint-meta').innerHTML=`<span class="home-card-chip" style="background:var(--amber-bg);color:var(--amber)">Sprint 93 — Active</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">12 sprints mapped</span>`;
+  document.getElementById('home-sprint-meta').innerHTML=`<span class="home-card-chip" style="background:var(--amber-bg);color:var(--amber)">Sprint 94 — Active</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">12 sprints mapped</span>`;
 
   // Sprint View
   let html='';
-  html+=`<div class="sprint-section-block"><div class="sprint-section-label"><div class="dot" style="background:var(--amber)"></div>Ongoing Sprint</div>${renderSprintCard(SPRINT93,'var(--amber)')}</div>`;
-  html+=`<div class="sprint-section-block"><div class="sprint-section-label"><div class="dot" style="background:var(--accent)"></div>Upcoming Sprint</div>${renderSprintCard(SPRINT94,'var(--accent)')}</div>`;
+  html+=`<div class="sprint-section-block"><div class="sprint-section-label"><div class="dot" style="background:var(--amber)"></div>Ongoing Sprint</div>${renderSprintCard(SPRINT94,'var(--amber)')}</div>`;
   html+=`<div class="sprint-section-block"><div class="sprint-section-label"><div class="dot" style="background:var(--green)"></div>Past Sprints</div>`;
-  [SPRINT92,SPRINT91,SPRINT90,SPRINT89,SPRINT88,SPRINT87,SPRINT86,SPRINT85,SPRINT84].forEach(sp=>{
+  [SPRINT93,SPRINT92,SPRINT91,SPRINT90,SPRINT89,SPRINT88,SPRINT87,SPRINT86,SPRINT85,SPRINT84].forEach(sp=>{
     html+=`<div style="margin-bottom:12px">${renderSprintCard(sp,'var(--green)')}</div>`;
   });
   html+=`</div>`;
@@ -489,7 +513,7 @@ const LANES=[
 
   // Timeline View
   const sprintNums=TIMELINE.map(s=>s.num);
-  const currentSprint=93;
+  const currentSprint=94;
   const weekHeaders=TIMELINE.map(s=>`<div class="tl-week${s.num===currentSprint?' tl-now':''}"><div>S${s.num}</div><div style="font-size:9px;margin-top:2px;color:var(--text-tertiary)">${s.date}</div></div>`).join('');
 
   const laneRows=LANES.map(lane=>{
