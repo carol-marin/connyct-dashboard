@@ -188,19 +188,25 @@ function showBdLanding(){document.getElementById('bd-landing').style.display='bl
 function showBdDetail(idx){document.getElementById('bd-landing').style.display='none';document.getElementById('bd-detail').style.display='block';renderBdDetail(idx);window.scrollTo(0,0);}
 document.getElementById('nav-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 
-const EPICS=[{icon:"👤",title:"Profile",color:"#06b6d4",features:[{name:"Delete Account",status:"done",bdIdx:1},{name:"Edit Email",status:"backlog"},{name:"Verify Email",status:"backlog"},{name:"Remove 'Add Friend' feature",status:"backlog"},{name:"Connyct Finder",status:"backlog"}]},{icon:"🏢",title:"Organizations",color:"#10b981",features:[{name:"Create Events",status:"done"},{name:"Publish Content",status:"done"},{name:"View Organization Profile Page",status:"done"},{name:"Discover Organizations",status:"done"},{name:"Calendar",status:"done"},{name:"Chat / SubChats",status:"paused",hours:612,bdIdx:0},{name:"Privacy Settings",status:"backlog",hours:21,bdIdx:2},{name:"Announcements",status:"backlog",hours:51,bdIdx:3}]},{icon:"🎥",title:"MSFV",color:"#6366f1",features:[{name:"1.5X / 2X Video Speed",status:"backlog"},{name:"Record Style / Snap vs tapping w/ pictures",status:"backlog"},{name:"Algorithm",status:"backlog"},{name:"Libraries — all videos by school / same music",status:"backlog"},{name:"Icon to 'Use' Song",status:"backlog"},{name:"Recording seconds indicator (red box)",status:"backlog"}]},{icon:"🎵",title:"Music",color:"#ec4899",features:[{name:"Original Video Sound",status:"backlog"},{name:"Trending Musics",status:"backlog"}]},{icon:"🎟",title:"Events",color:"#f59e0b",features:[{name:"Venue Page for Venues",status:"backlog"},{name:"Enable third-party non-students to create org accounts",status:"backlog"},{name:"Aftermath",status:"backlog"},{name:"Barcode / 4-digit pin to get into events",status:"backlog"}]},{icon:"🤖",title:"CampusAI",color:"#8b5cf6",features:[{name:"Design",status:"backlog"},{name:"Integration",status:"backlog"},{name:"Expansion",status:"backlog"},{name:"Events Integration",status:"backlog"}]},{icon:"📺",title:"Channels",color:"#0ea5e9",features:[{name:"Post College",status:"backlog"},{name:"High School",status:"backlog"},{name:"Other Channels (News / Comedy)",status:"backlog"},{name:"Create your own Channel",status:"backlog"}]},{icon:"📱",title:"Android / International",color:"#64748b",features:[{name:"Android",status:"backlog"},{name:"India Requirements",status:"backlog"}]},{icon:"💰",title:"Revenue Models",color:"#f43f5e",features:[{name:"Social Commerce",status:"backlog"},{name:"Venue Sponsorships",status:"backlog"},{name:"Ads / Streaming Ads",status:"backlog"}]},{icon:"📣",title:"Marketing",color:"#f97316",features:[{name:"Apps Flyer",status:"backlog"},{name:"Restore Meta Ads Tracking",status:"backlog"}]},{icon:"🛠",title:"Admin Panel",color:"#475569",features:[{name:"Automate Push Notifications",status:"backlog"},{name:"Manage / Update Trending Musics",status:"backlog"},{name:"Create University Accounts",status:"backlog"}]},{icon:"🪙",title:"Tokens",color:"#ca8a04",features:[]},{icon:"📡",title:"Live Streaming",color:"#ef4444",features:[]},{icon:"💘",title:"Dating",color:"#f43f5e",features:[]},{icon:"🏠",title:"Walk me Home",color:"#10b981",features:[]},{icon:"🔍",title:"FriendFinder",color:"#6366f1",features:[]},{icon:"🚀",title:"Shippable",color:"#0ea5e9",features:[]}];
+const EPICS=[{icon:"👤",title:"Profile",color:"#06b6d4",features:[{name:"Delete Account",status:"done",bdIdx:2},{name:"Edit Email",status:"backlog"},{name:"Verify Email",status:"backlog"},{name:"Remove 'Add Friend' feature",status:"backlog"},{name:"Connyct Finder",status:"backlog"}]},{icon:"🏢",title:"Organizations",color:"#10b981",features:[{name:"Create Events",status:"done"},{name:"Publish Content",status:"done"},{name:"View Organization Profile Page",status:"done"},{name:"Discover Organizations",status:"done"},{name:"Calendar",status:"done"},{name:"Chat",status:"paused",hours:160,bdIdx:0},{name:"SubChats",status:"paused",hours:452,bdIdx:1},{name:"Privacy Settings",status:"backlog",hours:21,bdIdx:3},{name:"Announcements",status:"backlog",hours:51,bdIdx:4}]},{icon:"🎥",title:"MSFV",color:"#6366f1",features:[{name:"1.5X / 2X Video Speed",status:"backlog"},{name:"Record Style / Snap vs tapping w/ pictures",status:"backlog"},{name:"Algorithm",status:"backlog"},{name:"Libraries — all videos by school / same music",status:"backlog"},{name:"Icon to 'Use' Song",status:"backlog"},{name:"Recording seconds indicator (red box)",status:"backlog"}]},{icon:"🎵",title:"Music",color:"#ec4899",features:[{name:"Original Video Sound",status:"backlog"},{name:"Trending Musics",status:"backlog"}]},{icon:"🎟",title:"Events",color:"#f59e0b",features:[{name:"Venue Page for Venues",status:"backlog"},{name:"Enable third-party non-students to create org accounts",status:"backlog"},{name:"Aftermath",status:"backlog"},{name:"Barcode / 4-digit pin to get into events",status:"backlog"}]},{icon:"🤖",title:"CampusAI",color:"#8b5cf6",features:[{name:"Design",status:"backlog"},{name:"Integration",status:"backlog"},{name:"Expansion",status:"backlog"},{name:"Events Integration",status:"backlog"}]},{icon:"📺",title:"Channels",color:"#0ea5e9",features:[{name:"Post College",status:"backlog"},{name:"High School",status:"backlog"},{name:"Other Channels (News / Comedy)",status:"backlog"},{name:"Create your own Channel",status:"backlog"}]},{icon:"📱",title:"Android / International",color:"#64748b",features:[{name:"Android",status:"backlog"},{name:"India Requirements",status:"backlog"}]},{icon:"💰",title:"Revenue Models",color:"#f43f5e",features:[{name:"Social Commerce",status:"backlog"},{name:"Venue Sponsorships",status:"backlog"},{name:"Ads / Streaming Ads",status:"backlog"}]},{icon:"📣",title:"Marketing",color:"#f97316",features:[{name:"Apps Flyer",status:"backlog"},{name:"Restore Meta Ads Tracking",status:"backlog"}]},{icon:"🛠",title:"Admin Panel",color:"#475569",features:[{name:"Automate Push Notifications",status:"backlog"},{name:"Manage / Update Trending Musics",status:"backlog"},{name:"Create University Accounts",status:"backlog"}]},{icon:"🪙",title:"Tokens",color:"#ca8a04",features:[]},{icon:"📡",title:"Live Streaming",color:"#ef4444",features:[]},{icon:"💘",title:"Dating",color:"#f43f5e",features:[]},{icon:"🏠",title:"Walk me Home",color:"#10b981",features:[]},{icon:"🔍",title:"FriendFinder",color:"#6366f1",features:[]},{icon:"🚀",title:"Shippable",color:"#0ea5e9",features:[]}];
 const BUGS=[{name:"Followed users appear as unfollowed",epic:"Profile"},{name:"Scrolling through profile videos does not maintain list order",epic:"Profile"},{name:"Profiles are automatically skipped in the Following tab",epic:"Profile"},{name:"Notification opens incorrect user profile",epic:"Profile"},{name:"Feed – College Tag Not Displayed Next to Username",epic:"Profile"},{name:"Shared Event Link Does Not Display Video for External Users",epic:"Events"},{name:"Unable to edit event picture/video",epic:"Events"},{name:"Error When Accessing Chat for the First Time After Joining Organization",epic:"Organizations"},{name:"Incorrect Profile Loaded After Joining via Feed",epic:"Organizations"},{name:"Join Button State Only Updates After Second Attempt",epic:"Organizations"}];
 
 // ═══ FEATURES WITH BREAKDOWN ═══
 const FEATURES=[
-{id:"chat",name:"Chat / SubChats",icon:"💬",epic:"Organizations",color:"#10b981",desc:"Full messaging system with subchats for organizations. Sprints 84–91.",totalHours:612,
+{id:"chat",name:"Chat",icon:"💬",epic:"Organizations",color:"#6366f1",desc:"Core messaging experience — inbox, sending messages, chat actions. Sprint 84 + deferred enhancements.",totalHours:160,
 phases:[
 {id:1,title:"Core Chat + Inbox",subtitle:"The baseline experience",color:"#6366f1",sprints:["Sprint 84"],start:"Mar 4",end:"Mar 10, 2026",goal:"Users can view their inbox, navigate chats, send messages and manage conversations.",sections:[
 {name:"📬 1.1 Inbox",flow:"chat_explore_inbox",stories:[{id:"1.1.1",title:"Inbox — View",type:"native",hours:12,status:"done",sp:["S84"]},{id:"1.1.2",title:"Inbox — Filter",type:"custom",hours:28,status:"done",sp:["S84"]},{id:"1.2.3",title:"Pinned Chats",type:"custom",hours:12,status:"done",sp:["S84"]},{id:"1.2.4",title:"Muted Chats",type:"custom",hours:12,status:"done",sp:["S84"]}]},
 {name:"💬 2.3 Sending Messages",stories:[{id:"2.3.1",title:"Send Text Message",type:"native",hours:0,status:"done",sp:["S84"]},{id:"2.3.2",title:"Emoji Picker",type:"native",hours:0,status:"done",sp:["S84"]}]},
 {name:"💬 2.2 Chat Actions Menu",stories:[{id:"2.2.1",title:"Chat Action Menu",type:"custom",hours:24,status:"done",sp:["S84"]},{id:"2.2.2",title:"Pin Chat",type:"native",hours:10,status:"done",sp:["S84"]},{id:"2.2.3",title:"Mute Chat",type:"native",hours:4,status:"done",sp:["S84"]},{id:"2.2.4",title:"Mark as Unread",type:"native",hours:2,status:"done",sp:["S84"]}]}
 ]},
-{id:2,title:"SubChats — Core",subtitle:"Create, Join & Discover",color:"#10b981",sprints:["Sprint 85","Sprint 86"],start:"Mar 11",end:"Mar 24, 2026",goal:"Users can create subchats, discover and join existing ones inside an org chat.",sections:[
+{id:2,title:"Deferred Enhancements",subtitle:"Search, media, archive & leave",color:"#64748b",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Remaining enhancements: search, media bubbles, leave chat and archive chat.",sections:[
+{name:"🔧 Deferred Features",flow:"chat_archive",stories:[{id:"1.1.3",title:"Inbox — Search",type:"native",hours:12,status:"todo",sp:[]},{id:"1.4.1",title:"Bubbles & Recent Media",type:"custom",hours:32,status:"todo",sp:[]},{id:"2.2.5",title:"Archive Chat",type:"native",hours:4,status:"todo",sp:[]},{id:"2.2.6",title:"Leave Chat",type:"custom",hours:8,status:"todo",sp:[]}]}
+]}
+]},
+{id:"subchats",name:"SubChats",icon:"💬",epic:"Organizations",color:"#10b981",desc:"Organization subchats — create, discover, join, navigate and moderate. Sprints 85–87 + backlog.",totalHours:452,
+phases:[
+{id:1,title:"SubChats — Core",subtitle:"Create, Join & Discover",color:"#10b981",sprints:["Sprint 85","Sprint 86"],start:"Mar 11",end:"Mar 24, 2026",goal:"Users can create subchats, discover and join existing ones inside an org chat.",sections:[
 {name:"✏️ 4.1 Create Subchat Flow",flow:"chat_create_subchat",stories:[{id:"4.1.1",title:"Entry Points for Create Subchat",type:"custom",hours:22,status:"done",sp:["S85"]},{id:"4.1.2",title:"Name the Subchat",type:"native",hours:6,status:"done",sp:["S85"]},{id:"4.1.3",title:"Add a Photo",type:"native",hours:6,status:"done",sp:["S85"]},{id:"4.1.4",title:"Toggle Private / Public",type:"native",hours:4,status:"done",sp:["S85"]},{id:"4.1.5",title:"Set Intro Message",type:"native",hours:8,status:"done",sp:["S85"]}]},
 {name:"🔍 3.1 Subchat Discovery",flow:"chat_explore_dropdown",stories:[{id:"3.1.1",title:"Browse Available Subchats",type:"custom",hours:9,status:"done",sp:["S86"]},{id:"3.1.2",title:"Empty vs Joined States",type:"custom",hours:24,status:"todo",sp:[]}]},
 {name:"💬 2.1 Open & View a Chat",flow:"chat_dropdown_menu",stories:[{id:"2.1.2",title:"Subchat Dropdown from Header",type:"custom",hours:44,status:"done",sp:["S86"]}]},
@@ -209,58 +215,19 @@ phases:[
 {name:"🔴 Bugs — Sprint 85",stories:[{id:"BUG-01",title:"Org Events disappear after switching",type:"bug",hours:0,status:"done",sp:["S85"]},{id:"BUG-02",title:"Org events not on calendar",type:"bug",hours:0,status:"done",sp:["S85"]}]},
 {name:"🔧 Other — Sprint 85",stories:[{id:"OTH-02",title:"Org Creation Spreadsheet",type:"other",hours:0,status:"done",sp:["S85"]}]}
 ]},
-{id:3,title:"SubChats — Navigation",subtitle:"Inbox Items, Chat Views & Detail",color:"#f59e0b",sprints:["Sprint 87"],start:"Mar 25",end:"Mar 31, 2026",goal:"Users can navigate subchats from the inbox, open chat screens and access detail views.",sections:[
+{id:2,title:"SubChats — Navigation",subtitle:"Inbox Items, Chat Views & Detail",color:"#f59e0b",sprints:["Sprint 87"],start:"Mar 25",end:"Mar 31, 2026",goal:"Users can navigate subchats from the inbox, open chat screens and access detail views.",sections:[
 {name:"✏️ 4.1 Create Subchat (cont.)",flow:"chat_add_members",stories:[{id:"4.1.6",title:"Add Members",type:"custom",hours:24,status:"done",sp:["S87"]},{id:"4.1.7",title:"Redirection after creation",type:"custom",hours:28,status:"done",sp:["S87"]}]},
 {name:"🏢 Organizations — Sprint 87",stories:[{id:"ORG-01",title:"Organization Icon",type:"other",hours:0,status:"done",sp:["S87"]}]},
 {name:"💬 2.1 Open & View",flow:"chat_gain_access",stories:[{id:"2.1.1",title:"View Chat Screen",type:"native",hours:12,status:"todo",sp:[]},{id:"2.1.3",title:"Welcome / Intro Message",type:"native",hours:8,status:"todo",sp:[]}]},
 {name:"📥 1.2 Chat Items",stories:[{id:"1.2.1",title:"Subchat Badge & Expand/Collapse",type:"custom",hours:64,status:"todo",sp:[]}]},
 {name:"📄 3.3 Subchat Detail",flow:"chat_private_invite",stories:[{id:"3.3.1",title:"Open a Subchat",type:"native",hours:8,status:"todo",sp:[]},{id:"3.3.2",title:"Private Subchat First Open",type:"custom",hours:12,status:"todo",sp:[]}]},
-{name:"📄 6 Org Chat",stories:[{id:"6.1.1",title:"Empty State — No Subchats",type:"custom",hours:6,status:"todo",sp:[]}]}
+{name:"📄 6 Org Chat",stories:[{id:"6.1.1",title:"Empty State — No Subchats",type:"custom",hours:6,status:"done",sp:["S87"]}]}
 ]},
-{id:4,title:"Admin & Moderation",subtitle:"Members, Requests & Notifications",color:"#ec4899",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Admins can manage members, approve join requests and act on notifications.",sections:[
+{id:3,title:"Admin & Moderation",subtitle:"Members, Requests & Notifications",color:"#ec4899",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Admins can manage members, approve join requests and act on notifications.",sections:[
 {name:"👥 5.1 Members List",flow:"chat_admin_approve",stories:[{id:"5.1.1",title:"View Members List",type:"custom",hours:28,status:"todo",sp:[]},{id:"5.1.2",title:"Accept or Ignore Join Request",type:"custom",hours:52,status:"todo",sp:[]}]},
 {name:"👥 5.2 Requests",stories:[{id:"5.2.1",title:"Full Requests Management",type:"custom",hours:6,status:"todo",sp:[]}]},
-{name:"🔍 3.2 Joining",flow:"chat_join_first",stories:[{id:"3.2.2",title:"Request to Join Private Subchat",type:"custom",hours:44,status:"todo",sp:[]}]},
+{name:"🔍 3.2 Joining",flow:"chat_join_request",stories:[{id:"3.2.2",title:"Request to Join Private Subchat",type:"custom",hours:44,status:"todo",sp:[]}]},
 {name:"🔔 1.3 Notifications",stories:[{id:"1.3.2",title:"Join Request Notification",type:"custom",hours:28,status:"todo",sp:[]}]}
-]},
-{id:5,title:"Other",subtitle:"Deferred enhancements",color:"#64748b",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Remaining enhancements: search, media bubbles, leave chat and archive chat.",sections:[
-{name:"🔧 Deferred",flow:"chat_archive",stories:[{id:"1.1.3",title:"Inbox — Search",type:"native",hours:12,status:"todo",sp:[]},{id:"1.4.1",title:"Bubbles & Recent Media",type:"custom",hours:32,status:"todo",sp:[]},{id:"2.2.5",title:"Archive Chat",type:"native",hours:4,status:"todo",sp:[]},{id:"2.2.6",title:"Leave Chat",type:"custom",hours:8,status:"todo",sp:[]}]}
-]},
-{id:6,title:"Organization Bugs",subtitle:"Sprints 88–91",color:"#dc2626",sprints:["Sprint 88","Sprint 89","Sprint 90","Sprint 91"],start:"Apr 1",end:"Apr 28, 2026",goal:"Fix critical bugs found during QA and beta testing of Organizations and SubChats.",sections:[
-{name:"🔴 Sprint 88 — Apr 1 → Apr 7",stories:[
-{id:"BUG-88-01",title:'"Chat Not Found" Error on Personal and Organization Accounts',type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-02",title:'Error Message "There Was a Problem Updating Your Profile"',type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-03",title:"#1 | Hard Time Distinguishing Between Org and Personal Accounts",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-04",title:"#2 | Org Calendar Shows Wrong Events",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-05",title:"#3 | Cannot Open Subchats for Several Orgs",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-06",title:"#4 | 'Create Subchat' (+) Button Does Nothing",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-07",title:"#5 | Messages Fail to Send in Newly Created Subchats",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-08",title:"#6 | Cannot Invite Users to a Private Subchat After Creation",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-09",title:"#7 | Videos Bleed Between Personal and Org Accounts When Switching Tabs",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-10",title:"#8 | Subchat Notifications Appear Under DMs Instead of Orgs",type:"bug",hours:0,status:"done",sp:["S88"]},
-{id:"BUG-88-11",title:"#9 | Org Invite Sends 'Join the App' Link Instead of 'Join the Org' Link",type:"bug",hours:0,status:"done",sp:["S88"]}
-]},
-{name:"🔴 Sprint 89 — Apr 8 → Apr 14",stories:[
-{id:"BUG-89-01",title:"#1 | Hard Time Distinguishing Between Org and Personal Accounts",type:"bug",hours:0,status:"done",sp:["S89"]},
-{id:"BUG-89-02",title:"Videos display out of order when selecting an item from the list",type:"bug",hours:0,status:"done",sp:["S89"]},
-{id:"BUG-89-03",title:'"Require Permission to Join" toggle not persisting',type:"bug",hours:0,status:"done",sp:["S89"]},
-{id:"BUG-89-04",title:"Posted videos not appearing on some Org profiles",type:"bug",hours:0,status:"done",sp:["S89"]}
-]},
-{name:"🔴 Sprint 90 — Apr 15 → Apr 21",stories:[
-{id:"BUG-90-01",title:"Upcoming Events – Unable to Join Directly from List",type:"bug",hours:0,status:"done",sp:["S90"]},
-{id:"BUG-90-02",title:"Scroll Only Works When Touching Bottom Area (Connyct UMD)",type:"bug",hours:0,status:"done",sp:["S90"]},
-{id:"BUG-90-03",title:"Event Join Flow – Phone Verification Redirects User Back to Profile",type:"bug",hours:0,status:"done",sp:["S90"]},
-{id:"BUG-90-04",title:"Conversation Name Incorrectly Changes to Another Organization",type:"bug",hours:0,status:"done",sp:["S90"]},
-{id:"BUG-90-05",title:"Join Button State Only Updates After Second Attempt",type:"bug",hours:0,status:"done",sp:["S90"]}
-]},
-{name:"🔴 Sprint 91 — Apr 22 → Apr 28",stories:[
-{id:"BUG-91-01",title:"Disable Organization Creation via URL",type:"bug",hours:0,status:"done",sp:["S91"]},
-{id:"BUG-91-02",title:"Error When Accessing Chat for the First Time After Joining Organization",type:"bug",hours:0,status:"done",sp:["S91"]},
-{id:"BUG-91-03",title:"Feed - Missing Feedback Animation on 'Join Now' Action",type:"bug",hours:0,status:"done",sp:["S91"]},
-{id:"BUG-91-04",title:"Incorrect Profile Loaded After Joining via Feed",type:"bug",hours:0,status:"done",sp:["S91"]},
-{id:"BUG-91-05",title:"Avatar Inconsistency – Feed vs Profile",type:"bug",hours:0,status:"done",sp:["S91"]},
-{id:"BUG-91-06",title:"Likes and Comments Display Inconsistency",type:"bug",hours:0,status:"done",sp:["S91"]}
-]}
 ]}
 ]},
 {id:"deleteaccount",name:"Delete Account",icon:"🗑️",epic:"Profile",color:"#dc2626",desc:"Allow users to soft-delete their account with event/org handoff flows. 6 user stories across Sprints 92–95. ✅ Released to App Store.",totalHours:0,
@@ -365,23 +332,23 @@ phases:[
 ];
 
 // ═══ SPRINTS ═══
-const SPRINT84={name:"Sprint 84",date:"Mar 4 – Mar 10, 2026",focus:"Chat / SubChats",stories:[
+const SPRINT84={name:"Sprint 84",date:"Mar 4 – Mar 10, 2026",focus:"Chat",stories:[
 {key:"US-1.1.1",name:"Inbox — View",status:"Done",tasks:[{key:"1.1.1",name:"Inbox layout & navigation",type:"FE",status:"Done"},{key:"1.1.1b",name:"Inbox API endpoint",type:"BE",status:"Done"}]},
 {key:"US-1.1.2",name:"Inbox — Filter",status:"Done",tasks:[{key:"1.1.2",name:"Filter logic (All, Unread, Requests)",type:"FE",status:"Done"}]},
 {key:"US-2.3",name:"Sending Messages",status:"Done",tasks:[{key:"2.3.1",name:"Text message input & send",type:"FE",status:"Done"},{key:"2.3.2",name:"Emoji picker integration",type:"FE",status:"Done"}]},
 {key:"US-2.2",name:"Chat Actions Menu",status:"Done",tasks:[{key:"2.2.1",name:"Action menu overlay UI",type:"FE",status:"Done"},{key:"2.2.2",name:"Pin / Mute / Mark as Unread",type:"FE",status:"Done"},{key:"2.2.3",name:"Chat actions API",type:"BE",status:"Done"}]},
 ]};
-const SPRINT85={name:"Sprint 85",date:"Mar 11 – Mar 17, 2026",focus:"Chat / SubChats",stories:[
+const SPRINT85={name:"Sprint 85",date:"Mar 11 – Mar 17, 2026",focus:"SubChats",stories:[
 {key:"US-4.1",name:"Create Subchat Flow",status:"Done",tasks:[{key:"4.1.1",name:"Entry points for creating subchat",type:"FE",status:"Done"},{key:"4.1.2",name:"Name, photo, privacy toggle UI",type:"FE",status:"Done"},{key:"4.1.3",name:"Intro message step",type:"FE",status:"Done"},{key:"4.1.4",name:"Create subchat API",type:"BE",status:"Done"}]},
 {key:"BUG",name:"Bugs — Sprint 85",status:"Done",tasks:[{key:"BUG-01",name:"Org Events disappear after switching account",type:"FE",status:"Done"},{key:"BUG-02",name:"Org events not displayed on calendar",type:"BE",status:"Done"}]},
 {key:"OTH",name:"Other — Sprint 85",status:"Done",tasks:[{key:"OTH-02",name:"Organization Creation Spreadsheet",type:"BE",status:"Done"}]},
 ]};
-const SPRINT86={name:"Sprint 86",date:"Mar 18 – Mar 24, 2026",focus:"Chat / SubChats",stories:[
+const SPRINT86={name:"Sprint 86",date:"Mar 18 – Mar 24, 2026",focus:"SubChats",stories:[
 {key:"US-3.1",name:"Subchat Discovery",status:"Done",tasks:[{key:"3.1.1",name:"Browse Available Subchats UI",type:"FE",status:"Done"},{key:"3.1.1b",name:"Subchat listing API",type:"BE",status:"Done"}]},
 {key:"US-2.1",name:"Open & View a Chat",status:"Done",tasks:[{key:"2.1.2",name:"Subchat dropdown from header",type:"FE",status:"Done"}]},
 {key:"US-1.2",name:"Chat Items",status:"Done",tasks:[{key:"1.2.2",name:"Subchat bottom-sheet from Inbox",type:"FE",status:"Done"}]},
 ]};
-const SPRINT87={name:"Sprint 87",date:"Mar 25 – Mar 31, 2026",focus:"Chat / SubChats",stories:[
+const SPRINT87={name:"Sprint 87",date:"Mar 25 – Mar 31, 2026",focus:"SubChats",stories:[
 {key:"US-4.1.6",name:"Add Members",status:"Done",tasks:[{key:"4.1.6",name:"Member search & selection UI",type:"FE",status:"Done"},{key:"4.1.6b",name:"Add members API",type:"BE",status:"Done"}]},
 {key:"US-4.1.7",name:"Redirection after creation",status:"Done",tasks:[{key:"4.1.7",name:"Post-creation redirect logic",type:"FE",status:"Done"},{key:"4.1.7b",name:"Subchat initial setup API",type:"BE",status:"Done"}]},
 {key:"ORG-01",name:"Organization Icon",status:"Done",tasks:[{key:"ORG-01a",name:"Organization icon display component",type:"FE",status:"Done"},{key:"ORG-01b",name:"Icon upload & storage",type:"BE",status:"Done"}]},
@@ -425,14 +392,14 @@ const SPRINT91={name:"Sprint 91",date:"Apr 22 – Apr 28, 2026",focus:"Organizat
 {key:"BUG-91-06",name:"Likes and Comments Display Inconsistency",type:"FE",status:"Done"},
 ]}]};
 const SPRINT92={name:"Sprint 92",date:"Apr 29 – May 5, 2026",focus:"Delete Account",stories:[
-{key:"CNR-1604",name:"US-01 — Delete my account (not a host)",status:"Done",board:"Downstream",tasks:[
-{key:"CNCT-3115",name:"Delete account confirmation flow from Settings",type:"FE",status:"Code Review",assignee:"leonardo.garcez"},
-{key:"CNCT-3114",name:"Implement Soft Delete on Profile Domain",type:"BE",status:"Code Review",assignee:"Luís Felipe C."},
-{key:"CNCT-3126",name:"Block push notifications for deleted users",type:"BE",status:"Code Review",assignee:"Luís Felipe C."},
-]},{key:"CNR-1605",name:"US-02 — Delete when hosting one event",status:"Done",board:"Downstream",tasks:[
-{key:"CNCT-3117",name:"Single-event handoff sheet and picker",type:"FE",status:"Code Review",assignee:"leonardo.garcez"},
-]},{key:"CNR-1606",name:"US-03 — Delete when hosting multiple events",status:"Done",board:"Downstream",tasks:[
-{key:"CNCT-3119",name:"Multi-event handoff carousel",type:"FE",status:"Code Review",assignee:"leonardo.garcez"},
+{key:"CNR-1604",name:"US-01 — Delete my account (not a host)",status:"Done",tasks:[
+{key:"CNCT-3115",name:"Delete account confirmation flow from Settings",type:"FE",status:"Done"},
+{key:"CNCT-3114",name:"Implement Soft Delete on Profile Domain",type:"BE",status:"Done"},
+{key:"CNCT-3126",name:"Block push notifications for deleted users",type:"BE",status:"Done"},
+]},{key:"CNR-1605",name:"US-02 — Delete when hosting one event",status:"Done",tasks:[
+{key:"CNCT-3117",name:"Single-event handoff sheet and picker",type:"FE",status:"Done"},
+]},{key:"CNR-1606",name:"US-03 — Delete when hosting multiple events",status:"Done",tasks:[
+{key:"CNCT-3119",name:"Multi-event handoff carousel",type:"FE",status:"Done"},
 ]}
 ]};
 
@@ -475,6 +442,14 @@ const SPRINT94={name:"Sprint 94",date:"May 13 – May 19, 2026",focus:"Delete Ac
 ]}
 ]};
 
+const SPRINT95={name:"Sprint 95",date:"May 20 – May 26, 2026",focus:"Delete Account",stories:[
+{key:"CNR-1609",name:"US-06 — Recover my account (spillover)",status:"Done",tasks:[
+{key:"CNCT-3124",name:"Add RECOVERED status and lookup/restore helpers",type:"BE",status:"Done"},
+{key:"CNCT-3147",name:"Create restoreProfile service",type:"BE",status:"Done"},
+{key:"CNCT-3148",name:"Trigger profile recovery on phone sign-in flow",type:"BE",status:"Done"},
+]}
+]};
+
 // ═══ RENDER BACKLOG ═══
 (function(){
   const all=EPICS.flatMap(e=>e.features);const s={e:EPICS.length,f:all.length,d:all.filter(f=>f.status==='done').length,i:all.filter(f=>f.status==='inprogress').length,p:all.filter(f=>f.status==='planned').length,pa:all.filter(f=>f.status==='paused').length};
@@ -485,18 +460,71 @@ const SPRINT94={name:"Sprint 94",date:"May 13 – May 19, 2026",focus:"Delete Ac
 })();
 function toggleE(h){h.nextElementSibling.classList.toggle('open');h.querySelector('.epic-row-arrow').classList.toggle('open');}
 
+// ═══ RESOLVED ORG BUGS DATA ═══
+const RESOLVED_BUGS=[
+{sprint:"Sprint 88 — Apr 1 → Apr 7",bugs:[
+'"Chat Not Found" Error on Personal and Organization Accounts',
+'Error Message "There Was a Problem Updating Your Profile"',
+"#1 | Hard Time Distinguishing Between Org and Personal Accounts",
+"#2 | Org Calendar Shows Wrong Events",
+"#3 | Cannot Open Subchats for Several Orgs",
+"#4 | 'Create Subchat' (+) Button Does Nothing",
+"#5 | Messages Fail to Send in Newly Created Subchats",
+"#6 | Cannot Invite Users to a Private Subchat After Creation",
+"#7 | Videos Bleed Between Personal and Org Accounts When Switching Tabs",
+"#8 | Subchat Notifications Appear Under DMs Instead of Orgs",
+"#9 | Org Invite Sends 'Join the App' Link Instead of 'Join the Org' Link",
+]},
+{sprint:"Sprint 89 — Apr 8 → Apr 14",bugs:[
+"#1 | Hard Time Distinguishing Between Org and Personal Accounts",
+"Videos display out of order when selecting an item from the list",
+'"Require Permission to Join" toggle not persisting',
+"Posted videos not appearing on some Org profiles",
+]},
+{sprint:"Sprint 90 — Apr 15 → Apr 21",bugs:[
+"Upcoming Events – Unable to Join Directly from List",
+"Scroll Only Works When Touching Bottom Area (Connyct UMD)",
+"Event Join Flow – Phone Verification Redirects User Back to Profile",
+"Conversation Name Incorrectly Changes to Another Organization",
+"Join Button State Only Updates After Second Attempt",
+]},
+{sprint:"Sprint 91 — Apr 22 → Apr 28",bugs:[
+"Disable Organization Creation via URL",
+"Error When Accessing Chat for the First Time After Joining Organization",
+"Feed - Missing Feedback Animation on 'Join Now' Action",
+"Incorrect Profile Loaded After Joining via Feed",
+"Avatar Inconsistency – Feed vs Profile",
+"Likes and Comments Display Inconsistency",
+]},
+];
+const RESOLVED_TOTAL=RESOLVED_BUGS.reduce((a,s)=>a+s.bugs.length,0);
+
 // ═══ RENDER BUG BACKLOG ═══
 (function(){
   const grouped={};BUGS.forEach(b=>{if(!grouped[b.epic])grouped[b.epic]=[];grouped[b.epic].push(b);});
   const epicOrder=Object.keys(grouped).sort((a,b)=>grouped[b].length-grouped[a].length);
   const epicColors={Profile:'#06b6d4',Events:'#f59e0b',Organizations:'#10b981'};
-  document.getElementById('home-bugs-meta').innerHTML=`<span class="home-card-chip" style="background:var(--red-bg);color:var(--red)">${BUGS.length} bugs</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">${epicOrder.length} epics</span>`;
-  document.getElementById('bug-stats').innerHTML=`<div class="stat-card"><div class="stat-value" style="color:var(--red)">${BUGS.length}</div><div class="stat-label">Total Bugs</div></div>${epicOrder.map(ep=>`<div class="stat-card"><div class="stat-value">${grouped[ep].length}</div><div class="stat-label">${ep}</div></div>`).join('')}`;
-  document.getElementById('bug-list-grouped').innerHTML=epicOrder.map(ep=>{
+  document.getElementById('home-bugs-meta').innerHTML=`<span class="home-card-chip" style="background:var(--red-bg);color:var(--red)">${BUGS.length} pending</span><span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">${RESOLVED_TOTAL} resolved</span>`;
+  document.getElementById('bug-stats').innerHTML=`<div class="stat-card"><div class="stat-value" style="color:var(--red)">${BUGS.length}</div><div class="stat-label">Pending</div></div><div class="stat-card"><div class="stat-value" style="color:var(--green)">${RESOLVED_TOTAL}</div><div class="stat-label">Resolved</div></div>${epicOrder.map(ep=>`<div class="stat-card"><div class="stat-value">${grouped[ep].length}</div><div class="stat-label">${ep}</div></div>`).join('')}`;
+
+  // Pending bugs
+  let html='<div style="margin-bottom:32px"><div style="font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--red)"></div>Pending Bugs</div>';
+  html+=epicOrder.map(ep=>{
     const color=epicColors[ep]||'var(--slate)';
     const items=grouped[ep].map(b=>`<div class="bug-item"><span style="flex:1">${b.name}</span></div>`).join('');
     return`<div style="margin-bottom:20px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid ${color}20"><div style="width:10px;height:10px;border-radius:50%;background:${color}"></div><span style="font-size:14px;font-weight:700">${ep}</span><span style="font-size:10px;font-weight:600;background:var(--red-bg);color:var(--red);padding:2px 10px;border-radius:20px">${grouped[ep].length} bugs</span></div><div class="bug-list">${items}</div></div>`;
   }).join('');
+  html+='</div>';
+
+  // Resolved bugs
+  html+='<div><div style="font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--green)"></div>Resolved — Organization Bugs (Sprints 88–91)</div>';
+  html+=RESOLVED_BUGS.map(s=>{
+    const items=s.bugs.map(b=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:12.5px"><span style="flex:1">${b}</span><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--green-bg);color:var(--green)">Done</span></div>`).join('');
+    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow-sm)"><div style="padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border-light);cursor:pointer;user-select:none" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.sprint-story-arrow').classList.toggle('open')"><span class="sprint-story-arrow">▶</span><span style="font-size:13px;font-weight:600;flex:1">🔴 ${s.sprint}</span><span style="font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;background:var(--green-bg);color:var(--green)">${s.bugs.length} fixed</span></div><div class="sprint-tasks" style="padding:4px 18px 12px">${items}</div></div>`;
+  }).join('');
+  html+='</div>';
+
+  document.getElementById('bug-list-grouped').innerHTML=html;
 })();
 function toggleE(h){h.nextElementSibling.classList.toggle('open');h.querySelector('.epic-row-arrow').classList.toggle('open');}
 
@@ -542,10 +570,10 @@ function renderSprintCard(sp,badge_bg){
 
 // Timeline data: sprints 84–95
 const TIMELINE=[
-{num:84,date:"Mar 4–10",focus:"Chat / SubChats",status:"done",items:"Core Chat + Inbox"},
-{num:85,date:"Mar 11–17",focus:"Chat / SubChats",status:"done",items:"Create Subchat Flow"},
-{num:86,date:"Mar 18–24",focus:"Chat / SubChats",status:"done",items:"Subchat Discovery"},
-{num:87,date:"Mar 25–31",focus:"Chat / SubChats",status:"done",items:"Subchat Navigation"},
+{num:84,date:"Mar 4–10",focus:"Chat",status:"done",items:"Core Chat + Inbox"},
+{num:85,date:"Mar 11–17",focus:"SubChats",status:"done",items:"Create Subchat Flow"},
+{num:86,date:"Mar 18–24",focus:"SubChats",status:"done",items:"Subchat Discovery"},
+{num:87,date:"Mar 25–31",focus:"SubChats",status:"done",items:"Subchat Navigation"},
 {num:88,date:"Apr 1–7",focus:"Organization Bugs",status:"done",items:"11 bugs fixed"},
 {num:89,date:"Apr 8–14",focus:"Organization Bugs",status:"done",items:"4 bugs fixed"},
 {num:90,date:"Apr 15–21",focus:"Organization Bugs",status:"done",items:"5 bugs fixed"},
@@ -553,23 +581,24 @@ const TIMELINE=[
 {num:92,date:"Apr 29–May 5",focus:"Delete Account",status:"done",items:"US-01, US-02, US-03 (FE)"},
 {num:93,date:"May 6–12",focus:"Delete Account",status:"done",items:"US-01, US-02, US-03 (BE)"},
 {num:94,date:"May 13–19",focus:"Delete Account",status:"done",items:"US-04, US-05, US-06"},
-{num:95,date:"May 20–26",focus:"Delete Account",status:"done",items:"US-06 spillover + TBD"},
+{num:95,date:"May 20–26",focus:"Delete Account",status:"done",items:"US-06 spillover"},
 ];
 
 // Feature lanes for timeline
 const LANES=[
-{name:"Chat / SubChats",color:"#10b981",spans:[{start:84,end:87,label:"Core → Navigation",status:"done"}]},
+{name:"Chat",color:"#6366f1",spans:[{start:84,end:84,label:"Core Chat + Inbox",status:"done"}]},
+{name:"SubChats",color:"#10b981",spans:[{start:85,end:87,label:"Core → Navigation",status:"done"}]},
 {name:"Org Bugs",color:"#dc2626",spans:[{start:88,end:91,label:"26 bugs fixed",status:"done"}]},
 {name:"Delete Account",color:"#f59e0b",spans:[{start:92,end:95,label:"US-01 to US-06 ✅ Released",status:"done"}]},
 ];
 
 (function(){
-  document.getElementById('home-sprint-meta').innerHTML=`<span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">Delete Account ✅ Released</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">12 sprints tracked</span>`;
+  document.getElementById('home-sprint-meta').innerHTML=`<span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">All sprints completed</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">12 sprints · S84–S95</span>`;
 
   // Sprint View
   let html='';
   html+=`<div class="sprint-section-block"><div class="sprint-section-label"><div class="dot" style="background:var(--green)"></div>Past Sprints</div>`;
-  [SPRINT94,SPRINT93,SPRINT92,SPRINT91,SPRINT90,SPRINT89,SPRINT88,SPRINT87,SPRINT86,SPRINT85,SPRINT84].forEach(sp=>{
+  [SPRINT95,SPRINT94,SPRINT93,SPRINT92,SPRINT91,SPRINT90,SPRINT89,SPRINT88,SPRINT87,SPRINT86,SPRINT85,SPRINT84].forEach(sp=>{
     html+=`<div style="margin-bottom:12px">${renderSprintCard(sp,'var(--green)')}</div>`;
   });
   html+=`</div>`;
@@ -577,7 +606,7 @@ const LANES=[
 
   // Timeline View
   const sprintNums=TIMELINE.map(s=>s.num);
-  const currentSprint=94;
+  const currentSprint=0;
   const weekHeaders=TIMELINE.map(s=>`<div class="tl-week${s.num===currentSprint?' tl-now':''}"><div>S${s.num}</div><div style="font-size:9px;margin-top:2px;color:var(--text-tertiary)">${s.date}</div></div>`).join('');
 
   const laneRows=LANES.map(lane=>{
