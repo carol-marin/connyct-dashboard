@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Connyct — Product Management Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafbfd;--surface:#fff;--surface-hover:#f7f8fb;--border:#e8ecf2;--border-light:#f0f3f7;--text-primary:#111827;--text-secondary:#6b7280;--text-tertiary:#9ca3af;--accent:#4f46e5;--accent-light:#eef2ff;--accent-border:#c7d2fe;--green:#059669;--green-bg:#ecfdf5;--green-border:#a7f3d0;--amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fde68a;--red:#dc2626;--red-bg:#fef2f2;--red-border:#fecaca;--blue:#2563eb;--blue-bg:#eff6ff;--blue-border:#bfdbfe;--purple:#7c3aed;--purple-bg:#f5f3ff;--purple-border:#ddd6fe;--slate:#64748b;--radius:12px;--radius-sm:8px;--shadow-sm:0 1px 2px rgba(0,0,0,.04);--shadow-md:0 4px 6px -1px rgba(0,0,0,.06),0 2px 4px -2px rgba(0,0,0,.04);--font:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(250,251,253,.85);backdrop-filter:blur(16px) saturate(1.6);border-bottom:1px solid var(--border);padding:0 32px}
+.top-nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}.logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#4f46e5,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}.logo-text{font-size:15px;font-weight:700}.logo-badge{font-size:10px;font-weight:600;color:var(--text-tertiary);background:var(--border-light);padding:2px 8px;border-radius:20px}
+.nav-tabs{display:flex;gap:2px}.nav-tab{padding:8px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:none;transition:all .15s}.nav-tab:hover{color:var(--text-primary);background:var(--surface-hover)}.nav-tab.active{color:var(--accent);background:var(--accent-light)}
+.nav-date{font-size:12px;color:var(--text-tertiary);font-weight:500}
+.main{max-width:1280px;margin:0 auto;padding:28px 32px 60px}.section{display:none}.section.active{display:block}
+.section-header{margin-bottom:24px}.section-title{font-size:22px;font-weight:800;letter-spacing:-.3px}.section-subtitle{font-size:13px;color:var(--text-secondary);margin-top:4px;max-width:640px;line-height:1.5}
+.home-hero{text-align:center;padding:48px 20px 32px}
+.home-hero h1{font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.home-hero p{font-size:14px;color:var(--text-secondary);max-width:500px;margin:0 auto;line-height:1.6}
+.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:32px}
+.home-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 24px;cursor:pointer;transition:all .2s;overflow:hidden}
+.home-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--accent-border)}
+.home-card-icon{font-size:32px;margin-bottom:14px}
+.home-card-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.home-card-desc{font-size:12.5px;color:var(--text-secondary);line-height:1.5}
+.home-card-meta{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.home-card-chip{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
+.stat-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}.stat-card{flex:1;min-width:110px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow-sm)}.stat-value{font-size:22px;font-weight:800;letter-spacing:-.5px}.stat-label{font-size:11px;font-weight:500;color:var(--text-tertiary);margin-top:2px}
+.epic-list{display:flex;flex-direction:column;gap:6px}
+.epic-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.epic-row-header{display:flex;align-items:center;gap:12px;padding:12px 18px;cursor:pointer;user-select:none;transition:background .1s}.epic-row-header:hover{background:var(--surface-hover)}
+.epic-row-arrow{font-size:10px;color:var(--text-tertiary);transition:transform .2s;width:16px;text-align:center;flex-shrink:0}.epic-row-arrow.open{transform:rotate(90deg)}
+.epic-row-icon{font-size:18px;flex-shrink:0}.epic-row-title{font-size:14px;font-weight:700;flex:1}
+.epic-row-bar{width:80px;height:4px;border-radius:99px;background:var(--border-light);overflow:hidden;flex-shrink:0}.epic-row-bar-fill{height:100%;border-radius:99px}
+.epic-row-count{font-size:10px;font-weight:600;background:var(--border-light);padding:2px 10px;border-radius:20px;color:var(--text-tertiary);flex-shrink:0}
+.epic-row-body{display:none;border-top:1px solid var(--border-light);padding:6px 18px 14px 46px}.epic-row-body.open{display:block}
+.feat-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-light);font-size:12.5px}.feat-item:last-child{border-bottom:none}.feat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}.feat-name{flex:1}
+.feat-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.fs-backlog{background:var(--border-light);color:var(--slate)}.fs-planned{background:var(--purple-bg);color:var(--purple)}.fs-inprogress{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}.fs-done{background:var(--green-bg);color:var(--green)}.ss-testflight{background:#fdf4ff;color:#a21caf;border:1px solid #f0abfc}
+.fs-testflight{background:#fdf4ff;color:#a21caf;border:1px solid #f0abfc}
+.fs-paused{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.feat-hours{font-size:10px;font-weight:600;color:var(--text-tertiary);font-family:var(--mono)}.epic-empty{font-size:12px;color:var(--text-tertiary);font-style:italic;padding:8px 0}
+.bug-section{margin-top:28px}.bug-section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--red-border)}.bug-section-title{font-size:16px;font-weight:800;color:var(--red)}
+.bug-list{display:flex;flex-direction:column;gap:6px}
+.bug-item{background:var(--surface);border:1px solid var(--red-border);border-left:3px solid var(--red);border-radius:var(--radius-sm);padding:10px 14px;font-size:12.5px;display:flex;align-items:center;gap:10px}
+.bug-epic-tag{font-size:10px;font-weight:600;background:var(--amber-bg);color:var(--amber);padding:1px 8px;border-radius:20px;border:1px solid var(--amber-border);flex-shrink:0}
+/* Breakdown */
+.bd-landing{display:block}.bd-detail{display:none}
+.bd-back{font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;margin-bottom:16px;display:inline-flex;align-items:center;gap:6px}
+.bd-back:hover{text-decoration:underline}
+.progress-bar-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;margin-bottom:20px;box-shadow:var(--shadow-sm)}.progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.progress-title{font-size:14px;font-weight:700}.progress-pct{font-size:20px;font-weight:800;color:var(--green)}.progress-track{height:8px;background:var(--border-light);border-radius:99px;overflow:hidden;display:flex}.progress-fill-done{background:var(--green);height:100%}.progress-fill-ip{background:var(--amber);height:100%}.progress-fill-testing{background:var(--blue);height:100%}.progress-legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-secondary)}.legend-dot{width:8px;height:8px;border-radius:50%}
+.phase-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow-sm)}.phase-header{padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border-light)}.phase-num{width:32px;height:32px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0}.phase-info{flex:1}.phase-name{font-size:14px;font-weight:700}.phase-sub{font-size:11px;color:var(--text-tertiary);margin-top:1px}.phase-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.phase-pill-date{font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;color:#fff}.phase-pill-sprint{font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;background:var(--border-light);color:var(--text-tertiary)}.phase-goal{padding:10px 20px;font-size:12px;color:var(--text-secondary);border-bottom:1px solid var(--border-light);line-height:1.5}.phase-stories{padding:12px 20px}
+.story-group-title{font-size:10px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 8px}.story-group-title:first-child{margin-top:0}
+.story-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);flex-wrap:wrap}.story-row:last-child{border-bottom:none}.story-id{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-tertiary);min-width:48px}.story-title{font-size:12.5px;font-weight:500;flex:1;min-width:150px}.story-type{font-size:10px;font-weight:600;padding:1px 8px;border-radius:20px}.st-native{background:var(--green-bg);color:var(--green)}.st-custom{background:var(--amber-bg);color:var(--amber)}.story-hours{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-tertiary)}.story-status{font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;flex-shrink:0}
+.ss-done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}.ss-inprogress{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}.ss-testing{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}.ss-todo{background:var(--border-light);color:var(--slate)}.ss-bug{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}.ss-other{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border)}
+.sprint-tag{font-size:9px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-border)}
+/* Sprint */
+.sprint-section-block{margin-bottom:32px}.sprint-section-label{font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px}.sprint-section-label .dot{width:8px;height:8px;border-radius:50%}
+.sprint-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}.sprint-card-header{padding:16px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border-light);flex-wrap:wrap}
+.sprint-badge{padding:4px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:800;color:#fff}.sprint-meta{flex:1;min-width:150px}.sprint-name{font-size:15px;font-weight:700}.sprint-dates{font-size:12px;color:var(--text-tertiary);margin-top:2px}
+.sprint-stats{display:flex;gap:12px;flex-wrap:wrap}.sprint-stat{text-align:center;padding:6px 14px;border-radius:var(--radius-sm)}.sprint-stat-val{font-size:16px;font-weight:800}.sprint-stat-lbl{font-size:10px;color:var(--text-tertiary);margin-top:1px}
+.sprint-story-group{border-bottom:1px solid var(--border-light)}.sprint-story-group:last-child{border-bottom:none}
+.sprint-story-header{display:flex;align-items:center;gap:10px;padding:12px 22px;cursor:pointer;user-select:none;transition:background .1s}.sprint-story-header:hover{background:var(--surface-hover)}
+.sprint-story-arrow{font-size:10px;color:var(--text-tertiary);transition:transform .2s;width:16px;text-align:center}.sprint-story-arrow.open{transform:rotate(90deg)}.sprint-story-name{font-size:13px;font-weight:600;flex:1;min-width:120px}.sprint-story-status{font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px}
+.sprint-tasks{display:none;padding:0 22px 12px 48px}.sprint-tasks.open{display:block}
+.sprint-task-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:12px}.sprint-task-row:last-child{border-bottom:none}
+.sprint-task-type{font-size:9px;font-weight:700;padding:1px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}.stt-fe{background:var(--blue-bg);color:var(--blue)}.stt-be{background:var(--purple-bg);color:var(--purple)}
+.sprint-task-name{flex:1}.sprint-task-key{font-family:var(--mono);font-size:10px;color:var(--text-tertiary);flex-shrink:0}.assignee-tag{font-size:10px;color:var(--text-tertiary);flex-shrink:0}
+.sprint-task-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.sts-code-review{background:var(--blue-bg);color:var(--blue)}.sts-ready{background:var(--purple-bg);color:var(--purple)}
+.sprint-placeholder{background:var(--surface);border:2px dashed var(--border);border-radius:var(--radius);padding:40px;text-align:center}.sprint-placeholder-icon{font-size:32px;margin-bottom:12px;opacity:.5}.sprint-placeholder-title{font-size:14px;font-weight:700;color:var(--text-secondary);margin-bottom:4px}.sprint-placeholder-sub{font-size:12px;color:var(--text-tertiary);max-width:400px;margin:0 auto;line-height:1.5}
+.us-board-tag{font-size:9px;font-weight:600;padding:1px 6px;border-radius:4px;flex-shrink:0}
+.board-downstream{background:#fef9c3;color:#92400e;border:1px solid #fde68a}
+.board-upstream{background:#ede9fe;color:#6d28d9;border:1px solid #ddd6fe}
+.sprint-view-toggle{display:flex;gap:2px;margin-bottom:20px;background:var(--border-light);border-radius:var(--radius-sm);padding:3px;width:fit-content}
+.sprint-view-btn{padding:7px 20px;border-radius:6px;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:none;transition:all .15s}
+.sprint-view-btn.active{background:var(--surface);color:var(--accent);box-shadow:var(--shadow-sm)}
+.sprint-view-btn:hover:not(.active){color:var(--text-primary)}
+.tl-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);overflow-x:auto}
+.tl-header{display:flex;align-items:stretch;border-bottom:2px solid var(--border);padding-bottom:0;margin-bottom:0;min-width:900px}
+.tl-corner{width:140px;flex-shrink:0;padding:8px 0;font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.06em}
+.tl-weeks{display:flex;flex:1}
+.tl-week{flex:1;text-align:center;padding:6px 4px 10px;font-size:10px;font-weight:600;color:var(--text-tertiary);position:relative;border-left:1px solid var(--border-light)}
+.tl-week.tl-now{color:var(--accent);font-weight:700}
+.tl-week.tl-now::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:8px;height:3px;border-radius:2px;background:var(--accent)}
+.tl-body{min-width:900px}
+.tl-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border-light);min-height:44px}
+.tl-row:last-child{border-bottom:none}
+.tl-label{width:140px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:8px 0;font-size:12px;font-weight:600}
+.tl-label-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;color:#fff;white-space:nowrap}
+.tl-cells{display:flex;flex:1}
+.tl-cell{flex:1;position:relative;border-left:1px solid var(--border-light);padding:6px 3px;display:flex;align-items:center;justify-content:center}
+.tl-bar{border-radius:6px;padding:4px 8px;font-size:10px;font-weight:600;white-space:nowrap;text-align:center;width:100%;min-height:28px;display:flex;align-items:center;justify-content:center}
+.tl-bar.done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.tl-bar.active{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.tl-bar.upcoming{background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-border)}
+.tl-bar.empty{background:var(--border-light);color:var(--text-tertiary);border:1px dashed var(--border)}
+.tl-legend{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
+.tl-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-secondary)}
+.tl-legend-dot{width:12px;height:8px;border-radius:3px}
+@media(max-width:768px){.top-nav{padding:0 16px}.main{padding:20px 16px 60px}.nav-tab{padding:8px 10px;font-size:11px}.stat-card{min-width:80px;padding:10px 12px}.stat-value{font-size:18px}.home-grid{grid-template-columns:1fr}}
+.flow-img-container{margin:12px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface-hover)}
+.flow-img-container img{width:100%;display:block;cursor:pointer;transition:opacity .15s}
+.flow-img-container img:hover{opacity:.9}
+.flow-img-label{padding:8px 14px;font-size:11px;font-weight:600;color:var(--text-tertiary);background:var(--surface);border-top:1px solid var(--border-light);display:flex;align-items:center;gap:6px}
+.flow-img-label .flow-tag{font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--accent-light);color:var(--accent)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:1000;cursor:zoom-out;justify-content:center;align-items:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-overlay img{max-width:95%;max-height:95%;object-fit:contain;border-radius:8px}
+</style>
+</head>
+<body>
+<nav class="top-nav"><div class="top-nav-inner">
+<div class="logo" onclick="goTo('home')"><div class="logo-mark">C</div><span class="logo-text">Connyct</span><span class="logo-badge">Product Dashboard</span></div>
+<div class="nav-tabs" id="nav-tabs">
+<button class="nav-tab" data-section="home" onclick="goTo('home')">Home</button>
+<button class="nav-tab" data-section="backlog" onclick="goTo('backlog')">Feature Backlog</button>
+<button class="nav-tab" data-section="bugs" onclick="goTo('bugs')">Bug Backlog</button>
+<button class="nav-tab" data-section="breakdown" onclick="goTo('breakdown')">Feature Breakdown</button>
+<button class="nav-tab" data-section="sprints" onclick="goTo('sprints')">Sprint Tracking</button>
+</div>
+<div class="nav-date" id="nav-date"></div>
+</div></nav>
+<div class="main">
+<div class="section active" id="section-home">
+<div class="home-hero"><h1>Connyct Product Dashboard</h1><p>A single view of everything related to product development. Navigate to any section below.</p></div>
+<div class="home-grid">
+<div class="home-card" onclick="goTo('backlog')"><div class="home-card-icon">📋</div><div class="home-card-title">Feature Backlog</div><div class="home-card-desc">All features mentioned or suggested, categorized by epic. A discovery and ideation space.</div><div class="home-card-meta" id="home-backlog-meta"></div></div>
+<div class="home-card" onclick="goTo('bugs')"><div class="home-card-icon">🐛</div><div class="home-card-title">Bug Backlog</div><div class="home-card-desc">Known bugs reported across the platform, organized by epic. Tracked for prioritization and resolution.</div><div class="home-card-meta" id="home-bugs-meta"></div></div>
+<div class="home-card" onclick="goTo('breakdown')"><div class="home-card-icon">🔧</div><div class="home-card-title">Feature Breakdown</div><div class="home-card-desc">Features with specs ready for development. Full implementation plans with user stories and tasks.</div><div class="home-card-meta" id="home-breakdown-meta"></div></div>
+<div class="home-card" onclick="goTo('sprints')"><div class="home-card-icon">🏃</div><div class="home-card-title">Sprint Tracking</div><div class="home-card-desc">Track ongoing and past sprints. View user stories and tasks with real-time status from Jira.</div><div class="home-card-meta" id="home-sprint-meta"></div></div>
+</div></div>
+<div class="section" id="section-backlog">
+<div class="section-header"><div class="section-title">Feature Backlog</div><div class="section-subtitle">All features mentioned or suggested, categorized by epic. Not all are committed — this is a discovery and ideation space.</div></div>
+<div class="stat-row" id="backlog-stats"></div>
+<div class="epic-list" id="epic-list"></div>
+</div>
+<div class="section" id="section-bugs">
+<div class="section-header"><div class="section-title">Bug Backlog</div><div class="section-subtitle">Known bugs reported across the platform, organized by epic. Tracked for prioritization and resolution.</div></div>
+<div class="stat-row" id="bug-stats"></div>
+<div id="bug-list-grouped"></div>
+</div>
+<div class="section" id="section-breakdown">
+<div id="bd-landing" class="bd-landing">
+<div class="section-header"><div class="section-title">Feature Breakdown</div><div class="section-subtitle">Select a feature to see its full implementation plan with user stories, tasks, and progress.</div></div>
+<div class="home-grid" id="bd-feature-grid"></div>
+</div>
+<div id="bd-detail" class="bd-detail">
+<div class="bd-back" onclick="showBdLanding()">← Back to features</div>
+<div id="bd-detail-content"></div>
+</div>
+</div>
+<div class="section" id="section-sprints">
+<div class="section-header"><div class="section-title">Sprint Tracking</div><div class="section-subtitle">Track sprint progress. Data pulled live from Jira boards.</div></div>
+<div class="sprint-view-toggle" id="sprint-view-toggle">
+<button class="sprint-view-btn active" data-view="sprints" onclick="switchSprintView('sprints')">Sprint View</button>
+<button class="sprint-view-btn" data-view="timeline" onclick="switchSprintView('timeline')">Timeline</button>
+</div>
+<div id="sprint-view-sprints"></div>
+<div id="sprint-view-timeline" style="display:none"></div>
+</div>
+</div>
+<script>
+
+const FLOW_IMGS={};
+
+function goTo(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('section-'+id).classList.add('active');document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.section===id));if(id==='breakdown'){showBdLanding();}window.scrollTo(0,0);}
+function showBdLanding(){document.getElementById('bd-landing').style.display='block';document.getElementById('bd-detail').style.display='none';}
+function showBdDetail(idx){document.getElementById('bd-landing').style.display='none';document.getElementById('bd-detail').style.display='block';renderBdDetail(idx);window.scrollTo(0,0);}
+document.getElementById('nav-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+
+const EPICS=[{icon:"👤",title:"Profile",color:"#06b6d4",features:[{name:"Delete Account",status:"done",bdIdx:2},{name:"Edit Email",status:"backlog"},{name:"Verify Email",status:"backlog"},{name:"Remove 'Add Friend' feature",status:"backlog"},{name:"Connyct Finder",status:"backlog"}]},{icon:"🏢",title:"Organizations",color:"#10b981",features:[{name:"Create Events",status:"done"},{name:"Publish Content",status:"done"},{name:"View Organization Profile Page",status:"done"},{name:"Discover Organizations",status:"done"},{name:"Calendar",status:"done"},{name:"Chat",status:"inprogress",hours:160,bdIdx:0},{name:"SubChats",status:"paused",hours:452,bdIdx:1},{name:"Privacy Settings",status:"backlog",hours:21,bdIdx:3},{name:"Announcements",status:"backlog",hours:51,bdIdx:4}]},{icon:"🎥",title:"MSFV",color:"#6366f1",features:[{name:"1.5X / 2X Video Speed",status:"backlog"},{name:"Record Style / Snap vs tapping w/ pictures",status:"backlog"},{name:"Algorithm",status:"backlog"},{name:"Libraries — all videos by school / same music",status:"backlog"},{name:"Icon to 'Use' Song",status:"backlog"},{name:"Recording seconds indicator (red box)",status:"backlog"}]},{icon:"🎵",title:"Music",color:"#ec4899",features:[{name:"Original Video Sound",status:"backlog"},{name:"Trending Musics",status:"backlog"}]},{icon:"🎟",title:"Events",color:"#f59e0b",features:[{name:"Venue Page for Venues",status:"backlog"},{name:"Enable third-party non-students to create org accounts",status:"backlog"},{name:"Aftermath",status:"backlog"},{name:"Barcode / 4-digit pin to get into events",status:"backlog"}]},{icon:"🤖",title:"CampusAI",color:"#8b5cf6",features:[{name:"Design",status:"backlog"},{name:"Integration",status:"backlog"},{name:"Expansion",status:"backlog"},{name:"Events Integration",status:"backlog"}]},{icon:"📺",title:"Channels",color:"#0ea5e9",features:[{name:"Post College",status:"backlog"},{name:"High School",status:"backlog"},{name:"Other Channels (News / Comedy)",status:"backlog"},{name:"Create your own Channel",status:"backlog"}]},{icon:"📱",title:"Android / International",color:"#64748b",features:[{name:"Android",status:"backlog"},{name:"India Requirements",status:"backlog"}]},{icon:"💰",title:"Revenue Models",color:"#f43f5e",features:[{name:"Social Commerce",status:"backlog"},{name:"Venue Sponsorships",status:"backlog"},{name:"Ads / Streaming Ads",status:"backlog"}]},{icon:"📣",title:"Marketing",color:"#f97316",features:[{name:"Apps Flyer",status:"backlog"},{name:"Restore Meta Ads Tracking",status:"backlog"}]},{icon:"🛠",title:"Admin Panel",color:"#475569",features:[{name:"Automate Push Notifications",status:"backlog"},{name:"Manage / Update Trending Musics",status:"backlog"},{name:"Create University Accounts",status:"backlog"}]},{icon:"🪙",title:"Tokens",color:"#ca8a04",features:[]},{icon:"📡",title:"Live Streaming",color:"#ef4444",features:[]},{icon:"💘",title:"Dating",color:"#f43f5e",features:[]},{icon:"🏠",title:"Walk me Home",color:"#10b981",features:[]},{icon:"🔍",title:"FriendFinder",color:"#6366f1",features:[]},{icon:"🚀",title:"Shippable",color:"#0ea5e9",features:[]}];
+const BUGS=[];
+
+// ═══ FEATURES WITH BREAKDOWN ═══
+const FEATURES=[
+{id:"chat",name:"Chat",icon:"💬",epic:"Organizations",color:"#6366f1",desc:"Core messaging experience — inbox, sending messages, chat actions. Sprint 84 + deferred enhancements.",totalHours:160,
+phases:[
+{id:1,title:"Core Chat + Inbox",subtitle:"The baseline experience",color:"#6366f1",sprints:["Sprint 84"],start:"Mar 4",end:"Mar 10, 2026",goal:"Users can view their inbox, navigate chats, send messages and manage conversations.",sections:[
+{name:"📬 1.1 Inbox",flow:"chat_explore_inbox",stories:[{id:"1.1.1",title:"Inbox — View",type:"native",hours:12,status:"done",sp:["S84"]},{id:"1.1.2",title:"Inbox — Filter",type:"custom",hours:28,status:"done",sp:["S84"]},{id:"1.2.3",title:"Pinned Chats",type:"custom",hours:12,status:"done",sp:["S84"]},{id:"1.2.4",title:"Muted Chats",type:"custom",hours:12,status:"done",sp:["S84"]}]},
+{name:"💬 2.3 Sending Messages",stories:[{id:"2.3.1",title:"Send Text Message",type:"native",hours:0,status:"done",sp:["S84"]},{id:"2.3.2",title:"Emoji Picker",type:"native",hours:0,status:"done",sp:["S84"]}]},
+{name:"💬 2.2 Chat Actions Menu",stories:[{id:"2.2.1",title:"Chat Action Menu",type:"custom",hours:24,status:"done",sp:["S84"]},{id:"2.2.2",title:"Pin Chat",type:"native",hours:10,status:"done",sp:["S84"]},{id:"2.2.3",title:"Mute Chat",type:"native",hours:4,status:"done",sp:["S84"]},{id:"2.2.4",title:"Mark as Unread",type:"native",hours:2,status:"done",sp:["S84"]}]}
+]},
+{id:2,title:"Deferred Enhancements",subtitle:"Search, media, archive & leave",color:"#64748b",sprints:["Sprint 96"],start:"Jul 27",end:"Jul 31, 2026",goal:"Remaining enhancements: search, media bubbles, leave chat and archive chat.",sections:[
+{name:"🔧 Deferred Features",flow:"chat_archive",stories:[{id:"1.1.3",title:"Inbox — Search",type:"native",hours:12,status:"testflight",sp:[]},{id:"1.4.1",title:"New Messages",type:"custom",hours:32,status:"inprogress",sp:[]},{id:"2.2.5",title:"Archive Chat",type:"native",hours:4,status:"testflight",sp:[]},{id:"2.2.6",title:"Leave Chat",type:"custom",hours:8,status:"testflight",sp:[]}]}
+]}
+]},
+{id:"subchats",name:"SubChats",icon:"💬",epic:"Organizations",color:"#10b981",desc:"Organization subchats — create, discover, join, navigate and moderate. Sprints 85–87 + backlog.",totalHours:452,
+phases:[
+{id:1,title:"SubChats — Core",subtitle:"Create, Join & Discover",color:"#10b981",sprints:["Sprint 85","Sprint 86"],start:"Mar 11",end:"Mar 24, 2026",goal:"Users can create subchats, discover and join existing ones inside an org chat.",sections:[
+{name:"✏️ 4.1 Create Subchat Flow",flow:"chat_create_subchat",stories:[{id:"4.1.1",title:"Entry Points for Create Subchat",type:"custom",hours:22,status:"done",sp:["S85"]},{id:"4.1.2",title:"Name the Subchat",type:"native",hours:6,status:"done",sp:["S85"]},{id:"4.1.3",title:"Add a Photo",type:"native",hours:6,status:"done",sp:["S85"]},{id:"4.1.4",title:"Toggle Private / Public",type:"native",hours:4,status:"done",sp:["S85"]},{id:"4.1.5",title:"Set Intro Message",type:"native",hours:8,status:"done",sp:["S85"]}]},
+{name:"🔍 3.1 Subchat Discovery",flow:"chat_explore_dropdown",stories:[{id:"3.1.1",title:"Browse Available Subchats",type:"custom",hours:9,status:"done",sp:["S86"]},{id:"3.1.2",title:"Empty vs Joined States",type:"custom",hours:24,status:"todo",sp:[]}]},
+{name:"💬 2.1 Open & View a Chat",flow:"chat_dropdown_menu",stories:[{id:"2.1.2",title:"Subchat Dropdown from Header",type:"custom",hours:44,status:"done",sp:["S86"]}]},
+{name:"🔍 3.2 Joining",flow:"chat_join_first",stories:[{id:"3.2.1",title:"Join a Public Subchat",type:"native",hours:6,status:"todo",sp:[]}]},
+{name:"📥 1.2 Chat Items",flow:"chat_your_subchats",stories:[{id:"1.2.2",title:"Subchat bottom-sheet",type:"custom",hours:3,status:"done",sp:["S86"]}]},
+{name:"🔴 Bugs — Sprint 85",stories:[{id:"BUG-01",title:"Org Events disappear after switching",type:"bug",hours:0,status:"done",sp:["S85"]},{id:"BUG-02",title:"Org events not on calendar",type:"bug",hours:0,status:"done",sp:["S85"]}]},
+{name:"🔧 Other — Sprint 85",stories:[{id:"OTH-02",title:"Org Creation Spreadsheet",type:"other",hours:0,status:"done",sp:["S85"]}]}
+]},
+{id:2,title:"SubChats — Navigation",subtitle:"Inbox Items, Chat Views & Detail",color:"#f59e0b",sprints:["Sprint 87"],start:"Mar 25",end:"Mar 31, 2026",goal:"Users can navigate subchats from the inbox, open chat screens and access detail views.",sections:[
+{name:"✏️ 4.1 Create Subchat (cont.)",flow:"chat_add_members",stories:[{id:"4.1.6",title:"Add Members",type:"custom",hours:24,status:"done",sp:["S87"]},{id:"4.1.7",title:"Redirection after creation",type:"custom",hours:28,status:"done",sp:["S87"]}]},
+{name:"🏢 Organizations — Sprint 87",stories:[{id:"ORG-01",title:"Organization Icon",type:"other",hours:0,status:"done",sp:["S87"]}]},
+{name:"💬 2.1 Open & View",flow:"chat_gain_access",stories:[{id:"2.1.1",title:"View Chat Screen",type:"native",hours:12,status:"todo",sp:[]},{id:"2.1.3",title:"Welcome / Intro Message",type:"native",hours:8,status:"todo",sp:[]}]},
+{name:"📥 1.2 Chat Items",stories:[{id:"1.2.1",title:"Subchat Badge & Expand/Collapse",type:"custom",hours:64,status:"todo",sp:[]}]},
+{name:"📄 3.3 Subchat Detail",flow:"chat_private_invite",stories:[{id:"3.3.1",title:"Open a Subchat",type:"native",hours:8,status:"todo",sp:[]},{id:"3.3.2",title:"Private Subchat First Open",type:"custom",hours:12,status:"todo",sp:[]}]},
+{name:"📄 6 Org Chat",stories:[{id:"6.1.1",title:"Empty State — No Subchats",type:"custom",hours:6,status:"done",sp:["S87"]}]}
+]},
+{id:3,title:"Admin & Moderation",subtitle:"Members, Requests & Notifications",color:"#ec4899",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Admins can manage members, approve join requests and act on notifications.",sections:[
+{name:"👥 5.1 Members List",flow:"chat_admin_approve",stories:[{id:"5.1.1",title:"View Members List",type:"custom",hours:28,status:"todo",sp:[]},{id:"5.1.2",title:"Accept or Ignore Join Request",type:"custom",hours:52,status:"todo",sp:[]}]},
+{name:"👥 5.2 Requests",stories:[{id:"5.2.1",title:"Full Requests Management",type:"custom",hours:6,status:"todo",sp:[]}]},
+{name:"🔍 3.2 Joining",flow:"chat_join_request",stories:[{id:"3.2.2",title:"Request to Join Private Subchat",type:"custom",hours:44,status:"todo",sp:[]}]},
+{name:"🔔 1.3 Notifications",stories:[{id:"1.3.2",title:"Join Request Notification",type:"custom",hours:28,status:"todo",sp:[]}]}
+]}
+]},
+{id:"deleteaccount",name:"Delete Account",icon:"🗑️",epic:"Profile",color:"#dc2626",desc:"Allow users to soft-delete their account with event/org handoff flows. 6 user stories across Sprints 92–95. ✅ Released to App Store.",totalHours:0,
+phases:[
+{id:1,title:"Sprint 92",subtitle:"Core deletion + event handoff — FE flows",color:"#059669",sprints:["Sprint 92"],start:"Apr 29",end:"May 5, 2026",goal:"Implement the frontend deletion flow, event handoff sheets and multi-event carousel.",sections:[
+{name:"CNR-1604 · US-01 — Delete my account (not a host)",stories:[
+{id:"CNCT-3115",title:"Delete account confirmation flow from Settings",type:"custom",hours:0,status:"done",sp:["S92"]},
+{id:"CNCT-3114",title:"Implement Soft Delete on Profile Domain",type:"custom",hours:0,status:"done",sp:["S92"]},
+{id:"CNCT-3126",title:"Block push notifications for deleted users",type:"custom",hours:0,status:"done",sp:["S92"]},
+]},
+{name:"CNR-1605 · US-02 — Delete when hosting one event",stories:[
+{id:"CNCT-3117",title:"Single-event handoff sheet and picker",type:"custom",hours:0,status:"done",sp:["S92"]},
+]},
+{name:"CNR-1606 · US-03 — Delete when hosting multiple events",stories:[
+{id:"CNCT-3119",title:"Multi-event handoff carousel with per-event assignment",type:"custom",hours:0,status:"done",sp:["S92"]},
+]}
+]},
+{id:2,title:"Sprint 93",subtitle:"Core deletion + event handoff — BE completion",color:"#059669",sprints:["Sprint 93"],start:"May 6",end:"May 12, 2026",goal:"Complete all backend services, BFF endpoints and guards for the three downstream stories.",sections:[
+{name:"CNR-1604 · US-01 — Delete my account (not a host)",stories:[
+{id:"CNCT-3127",title:"Create soft delete endpoint in BFF-CS",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3128",title:"Block soft deleted profile from re-authenticating",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3129",title:"Audit read queries to filter soft deletes",type:"custom",hours:0,status:"done",sp:["S93"]},
+]},
+{name:"CNR-1605 · US-02 — Delete when hosting one event",stories:[
+{id:"CNCT-3130",title:"Create service to transfer event ownership",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3116",title:"Create eligible-hosts service",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3131",title:"BFF endpoint to list eligible hosts",type:"custom",hours:0,status:"done",sp:["S93"]},
+]},
+{name:"CNR-1606 · US-03 — Delete when hosting multiple events",stories:[
+{id:"CNCT-3132",title:"BFF endpoint to transfer events",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3133",title:"Guard softDeleteProfile against active hosts",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3134",title:"Service to list hosted events pending handoff",type:"custom",hours:0,status:"done",sp:["S93"]},
+{id:"CNCT-3135",title:"BFF endpoint to list hosted events pending handoff",type:"custom",hours:0,status:"done",sp:["S93"]},
+]}
+]},
+{id:3,title:"Sprint 94",subtitle:"Org handoff + account recovery",color:"#059669",sprints:["Sprint 94"],start:"May 13",end:"May 19, 2026",goal:"Implement org admin handoff flows (single + multiple) and begin account recovery.",sections:[
+{name:"CNR-1607 · US-04 — Admin of one org",stories:[
+{id:"CNCT-3121",title:"Single-org handoff sheet and admin picker",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3120",title:"Create eligible-admins service",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3141",title:"Create service to transfer organization admin",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3142",title:"BFF endpoint to list eligible admins",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3143",title:"BFF endpoint to transfer organization admin",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3140",title:"BFF endpoint to list admin orgs pending handoff",type:"custom",hours:0,status:"done",sp:["S94"]},
+]},
+{name:"CNR-1608 · US-05 — Admin of multiple orgs",stories:[
+{id:"CNCT-3123",title:"Multi-org handoff carousel with per-org assignment",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3145",title:"Service to list administered orgs pending handoff",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3146",title:"BFF endpoint to list administered orgs pending handoff",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3144",title:"Guard deleteProfile_v2 against active org admins",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3122",title:"Multi-org handoff list and per-org eligibility filter",type:"custom",hours:0,status:"done",sp:["S94"]},
+]},
+{name:"CNR-1609 · US-06 — Recover my account ⚠️ spillover → S95",stories:[
+{id:"CNCT-3125",title:"Account recovery welcome state and handoff notification",type:"custom",hours:0,status:"done",sp:["S94"]},
+{id:"CNCT-3124",title:"Add RECOVERED status and lookup/restore helpers",type:"custom",hours:0,status:"done",sp:["S94","S95"]},
+{id:"CNCT-3147",title:"Create restoreProfile service",type:"custom",hours:0,status:"done",sp:["S94","S95"]},
+{id:"CNCT-3148",title:"Trigger profile recovery on phone sign-in flow",type:"custom",hours:0,status:"done",sp:["S94","S95"]},
+]}
+]},
+{id:4,title:"Sprint 95",subtitle:"US-06 spillover — completed",color:"#059669",sprints:["Sprint 95"],start:"May 20",end:"May 26, 2026",goal:"Complete account recovery tasks that spilled from Sprint 94 and wrap up remaining items.",sections:[
+{name:"CNR-1609 · US-06 — Recover my account (spillover)",stories:[
+{id:"CNCT-3124",title:"Add RECOVERED status and lookup/restore helpers",type:"custom",hours:0,status:"done",sp:["S95"]},
+{id:"CNCT-3147",title:"Create restoreProfile service",type:"custom",hours:0,status:"done",sp:["S95"]},
+{id:"CNCT-3148",title:"Trigger profile recovery on phone sign-in flow",type:"custom",hours:0,status:"done",sp:["S95"]},
+]}
+]}
+]},
+{id:"privacy",name:"Privacy Settings",icon:"🔒",epic:"Organizations",color:"#8b5cf6",desc:"Post visibility controls for org admins — choose between Public and Hidden, share to event pages, and DM to friends. 4 user stories, 21h estimated.",totalHours:21,
+phases:[
+{id:1,title:"Post Visibility & Sharing",subtitle:"Privacy controls for org content",color:"#8b5cf6",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Org admins can set post visibility (Public/Hidden), share posts to event pages, and send them via DM. Members see only what they have access to.",sections:[
+{name:"📝 Post Creation & Visibility",flow:"privacy1",stories:[
+{id:"P.1.1",title:"Post privacy modal (Public / Hidden)",type:"custom",hours:7,status:"todo",sp:[]},
+{id:"P.4.1",title:"Hidden posts filtered by membership",type:"custom",hours:2,status:"todo",sp:[]},
+]},
+{name:"📎 Post Sharing",stories:[
+{id:"P.2.1",title:"Share post to event page",type:"custom",hours:6,status:"todo",sp:[]},
+{id:"P.3.1",title:"Send post via DM to a friend",type:"custom",hours:6,status:"todo",sp:[]},
+]}
+]}
+]},
+{id:"announcements",name:"Announcements",icon:"📢",epic:"Organizations",color:"#f59e0b",desc:"Org-wide announcements system — create, schedule, edit, share, and notify. 7 user stories, 51h estimated.",totalHours:51,
+phases:[
+{id:1,title:"Core Announcements",subtitle:"Create, edit, delete & view",color:"#f59e0b",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Org admins can create, edit and delete announcements. Members can view announcements on the org profile and browse the full feed.",sections:[
+{name:"✏️ Admin — Manage Announcements",flow:"announce_create",stories:[
+{id:"A.1.1",title:"Create a text announcement",type:"custom",hours:13,status:"todo",sp:[]},
+{id:"A.3.1",title:"Edit or delete an announcement",type:"custom",hours:5,status:"todo",sp:[]},
+]},
+{name:"👁️ Member — View Announcements",stories:[
+{id:"A.4.1",title:"View announcements section & full feed",type:"custom",hours:10,status:"todo",sp:[]},
+{id:"A.5.1",title:"Unread announcements carousel bubble",type:"custom",hours:3,status:"todo",sp:[]},
+]}
+]},
+{id:2,title:"Scheduling, Sharing & Notifications",subtitle:"Schedule, share and push notify",color:"#f97316",sprints:["Backlog"],start:"TBD",end:"TBD",goal:"Org admins can schedule announcements for future dates. Members can share announcements via DM or externally and receive push notifications.",sections:[
+{name:"📅 Scheduling",flow:"announce_schedule",stories:[
+{id:"A.2.1",title:"Schedule announcement for future date/time",type:"custom",hours:10,status:"todo",sp:[]},
+]},
+{name:"🔗 Sharing & Notifications",flow:"announce_share",stories:[
+{id:"A.6.1",title:"Share announcement via DM or externally",type:"custom",hours:7,status:"todo",sp:[]},
+{id:"A.7.1",title:"Push notification on new announcement",type:"custom",hours:3,status:"todo",sp:[]},
+]}
+]}
+]}
+];
+
+// ═══ SPRINTS ═══
+const SPRINT84={name:"Sprint 84",date:"Mar 4 – Mar 10, 2026",focus:"Chat",stories:[
+{key:"US-1.1.1",name:"Inbox — View",status:"Done",tasks:[{key:"1.1.1",name:"Inbox layout & navigation",type:"FE",status:"Done"},{key:"1.1.1b",name:"Inbox API endpoint",type:"BE",status:"Done"}]},
+{key:"US-1.1.2",name:"Inbox — Filter",status:"Done",tasks:[{key:"1.1.2",name:"Filter logic (All, Unread, Requests)",type:"FE",status:"Done"}]},
+{key:"US-2.3",name:"Sending Messages",status:"Done",tasks:[{key:"2.3.1",name:"Text message input & send",type:"FE",status:"Done"},{key:"2.3.2",name:"Emoji picker integration",type:"FE",status:"Done"}]},
+{key:"US-2.2",name:"Chat Actions Menu",status:"Done",tasks:[{key:"2.2.1",name:"Action menu overlay UI",type:"FE",status:"Done"},{key:"2.2.2",name:"Pin / Mute / Mark as Unread",type:"FE",status:"Done"},{key:"2.2.3",name:"Chat actions API",type:"BE",status:"Done"}]},
+]};
+const SPRINT85={name:"Sprint 85",date:"Mar 11 – Mar 17, 2026",focus:"SubChats",stories:[
+{key:"US-4.1",name:"Create Subchat Flow",status:"Done",tasks:[{key:"4.1.1",name:"Entry points for creating subchat",type:"FE",status:"Done"},{key:"4.1.2",name:"Name, photo, privacy toggle UI",type:"FE",status:"Done"},{key:"4.1.3",name:"Intro message step",type:"FE",status:"Done"},{key:"4.1.4",name:"Create subchat API",type:"BE",status:"Done"}]},
+{key:"BUG",name:"Bugs — Sprint 85",status:"Done",tasks:[{key:"BUG-01",name:"Org Events disappear after switching account",type:"FE",status:"Done"},{key:"BUG-02",name:"Org events not displayed on calendar",type:"BE",status:"Done"}]},
+{key:"OTH",name:"Other — Sprint 85",status:"Done",tasks:[{key:"OTH-02",name:"Organization Creation Spreadsheet",type:"BE",status:"Done"}]},
+]};
+const SPRINT86={name:"Sprint 86",date:"Mar 18 – Mar 24, 2026",focus:"SubChats",stories:[
+{key:"US-3.1",name:"Subchat Discovery",status:"Done",tasks:[{key:"3.1.1",name:"Browse Available Subchats UI",type:"FE",status:"Done"},{key:"3.1.1b",name:"Subchat listing API",type:"BE",status:"Done"}]},
+{key:"US-2.1",name:"Open & View a Chat",status:"Done",tasks:[{key:"2.1.2",name:"Subchat dropdown from header",type:"FE",status:"Done"}]},
+{key:"US-1.2",name:"Chat Items",status:"Done",tasks:[{key:"1.2.2",name:"Subchat bottom-sheet from Inbox",type:"FE",status:"Done"}]},
+]};
+const SPRINT87={name:"Sprint 87",date:"Mar 25 – Mar 31, 2026",focus:"SubChats",stories:[
+{key:"US-4.1.6",name:"Add Members",status:"Done",tasks:[{key:"4.1.6",name:"Member search & selection UI",type:"FE",status:"Done"},{key:"4.1.6b",name:"Add members API",type:"BE",status:"Done"}]},
+{key:"US-4.1.7",name:"Redirection after creation",status:"Done",tasks:[{key:"4.1.7",name:"Post-creation redirect logic",type:"FE",status:"Done"},{key:"4.1.7b",name:"Subchat initial setup API",type:"BE",status:"Done"}]},
+{key:"ORG-01",name:"Organization Icon",status:"Done",tasks:[{key:"ORG-01a",name:"Organization icon display component",type:"FE",status:"Done"},{key:"ORG-01b",name:"Icon upload & storage",type:"BE",status:"Done"}]},
+]};
+const SPRINT88={name:"Sprint 88",date:"Apr 1 – Apr 7, 2026",focus:"Organization Bugs",stories:[
+{key:"BUGS-88",name:"Organization Bugs",status:"Done",tasks:[
+{key:"BUG-88-01",name:'"Chat Not Found" Error on Personal and Org Accounts',type:"FE",status:"Done"},
+{key:"BUG-88-02",name:'Error "There Was a Problem Updating Your Profile"',type:"BE",status:"Done"},
+{key:"BUG-88-03",name:"#1 | Hard Time Distinguishing Org vs Personal",type:"FE",status:"Done"},
+{key:"BUG-88-04",name:"#2 | Org Calendar Shows Wrong Events",type:"BE",status:"Done"},
+{key:"BUG-88-05",name:"#3 | Cannot Open Subchats for Several Orgs",type:"FE",status:"Done"},
+{key:"BUG-88-06",name:"#4 | Create Subchat Button Does Nothing",type:"FE",status:"Done"},
+{key:"BUG-88-07",name:"#5 | Messages Fail to Send in New Subchats",type:"BE",status:"Done"},
+{key:"BUG-88-08",name:"#6 | Cannot Invite Users to Private Subchat",type:"BE",status:"Done"},
+{key:"BUG-88-09",name:"#7 | Videos Bleed Between Accounts",type:"FE",status:"Done"},
+{key:"BUG-88-10",name:"#8 | Subchat Notifications Under DMs",type:"BE",status:"Done"},
+{key:"BUG-88-11",name:"#9 | Org Invite Sends Wrong Link",type:"BE",status:"Done"},
+]}]};
+const SPRINT89={name:"Sprint 89",date:"Apr 8 – Apr 14, 2026",focus:"Organization Bugs",stories:[
+{key:"BUGS-89",name:"Organization Bugs",status:"Done",tasks:[
+{key:"BUG-89-01",name:"#1 | Distinguishing Org vs Personal (cont.)",type:"FE",status:"Done"},
+{key:"BUG-89-02",name:"Videos display out of order from list",type:"FE",status:"Done"},
+{key:"BUG-89-03",name:'"Require Permission to Join" toggle not persisting',type:"BE",status:"Done"},
+{key:"BUG-89-04",name:"Posted videos not appearing on some Org profiles",type:"BE",status:"Done"},
+]}]};
+const SPRINT90={name:"Sprint 90",date:"Apr 15 – Apr 21, 2026",focus:"Organization Bugs",stories:[
+{key:"BUGS-90",name:"Organization Bugs",status:"Done",tasks:[
+{key:"BUG-90-01",name:"Upcoming Events – Unable to Join from List",type:"FE",status:"Done"},
+{key:"BUG-90-02",name:"Scroll Only Works at Bottom Area",type:"FE",status:"Done"},
+{key:"BUG-90-03",name:"Event Join – Phone Verification Redirects to Profile",type:"BE",status:"Done"},
+{key:"BUG-90-04",name:"Conversation Name Changes to Another Org",type:"BE",status:"Done"},
+{key:"BUG-90-05",name:"Join Button State Only Updates After Second Attempt",type:"FE",status:"Done"},
+]}]};
+const SPRINT91={name:"Sprint 91",date:"Apr 22 – Apr 28, 2026",focus:"Organization Bugs",stories:[
+{key:"BUGS-91",name:"Organization Bugs",status:"Done",tasks:[
+{key:"BUG-91-01",name:"Disable Organization Creation via URL",type:"BE",status:"Done"},
+{key:"BUG-91-02",name:"Error Accessing Chat First Time After Joining Org",type:"BE",status:"Done"},
+{key:"BUG-91-03",name:"Feed - Missing Feedback on Join Now Action",type:"FE",status:"Done"},
+{key:"BUG-91-04",name:"Incorrect Profile Loaded After Joining via Feed",type:"FE",status:"Done"},
+{key:"BUG-91-05",name:"Avatar Inconsistency – Feed vs Profile",type:"FE",status:"Done"},
+{key:"BUG-91-06",name:"Likes and Comments Display Inconsistency",type:"FE",status:"Done"},
+]}]};
+const SPRINT92={name:"Sprint 92",date:"Apr 29 – May 5, 2026",focus:"Delete Account",stories:[
+{key:"CNR-1604",name:"US-01 — Delete my account (not a host)",status:"Done",tasks:[
+{key:"CNCT-3115",name:"Delete account confirmation flow from Settings",type:"FE",status:"Done"},
+{key:"CNCT-3114",name:"Implement Soft Delete on Profile Domain",type:"BE",status:"Done"},
+{key:"CNCT-3126",name:"Block push notifications for deleted users",type:"BE",status:"Done"},
+]},{key:"CNR-1605",name:"US-02 — Delete when hosting one event",status:"Done",tasks:[
+{key:"CNCT-3117",name:"Single-event handoff sheet and picker",type:"FE",status:"Done"},
+]},{key:"CNR-1606",name:"US-03 — Delete when hosting multiple events",status:"Done",tasks:[
+{key:"CNCT-3119",name:"Multi-event handoff carousel",type:"FE",status:"Done"},
+]}
+]};
+
+const SPRINT93={name:"Sprint 93",date:"May 6 – May 12, 2026",focus:"Delete Account",stories:[
+{key:"CNR-1604",name:"US-01 — Delete my account (not a host)",status:"Done",tasks:[
+{key:"CNCT-3127",name:"Create soft delete endpoint in BFF-CS",type:"BE",status:"Done"},
+{key:"CNCT-3128",name:"Block soft deleted profile from re-authenticating",type:"BE",status:"Done"},
+{key:"CNCT-3129",name:"Audit read queries to filter soft deletes",type:"BE",status:"Done"},
+]},{key:"CNR-1605",name:"US-02 — Delete when hosting one event",status:"Done",tasks:[
+{key:"CNCT-3130",name:"Create service to transfer event ownership",type:"BE",status:"Done"},
+{key:"CNCT-3116",name:"Create eligible-hosts service",type:"BE",status:"Done"},
+{key:"CNCT-3131",name:"BFF endpoint to list eligible hosts",type:"BE",status:"Done"},
+]},{key:"CNR-1606",name:"US-03 — Delete when hosting multiple events",status:"Done",tasks:[
+{key:"CNCT-3132",name:"BFF endpoint to transfer events",type:"BE",status:"Done"},
+{key:"CNCT-3133",name:"Guard softDeleteProfile against active hosts",type:"BE",status:"Done"},
+{key:"CNCT-3134",name:"Service to list hosted events pending handoff",type:"BE",status:"Done"},
+{key:"CNCT-3135",name:"BFF endpoint to list hosted events pending handoff",type:"BE",status:"Done"},
+]}
+]};
+
+const SPRINT94={name:"Sprint 94",date:"May 13 – May 19, 2026",focus:"Delete Account",stories:[
+{key:"CNR-1607",name:"US-04 — Admin of one org",status:"Done",tasks:[
+{key:"CNCT-3121",name:"Single-org handoff sheet and admin picker",type:"FE",status:"Done"},
+{key:"CNCT-3120",name:"Create eligible-admins service",type:"BE",status:"Done"},
+{key:"CNCT-3141",name:"Create service to transfer organization admin",type:"BE",status:"Done"},
+{key:"CNCT-3142",name:"BFF endpoint to list eligible admins",type:"BE",status:"Done"},
+{key:"CNCT-3143",name:"BFF endpoint to transfer organization admin",type:"BE",status:"Done"},
+{key:"CNCT-3140",name:"BFF endpoint to list admin orgs pending handoff",type:"BE",status:"Done"},
+]},{key:"CNR-1608",name:"US-05 — Admin of multiple orgs",status:"Done",tasks:[
+{key:"CNCT-3123",name:"Multi-org handoff carousel with per-org assignment",type:"FE",status:"Done"},
+{key:"CNCT-3122",name:"Multi-org handoff list and per-org eligibility filter",type:"BE",status:"Done"},
+{key:"CNCT-3144",name:"Guard deleteProfile_v2 against active org admins",type:"BE",status:"Done"},
+{key:"CNCT-3145",name:"Service to list administered orgs pending handoff",type:"BE",status:"Done"},
+{key:"CNCT-3146",name:"BFF endpoint to list administered orgs pending handoff",type:"BE",status:"Done"},
+]},{key:"CNR-1609",name:"US-06 — Recover my account",status:"Done",tasks:[
+{key:"CNCT-3125",name:"Account recovery welcome state and handoff notification",type:"FE",status:"Done"},
+{key:"CNCT-3124",name:"Add RECOVERED status and lookup/restore helpers",type:"BE",status:"Done"},
+{key:"CNCT-3147",name:"Create restoreProfile service",type:"BE",status:"Done"},
+{key:"CNCT-3148",name:"Trigger profile recovery on phone sign-in flow",type:"BE",status:"Done"},
+]}
+]};
+
+const SPRINT95={name:"Sprint 95",date:"May 20 – May 26, 2026",focus:"Delete Account",stories:[
+{key:"CNR-1609",name:"US-06 — Recover my account (spillover)",status:"Done",tasks:[
+{key:"CNCT-3124",name:"Add RECOVERED status and lookup/restore helpers",type:"BE",status:"Done"},
+{key:"CNCT-3147",name:"Create restoreProfile service",type:"BE",status:"Done"},
+{key:"CNCT-3148",name:"Trigger profile recovery on phone sign-in flow",type:"BE",status:"Done"},
+]}
+]};
+
+// ═══ RENDER BACKLOG ═══
+(function(){
+  const all=EPICS.flatMap(e=>e.features);const s={e:EPICS.length,f:all.length,d:all.filter(f=>f.status==='done').length,i:all.filter(f=>f.status==='inprogress').length,p:all.filter(f=>f.status==='planned').length,pa:all.filter(f=>f.status==='paused').length};
+  document.getElementById('backlog-stats').innerHTML=`<div class="stat-card"><div class="stat-value">${s.e}</div><div class="stat-label">Epics</div></div><div class="stat-card"><div class="stat-value">${s.f}</div><div class="stat-label">Features</div></div><div class="stat-card"><div class="stat-value" style="color:var(--green)">${s.d}</div><div class="stat-label">Done</div></div><div class="stat-card"><div class="stat-value" style="color:var(--amber)">${s.i}</div><div class="stat-label">In Progress</div></div><div class="stat-card"><div class="stat-value" style="color:var(--blue)">${s.pa}</div><div class="stat-label">Paused</div></div>`;
+  document.getElementById('home-backlog-meta').innerHTML=`<span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">${s.e} epics</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">${s.f} features</span><span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">${s.d} done</span>`;
+  const SM={backlog:{c:'fs-backlog',l:'Backlog'},planned:{c:'fs-planned',l:'Planned'},inprogress:{c:'fs-inprogress',l:'In Progress'},done:{c:'fs-done',l:'Done'},paused:{c:'fs-paused',l:'Paused'}};
+  document.getElementById('epic-list').innerHTML=EPICS.map(e=>{const n=e.features.length;const dn=e.features.filter(f=>f.status==='done').length;const pct=n?Math.round(dn/n*100):0;const body=n===0?'<div class="epic-empty">No features mapped yet</div>':e.features.map(f=>{const st=SM[f.status]||SM.backlog;const clickable=f.bdIdx!==undefined;const click=clickable?` onclick="goTo('breakdown');setTimeout(()=>showBdDetail(${f.bdIdx}),50)" style="cursor:pointer"`:'';const nameStyle=clickable?' style="color:var(--accent);text-decoration:underline;cursor:pointer"':'';return`<div class="feat-item"${click}><div class="feat-dot" style="background:${e.color}"></div><span class="feat-name"${nameStyle}>${f.name}</span>${f.hours?`<span class="feat-hours">${f.hours}h</span>`:''}<span class="feat-status ${st.c}">${st.l}</span></div>`;}).join('');return`<div class="epic-row"><div class="epic-row-header" onclick="toggleE(this)"><span class="epic-row-arrow">▶</span><span class="epic-row-icon">${e.icon}</span><span class="epic-row-title">${e.title}</span><div class="epic-row-bar"><div class="epic-row-bar-fill" style="width:${pct}%;background:${e.color}"></div></div><span class="epic-row-count">${n} ${n===1?'feature':'features'}</span></div><div class="epic-row-body">${body}</div></div>`;}).join('');
+})();
+function toggleE(h){h.nextElementSibling.classList.toggle('open');h.querySelector('.epic-row-arrow').classList.toggle('open');}
+
+// ═══ RESOLVED ORG BUGS DATA ═══
+const RESOLVED_BUGS=[
+{sprint:"Sprint 88 — Apr 1 → Apr 7",bugs:[
+'"Chat Not Found" Error on Personal and Organization Accounts',
+'Error Message "There Was a Problem Updating Your Profile"',
+"#1 | Hard Time Distinguishing Between Org and Personal Accounts",
+"#2 | Org Calendar Shows Wrong Events",
+"#3 | Cannot Open Subchats for Several Orgs",
+"#4 | 'Create Subchat' (+) Button Does Nothing",
+"#5 | Messages Fail to Send in Newly Created Subchats",
+"#6 | Cannot Invite Users to a Private Subchat After Creation",
+"#7 | Videos Bleed Between Personal and Org Accounts When Switching Tabs",
+"#8 | Subchat Notifications Appear Under DMs Instead of Orgs",
+"#9 | Org Invite Sends 'Join the App' Link Instead of 'Join the Org' Link",
+]},
+{sprint:"Sprint 89 — Apr 8 → Apr 14",bugs:[
+"#1 | Hard Time Distinguishing Between Org and Personal Accounts",
+"Videos display out of order when selecting an item from the list",
+'"Require Permission to Join" toggle not persisting',
+"Posted videos not appearing on some Org profiles",
+]},
+{sprint:"Sprint 90 — Apr 15 → Apr 21",bugs:[
+"Upcoming Events – Unable to Join Directly from List",
+"Scroll Only Works When Touching Bottom Area (Connyct UMD)",
+"Event Join Flow – Phone Verification Redirects User Back to Profile",
+"Conversation Name Incorrectly Changes to Another Organization",
+"Join Button State Only Updates After Second Attempt",
+]},
+{sprint:"Sprint 91 — Apr 22 → Apr 28",bugs:[
+"Disable Organization Creation via URL",
+"Error When Accessing Chat for the First Time After Joining Organization",
+"Feed - Missing Feedback Animation on 'Join Now' Action",
+"Incorrect Profile Loaded After Joining via Feed",
+"Avatar Inconsistency – Feed vs Profile",
+"Likes and Comments Display Inconsistency",
+]},
+{sprint:"Jun 30 → Jul 24",bugs:[
+"Followed users appear as unfollowed",
+"Scrolling through profile videos does not maintain list order",
+"Profiles are automatically skipped in the Following tab",
+"Notification opens incorrect user profile",
+"Feed – College Tag Not Displayed Next to Username",
+"Shared Event Link Does Not Display Video for External Users",
+"Unable to edit event picture/video",
+"Error When Accessing Chat for the First Time After Joining Organization",
+"Incorrect Profile Loaded After Joining via Feed",
+"Join Button State Only Updates After Second Attempt",
+]},
+];
+const RESOLVED_TOTAL=RESOLVED_BUGS.reduce((a,s)=>a+s.bugs.length,0);
+
+// ═══ RENDER BUG BACKLOG ═══
+(function(){
+  const grouped={};BUGS.forEach(b=>{if(!grouped[b.epic])grouped[b.epic]=[];grouped[b.epic].push(b);});
+  const epicOrder=Object.keys(grouped).sort((a,b)=>grouped[b].length-grouped[a].length);
+  const epicColors={Profile:'#06b6d4',Events:'#f59e0b',Organizations:'#10b981'};
+  document.getElementById('home-bugs-meta').innerHTML=`<span class="home-card-chip" style="background:var(--red-bg);color:var(--red)">${BUGS.length} pending</span><span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">${RESOLVED_TOTAL} resolved</span>`;
+  document.getElementById('bug-stats').innerHTML=`<div class="stat-card"><div class="stat-value" style="color:var(--red)">${BUGS.length}</div><div class="stat-label">Pending</div></div><div class="stat-card"><div class="stat-value" style="color:var(--green)">${RESOLVED_TOTAL}</div><div class="stat-label">Resolved</div></div>${epicOrder.map(ep=>`<div class="stat-card"><div class="stat-value">${grouped[ep].length}</div><div class="stat-label">${ep}</div></div>`).join('')}`;
+
+  // Pending bugs
+  let html='';
+  if(BUGS.length>0){
+    html+='<div style="margin-bottom:32px"><div style="font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--red)"></div>Pending Bugs</div>';
+    html+=epicOrder.map(ep=>{
+      const color=epicColors[ep]||'var(--slate)';
+      const items=grouped[ep].map(b=>`<div class="bug-item"><span style="flex:1">${b.name}</span></div>`).join('');
+      return`<div style="margin-bottom:20px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid ${color}20"><div style="width:10px;height:10px;border-radius:50%;background:${color}"></div><span style="font-size:14px;font-weight:700">${ep}</span><span style="font-size:10px;font-weight:600;background:var(--red-bg);color:var(--red);padding:2px 10px;border-radius:20px">${grouped[ep].length} bugs</span></div><div class="bug-list">${items}</div></div>`;
+    }).join('');
+    html+='</div>';
+  } else {
+    html+='<div style="margin-bottom:32px;background:var(--surface);border:1px solid var(--green-border);border-radius:var(--radius);padding:24px;text-align:center"><span style="font-size:24px">✅</span><div style="font-size:14px;font-weight:700;color:var(--green);margin-top:8px">No pending bugs</div><div style="font-size:12px;color:var(--text-tertiary);margin-top:4px">All reported bugs have been resolved.</div></div>';
+  }
+
+  // Resolved bugs
+  html+='<div><div style="font-size:11px;font-weight:700;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:var(--green)"></div>Resolved — Organization Bugs (Sprints 88–91, 95)</div>';
+  html+=RESOLVED_BUGS.map(s=>{
+    const items=s.bugs.map(b=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:12.5px"><span style="flex:1">${b}</span><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--green-bg);color:var(--green)">Done</span></div>`).join('');
+    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow-sm)"><div style="padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border-light);cursor:pointer;user-select:none" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.sprint-story-arrow').classList.toggle('open')"><span class="sprint-story-arrow">▶</span><span style="font-size:13px;font-weight:600;flex:1">🔴 ${s.sprint}</span><span style="font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;background:var(--green-bg);color:var(--green)">${s.bugs.length} fixed</span></div><div class="sprint-tasks" style="padding:4px 18px 12px">${items}</div></div>`;
+  }).join('');
+  html+='</div>';
+
+  document.getElementById('bug-list-grouped').innerHTML=html;
+})();
+function toggleE(h){h.nextElementSibling.classList.toggle('open');h.querySelector('.epic-row-arrow').classList.toggle('open');}
+
+// ═══ RENDER BREAKDOWN LANDING ═══
+(function(){
+  document.getElementById('home-breakdown-meta').innerHTML=`<span class="home-card-chip" style="background:var(--accent-light);color:var(--accent)">${FEATURES.length} features</span>`;
+  document.getElementById('bd-feature-grid').innerHTML=FEATURES.map((f,i)=>{
+    const all=f.phases.flatMap(p=>p.sections.flatMap(s=>s.stories));const t=all.length;const d=all.filter(s=>['done','code-review'].includes(s.status)).length;const pct=t?Math.round(d/t*100):0;
+    return`<div class="home-card" onclick="showBdDetail(${i})" style="border-left:4px solid ${f.color}"><div class="home-card-icon">${f.icon}</div><div class="home-card-title">${f.name}</div><div class="home-card-desc">${f.desc}</div><div class="home-card-meta"><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">${t} items</span><span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">${pct}% done</span><span class="home-card-chip" style="background:var(--accent-light);color:var(--accent)">${f.epic}</span></div></div>`;
+  }).join('');
+})();
+
+// ═══ RENDER BREAKDOWN DETAIL ═══
+function renderBdDetail(idx){
+  const f=FEATURES[idx];const all=f.phases.flatMap(p=>p.sections.flatMap(s=>s.stories));const t=all.length;
+  const d=all.filter(s=>s.status==='done').length;const cr=all.filter(s=>s.status==='code-review').length;const ip=all.filter(s=>s.status==='inprogress').length;const bl=all.filter(s=>s.status==='backlog').length;
+  const hDone=all.filter(s=>['done','code-review'].includes(s.status)).reduce((a,s)=>a+(s.hours||0),0);
+  const hTodo=all.filter(s=>['todo','backlog'].includes(s.status)).reduce((a,s)=>a+(s.hours||0),0);
+  const pctD=t?Math.round((d+cr)/t*100):0;const pctI=t?Math.round(ip/t*100):0;
+  const TM={native:'st-native',custom:'st-custom',bug:'ss-bug',other:'ss-other'};const TL={native:'Native',custom:'Custom',bug:'Bug',other:'Other'};
+  const SSM={done:{c:'ss-done',l:'Done'},'code-review':{c:'sts-code-review',l:'Code Review'},inprogress:{c:'ss-inprogress',l:'In Progress'},testing:{c:'ss-testing',l:'Testing'},todo:{c:'ss-todo',l:'To Do'},backlog:{c:'fs-backlog',l:'Backlog'},testflight:{c:'ss-testflight',l:'Testflight'},bug:{c:'ss-bug',l:'Bug'},other:{c:'ss-other',l:'Other'}};
+  const ph=f.phases.map(p=>{const sc=p.sections.map(sec=>{const rows=sec.stories.map(s=>{const st=SSM[s.status]||SSM.todo;const tags=(s.sp||[]).map(x=>`<span class="sprint-tag">${x}</span>`).join('');return`<div class="story-row"><span class="story-id">${s.id}</span><span class="story-title">${s.title}</span>${s.hours>0?`<span class="story-hours">${s.hours}h</span>`:''}<span class="story-status ${st.c}">${st.l}</span>${tags}</div>`;}).join('');const flowImg=sec.flow&&FLOW_IMGS[sec.flow]?`<div class="flow-img-container"><img src="${FLOW_IMGS[sec.flow]}" onclick="showFlowImg('${sec.flow}')" alt="User flow"><div class="flow-img-label"><span class="flow-tag">USER FLOW</span>Click to enlarge</div></div>`:'';return`<div class="story-group-title">${sec.name}</div>${flowImg}${rows}`;}).join('');return`<div class="phase-block"><div class="phase-header"><div class="phase-num" style="background:${p.color}">${p.id}</div><div class="phase-info"><div class="phase-name">${p.title}</div><div class="phase-sub">${p.subtitle}</div><div class="phase-pills"><span class="phase-pill-date" style="background:${p.color}">${p.start} → ${p.end}</span><span class="phase-pill-sprint">${p.sprints.join(' – ')}</span></div></div></div><div class="phase-goal">🎯 <strong>Goal:</strong> ${p.goal}</div><div class="phase-stories">${sc}</div></div>`;}).join('');
+  document.getElementById('bd-detail-content').innerHTML=`<div class="section-header"><div class="section-title" style="display:flex;align-items:center;gap:10px"><span>${f.icon}</span> ${f.name}</div><div class="section-subtitle">${f.desc}</div></div><div class="progress-bar-container"><div class="progress-header"><div><div class="progress-title">Implementation Progress</div><div style="font-size:12px;color:var(--text-tertiary);margin-top:2px">${t} items${f.totalHours?' · '+f.totalHours+'h estimated':''}${hDone?' · <span style="color:var(--green);font-weight:600">'+hDone+'h done</span>':''}${hTodo?' · <span style="color:var(--slate);font-weight:600">'+hTodo+'h to do</span>':''}</div></div><div class="progress-pct">${pctD}%</div></div><div class="progress-track"><div class="progress-fill-done" style="width:${pctD}%"></div><div class="progress-fill-ip" style="width:${pctI}%"></div></div><div class="progress-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Done (${d+cr})</div><div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div>In Progress (${ip})</div><div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>To Do (${t-d-cr-ip-bl})</div>${bl?`<div class="legend-item"><div class="legend-dot" style="background:var(--slate)"></div>Backlog (${bl})</div>`:''}</div></div>${ph}`;
+}
+
+// ═══ RENDER SPRINTS ═══
+function switchSprintView(v){
+  document.querySelectorAll('.sprint-view-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  document.getElementById('sprint-view-sprints').style.display=v==='sprints'?'block':'none';
+  document.getElementById('sprint-view-timeline').style.display=v==='timeline'?'block':'none';
+}
+function renderSprintCard(sp,badge_bg){
+  const allTasks=sp.stories.flatMap(s=>s.tasks);const total=allTasks.length;
+  const counts={ip:0,cr:0,ready:0,done:0};allTasks.forEach(t=>{if(t.status==='In Progress')counts.ip++;else if(t.status==='Code Review')counts.cr++;else if(t.status==='Ready for Dev')counts.ready++;else if(t.status==='Done')counts.done++;});
+  const stMap={'In Progress':{c:'ss-inprogress',l:'In Progress'},'Code Review':{c:'sts-code-review',l:'Code Review'},'Ready for Dev':{c:'sts-ready',l:'Ready for Dev'},'Done':{c:'ss-done',l:'Done'},'To Do':{c:'ss-todo',l:'To Do'}};
+  const ttMap={FE:'stt-fe',BE:'stt-be'};
+  const storiesHTML=sp.stories.map(story=>{const st=stMap[story.status]||{c:'ss-todo',l:story.status};const hasTasks=story.tasks.length>0;const tasksHTML=story.tasks.map(task=>{const ts=stMap[task.status]||{c:'ss-todo',l:task.status};return`<div class="sprint-task-row"><span class="sprint-task-type ${ttMap[task.type]||'stt-be'}">${task.type}</span><span class="sprint-task-name">${task.name}</span><span class="sprint-task-key">${task.key}</span><span class="sprint-task-status ${ts.c}">${ts.l}</span></div>`;}).join('');const noTasks=hasTasks?'':`<div style="padding:8px 0;font-size:12px;color:var(--text-tertiary);font-style:italic">No tasks created yet — will be broken down before sprint starts</div>`;return`<div class="sprint-story-group"><div class="sprint-story-header" onclick="toggleST(this)"><span class="sprint-story-arrow" style="${hasTasks?'':'opacity:.3'}">▶</span><span class="sprint-story-name">${story.name}</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-tertiary)">${story.key}</span><span class="sprint-story-status ${st.c}">${st.l}</span>${hasTasks?`<span style="font-size:10px;color:var(--text-tertiary)">${story.tasks.length} tasks</span>`:''}</div><div class="sprint-tasks">${tasksHTML}${noTasks}</div></div>`;}).join('');
+  const statsHTML=counts.cr?`<div class="sprint-stat" style="background:var(--blue-bg)"><div class="sprint-stat-val" style="color:var(--blue)">${counts.cr}</div><div class="sprint-stat-lbl">Code Review</div></div>`:'';
+  const statsHTML2=counts.ip?`<div class="sprint-stat" style="background:var(--amber-bg)"><div class="sprint-stat-val" style="color:var(--amber)">${counts.ip}</div><div class="sprint-stat-lbl">In Progress</div></div>`:'';
+  const statsHTML3=counts.ready?`<div class="sprint-stat" style="background:var(--purple-bg)"><div class="sprint-stat-val" style="color:var(--purple)">${counts.ready}</div><div class="sprint-stat-lbl">Ready for Dev</div></div>`:'';
+  return`<div class="sprint-card"><div class="sprint-card-header"><div class="sprint-badge" style="background:${badge_bg}">${sp.name}</div><div class="sprint-meta"><div class="sprint-name">${sp.focus||'Delete Account'}</div><div class="sprint-dates">${sp.date}</div></div><div class="sprint-stats">${statsHTML}${statsHTML2}${statsHTML3}<div class="sprint-stat"><div class="sprint-stat-val" style="font-size:14px;color:var(--text-tertiary)">${sp.stories.length}</div><div class="sprint-stat-lbl">Stories</div></div></div></div><div class="sprint-body">${storiesHTML}</div></div>`;
+}
+
+// Timeline data: sprints 84–95
+const TIMELINE=[
+{num:84,date:"Mar 4–10",focus:"Chat",status:"done",items:"Core Chat + Inbox"},
+{num:85,date:"Mar 11–17",focus:"SubChats",status:"done",items:"Create Subchat Flow"},
+{num:86,date:"Mar 18–24",focus:"SubChats",status:"done",items:"Subchat Discovery"},
+{num:87,date:"Mar 25–31",focus:"SubChats",status:"done",items:"Subchat Navigation"},
+{num:88,date:"Apr 1–7",focus:"Organization Bugs",status:"done",items:"11 bugs fixed"},
+{num:89,date:"Apr 8–14",focus:"Organization Bugs",status:"done",items:"4 bugs fixed"},
+{num:90,date:"Apr 15–21",focus:"Organization Bugs",status:"done",items:"5 bugs fixed"},
+{num:91,date:"Apr 22–28",focus:"Organization Bugs",status:"done",items:"6 bugs fixed"},
+{num:92,date:"Apr 29–May 5",focus:"Delete Account",status:"done",items:"US-01, US-02, US-03 (FE)"},
+{num:93,date:"May 6–12",focus:"Delete Account",status:"done",items:"US-01, US-02, US-03 (BE)"},
+{num:94,date:"May 13–19",focus:"Delete Account",status:"done",items:"US-04, US-05, US-06"},
+{num:95,date:"May 20–26",focus:"Delete Account",status:"done",items:"US-06 spillover"},
+];
+
+// Feature lanes for timeline
+const LANES=[
+{name:"Chat",color:"#6366f1",spans:[{start:84,end:84,label:"Core Chat + Inbox",status:"done"}]},
+{name:"SubChats",color:"#10b981",spans:[{start:85,end:87,label:"Core → Navigation",status:"done"}]},
+{name:"Org Bugs",color:"#dc2626",spans:[{start:88,end:91,label:"26 bugs fixed",status:"done"}]},
+{name:"Delete Account",color:"#f59e0b",spans:[{start:92,end:95,label:"US-01 to US-06 ✅ Released",status:"done"}]},
+];
+
+(function(){
+  document.getElementById('home-sprint-meta').innerHTML=`<span class="home-card-chip" style="background:var(--green-bg);color:var(--green)">All sprints completed</span><span class="home-card-chip" style="background:var(--border-light);color:var(--slate)">12 sprints · S84–S95</span>`;
+
+  // Sprint View
+  let html='';
+  html+=`<div class="sprint-section-block"><div class="sprint-section-label"><div class="dot" style="background:var(--green)"></div>Past Sprints</div>`;
+  [SPRINT95,SPRINT94,SPRINT93,SPRINT92,SPRINT91,SPRINT90,SPRINT89,SPRINT88,SPRINT87,SPRINT86,SPRINT85,SPRINT84].forEach(sp=>{
+    html+=`<div style="margin-bottom:12px">${renderSprintCard(sp,'var(--green)')}</div>`;
+  });
+  html+=`</div>`;
+  document.getElementById('sprint-view-sprints').innerHTML=html;
+
+  // Timeline View
+  const sprintNums=TIMELINE.map(s=>s.num);
+  const currentSprint=0;
+  const weekHeaders=TIMELINE.map(s=>`<div class="tl-week${s.num===currentSprint?' tl-now':''}"><div>S${s.num}</div><div style="font-size:9px;margin-top:2px;color:var(--text-tertiary)">${s.date}</div></div>`).join('');
+
+  const laneRows=LANES.map(lane=>{
+    const cells=TIMELINE.map(s=>{
+      const span=lane.spans.find(sp=>s.num>=sp.start&&s.num<=sp.end);
+      if(!span) return`<div class="tl-cell"></div>`;
+      const isStart=s.num===span.start;
+      const isEnd=s.num===span.end;
+      const width=span.end-span.start+1;
+      if(!isStart) return'';
+      const cls=span.status==='done'?'done':span.status==='active'?'active':span.status==='upcoming'?'upcoming':'empty';
+      return`<div class="tl-cell" style="flex:${width};grid-column:span ${width}"><div class="tl-bar ${cls}">${span.label}</div></div>`;
+    });
+    // Build cells properly handling multi-span
+    let cellsHTML='';let skip=0;
+    for(let i=0;i<TIMELINE.length;i++){
+      if(skip>0){skip--;continue;}
+      const s=TIMELINE[i];
+      const span=lane.spans.find(sp=>s.num>=sp.start&&s.num<=sp.end);
+      if(span&&s.num===span.start){
+        const w=span.end-span.start+1;
+        const cls=span.status==='done'?'done':span.status==='active'?'active':span.status==='upcoming'?'upcoming':'empty';
+        cellsHTML+=`<div class="tl-cell" style="flex:${w}"><div class="tl-bar ${cls}">${span.label}</div></div>`;
+        skip=w-1;
+      } else if(!span){
+        cellsHTML+=`<div class="tl-cell"></div>`;
+      }
+    }
+    return`<div class="tl-row"><div class="tl-label"><div class="tl-label-badge" style="background:${lane.color}">${lane.name}</div></div><div class="tl-cells">${cellsHTML}</div></div>`;
+  }).join('');
+
+  // Detail row per sprint
+  const detailRow=`<div class="tl-row" style="border-top:2px solid var(--border)"><div class="tl-label" style="font-size:10px;color:var(--text-tertiary);font-weight:500">Focus</div><div class="tl-cells">${TIMELINE.map(s=>{
+    const cls=s.status==='done'?'color:var(--green)':s.status==='active'?'color:var(--amber)':s.status==='upcoming'?'color:var(--accent)':'color:var(--text-tertiary)';
+    return`<div class="tl-cell"><div style="font-size:9px;text-align:center;line-height:1.3;${cls}">${s.items}</div></div>`;
+  }).join('')}</div></div>`;
+
+  const tlHTML=`<div class="tl-container"><div class="tl-header"><div class="tl-corner">Feature</div><div class="tl-weeks">${weekHeaders}</div></div><div class="tl-body">${laneRows}${detailRow}</div></div><div class="tl-legend"><div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--green-bg);border:1px solid var(--green-border)"></div>Done</div><div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--amber-bg);border:1px solid var(--amber-border)"></div>Active</div><div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--accent-light);border:1px solid var(--accent-border)"></div>Upcoming</div><div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--border-light);border:1px dashed var(--border)"></div>To Be Planned</div></div>`;
+  document.getElementById('sprint-view-timeline').innerHTML=tlHTML;
+})();
+function toggleST(h){h.nextElementSibling.classList.toggle('open');h.querySelector('.sprint-story-arrow').classList.toggle('open');}
+</script>
+<div class="modal-overlay" id="imgModal" onclick="this.classList.remove('open')"><img id="modalImg" src=""></div>
+</body>
+</html>
